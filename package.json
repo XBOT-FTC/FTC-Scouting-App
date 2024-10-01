@@ -9,6 +9,7 @@
     "format": "prettier . --write",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
+    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "flowbite-react": "^0.8.0",
