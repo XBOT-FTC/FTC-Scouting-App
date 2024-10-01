@@ -1,0 +1,21 @@
+name: Lint
+
+on: 
+ pull_request: 
+ push: 
+
+jobs:
+ build:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Checkout node
+      uses: actions/setup-node@v4
+      with:
+        cache: npm
+        cache-dependency-path: package-lock.json
+    
+    - name: Run eslint
+      uses: npm run eslint
