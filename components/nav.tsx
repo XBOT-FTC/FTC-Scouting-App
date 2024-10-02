@@ -36,11 +36,11 @@ export function Nav() {
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        // see comment below
+        {/* See comment bellow */}
         <Link href="/drafts" passHref>
           <NavbarLink active>Drafts</NavbarLink>
         </Link>
-        // Using Link to handle linking via basePath for you?
+        {/* Using Link to handle linking via basePath for you? */}
         <NavbarLink as={Link} href="#">
           About
         </NavbarLink>
