@@ -36,9 +36,11 @@ export function Nav() {
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <NavbarLink href="/drafts" active>
-          Drafts
-        </NavbarLink>
+        {/* See comment bellow */}
+        <Link href="/drafts" passHref>
+          <NavbarLink active>Drafts</NavbarLink>
+        </Link>
+        {/* Using Link to handle linking via basePath for you? */}
         <NavbarLink as={Link} href="#">
           About
         </NavbarLink>
