@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ThemeModeScript } from "flowbite-react";
+import { Button, Navbar, ThemeModeScript } from "flowbite-react";
 import "./globals.css";
+import { Nav } from "@/components/nav";
+import { Foot } from "@/components/foot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +22,12 @@ export default function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Nav />
+        <main className="dark:bg-gray-800">{children}</main>
+        <div className="flex min-h-screen " />
+        <Foot />
+      </body>
     </html>
   );
 }
