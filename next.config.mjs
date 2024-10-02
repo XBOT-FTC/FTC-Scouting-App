@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     basePath: "/FTC-Scouting-App",
+    assetPrefix: '/FTC-Scouting-App/',
     output: "export",
     reactStrictMode: true,
     images: {
