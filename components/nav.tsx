@@ -18,7 +18,7 @@ export function Nav() {
   return (
     <Navbar fluid>
       <NavbarBrand as={Link} href="/">
-      <Image src="FTC-Scouting-App/images/image.png" alt="Branding" width={45} height={45}/>
+      <Image src="images/image.png" alt="Branding" width={45} height={45}/>
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
           Scouting
         </span>
