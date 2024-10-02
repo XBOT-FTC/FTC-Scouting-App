@@ -27,13 +27,14 @@ export default function Drafts() {
   const [input, setInput] = useState<string>("");
 
   const [openImport, setOpenImport] = useState<boolean>(false);
+  //TODO: remove this after prototyping the website.
   useEffect(() => {
     setDrafts(() => new Array());
     setDrafts((draft) => [
       ...draft,
       { color: AllianceColor.Red, name: "test", team: 488 },
     ]);
-  }, []);
+  }, [setDrafts]);
   return (
     <>
       <Modal show={openImport} onClose={() => setOpenImport(false)}>
