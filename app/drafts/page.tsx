@@ -1,4 +1,5 @@
 "use client";
+import { NumberInput } from "@/components/number-input";
 import { debugAtom } from "@/store/debug";
 import { AllianceColor, draftAtom } from "@/store/drafts";
 import {
@@ -7,6 +8,7 @@ import {
   ClipboardWithIcon,
   ClipboardWithIconText,
   Modal,
+  RangeSlider,
   Table,
   TableBody,
   TableCell,
@@ -57,6 +59,7 @@ export default function Drafts() {
             onClick={() => {
               //TODO: Implement type guards to prevent web page to crash
               setDrafts(() => JSON.parse(input));
+              setOpenImport(false);
             }}
           >
             Import
@@ -106,8 +109,10 @@ export default function Drafts() {
       <div className="flex justify-center gap-5">
         <Clipboard valueToCopy={JSON.stringify(drafts)} label="Export" />
         <Button onClick={() => setOpenImport(true)}>Import</Button>
+        <Button>New Draft</Button>
       </div>
-
+      <NumberInput />
+      {/* <input type="number" className="max-h-10 rounded-lg"></input> */}
       {isDebug && <text>{JSON.stringify(drafts)}</text>}
     </>
   );
