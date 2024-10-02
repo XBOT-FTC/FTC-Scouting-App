@@ -2,7 +2,7 @@
 const nextConfig = {
     basePath: "/FTC-Scouting-App",
     output: "export",
-    reactStrictMode: true,
+    reactStrictMode: true
 };
 
 export default nextConfig;
