@@ -18,12 +18,12 @@ export function Nav() {
   return (
     <Navbar fluid>
       <NavbarBrand as={Link} href="/">
-        <Image src="/image.png" alt="Branding"  width={45} height={45}/>
+        {/* <Image src="/image.png" alt="Branding"  width={45} height={45}/> */}
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
           Scouting
         </span>
       </NavbarBrand>
-      <div className="flex  md:order-2">
+      <div className="flex md:order-2">
         <Button
           as="span"
           className="cursor-pointer"
@@ -41,12 +41,12 @@ export function Nav() {
           <NavbarLink active>Drafts</NavbarLink>
         </Link>
         {/* Using Link to handle linking via basePath for you? */}
-        <NavbarLink as={Link} href="#">
+        {/* <NavbarLink as={Link} href="#">
           About
         </NavbarLink>
         <NavbarLink href="#">Services</NavbarLink>
         <NavbarLink href="#">Pricing</NavbarLink>
-        <NavbarLink href="#">Contact</NavbarLink>
+        <NavbarLink href="#">Contact</NavbarLink> */}
       </NavbarCollapse>
     </Navbar>
   );
