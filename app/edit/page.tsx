@@ -35,7 +35,7 @@ export default function Home() {
       </ButtonGroup>
       <div className="h-10" />
 
-      <div>
+      <div className="dark:text-gray-100">
         <text className="flex h-10 justify-center">Scored Sample</text>
         <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
           <NumberInput

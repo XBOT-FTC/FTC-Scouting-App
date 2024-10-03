@@ -51,7 +51,7 @@ export default function Drafts() {
   }, [setDrafts]);
   return (
     <>
-      <Modal show={openImport} onClose={() => setOpenImport(false)}>
+      <Modal show={openImport} onClose={() => setOpenImport(false)} className="dark:text-gray-100">
         <Modal.Header>Import</Modal.Header>
         <Modal.Body>
           Import your data! The entire tree will be vaildated so you do not need
