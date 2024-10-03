@@ -4,7 +4,6 @@ import { Acent, AllianceColor, DraftData } from "@/store/drafts";
 import { DraftDataScehema } from "@/utils/DraftDataSchema";
 import { Button, ButtonGroup } from "flowbite-react";
 import { useState } from "react";
-import { z } from "zod";
 
 export default function Home() {
   const [mode, setMode] = useState<"auto" | "teleop" | "end">("auto");

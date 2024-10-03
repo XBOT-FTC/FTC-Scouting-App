@@ -1,18 +1,18 @@
 "use client";
-import { NumberInput } from "@/components/number-input";
 import { debugAtom } from "@/store/debug";
-import { AllianceColor, draftAtom, DraftDataTreeVaildator, DraftDataVaildator } from "@/store/drafts";
+import {
+  AllianceColor,
+  draftAtom,
+  DraftDataTreeVaildator,
+} from "@/store/drafts";
 import { DraftDataScehema } from "@/utils/DraftDataSchema";
 import {
   Button,
   Clipboard,
-  ClipboardWithIcon,
-  ClipboardWithIconText,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  RangeSlider,
   Table,
   TableBody,
   TableCell,
@@ -23,9 +23,14 @@ import {
   Tooltip,
 } from "flowbite-react";
 import { useAtom, useAtomValue } from "jotai";
+import {
+  compressToBase64,
+  compressToUTF16,
+  decompressFromUTF16,
+} from "lz-string";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Drafts() {
   const [drafts, setDrafts] = useAtom(draftAtom);
@@ -49,8 +54,8 @@ export default function Drafts() {
       <Modal show={openImport} onClose={() => setOpenImport(false)}>
         <Modal.Header>Import</Modal.Header>
         <Modal.Body>
-          Import your data! The entire tree will be vaildated so you do not
-          need to worry if your data breaks the website! Though it will override
+          Import your data! The entire tree will be vaildated so you do not need
+          to worry if your data breaks the website! Though it will override
           current drafts
         </Modal.Body>
         <div className="flex justify-center">
@@ -66,14 +71,16 @@ export default function Drafts() {
             onClick={() => {
               let err;
               //Maybe we could cache the value here so we don't need to prase the same JSON twice
+              const deserialized = decompressFromUTF16(input);
               try {
-                const Import = JSON.parse(input);
+                const deserialized = decompressFromUTF16(input);
+                const Import = JSON.parse(deserialized);
                 DraftDataTreeVaildator.parse(Import);
-              } catch(error) {
+              } catch (error) {
                 alert("data doesn't match schema");
-                err = error
+                err = error;
               } finally {
-                if (!err) setDrafts(() => JSON.parse(input));
+                if (!err) setDrafts(() => JSON.parse(deserialized));
                 setOpenImport(false);
               }
             }}
@@ -139,7 +146,10 @@ export default function Drafts() {
       </Table>
       <div className="h-10" />
       <div className="flex justify-center gap-5">
-        <Clipboard valueToCopy={JSON.stringify(drafts)} label="Export" />
+        <Clipboard
+          valueToCopy={compressToUTF16(JSON.stringify(drafts))}
+          label="Export"
+        />
         <Button onClick={() => setOpenImport(true)}>Import</Button>
         <Button
           onClick={() => {
@@ -154,7 +164,6 @@ export default function Drafts() {
           </Tooltip>
         </Link>
       </div>
-      <NumberInput />
       {isDebug && <text>{JSON.stringify(drafts)}</text>}
     </>
   );
