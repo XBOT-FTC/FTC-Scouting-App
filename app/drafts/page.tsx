@@ -49,9 +49,9 @@ export default function Drafts() {
       <Modal show={openImport} onClose={() => setOpenImport(false)}>
         <Modal.Header>Import</Modal.Header>
         <Modal.Body>
-          Importing wrong data will break the website
-          {" (will be fixed in future updates)"}. It will also override your
-          current drafts.
+          Import your data! The entire tree will be vaildated so you do not
+          need to worry if your data breaks the website! Though it will override
+          current drafts
         </Modal.Body>
         <div className="flex justify-center">
           <TextInput
