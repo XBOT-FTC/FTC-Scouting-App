@@ -1,13 +1,17 @@
 "use client";
 import { NumberInput } from "@/components/number-input";
 import { debugAtom } from "@/store/debug";
-import { AllianceColor, draftAtom } from "@/store/drafts";
+import { AllianceColor, draftAtom, DraftDataTreeVaildator, DraftDataVaildator } from "@/store/drafts";
+import { DraftDataScehema } from "@/utils/DraftDataSchema";
 import {
   Button,
   Clipboard,
   ClipboardWithIcon,
   ClipboardWithIconText,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   RangeSlider,
   Table,
   TableBody,
@@ -16,6 +20,7 @@ import {
   TableHeadCell,
   TableRow,
   TextInput,
+  Tooltip,
 } from "flowbite-react";
 import { useAtom, useAtomValue } from "jotai";
 
@@ -29,12 +34,14 @@ export default function Drafts() {
   const [input, setInput] = useState<string>("");
 
   const [openImport, setOpenImport] = useState<boolean>(false);
+  const [openDrafting, setOpenDrafting] = useState<boolean>(false);
+
   //TODO: remove this after prototyping the website.
   useEffect(() => {
     setDrafts(() => new Array());
     setDrafts((draft) => [
       ...draft,
-      { color: AllianceColor.Red, name: "test", team: 488 },
+      DraftDataScehema("test", 488, AllianceColor.Red),
     ]);
   }, [setDrafts]);
   return (
@@ -42,9 +49,9 @@ export default function Drafts() {
       <Modal show={openImport} onClose={() => setOpenImport(false)}>
         <Modal.Header>Import</Modal.Header>
         <Modal.Body>
-          Importing wrong data will break the website
-          {" (will be fixed in future updates)"}. It will also override your
-          current drafts.
+          Import your data! The entire tree will be vaildated so you do not
+          need to worry if your data breaks the website! Though it will override
+          current drafts
         </Modal.Body>
         <div className="flex justify-center">
           <TextInput
@@ -57,14 +64,39 @@ export default function Drafts() {
         <Modal.Footer>
           <Button
             onClick={() => {
-              //TODO: Implement type guards to prevent web page to crash
-              setDrafts(() => JSON.parse(input));
-              setOpenImport(false);
+              let err;
+              //Maybe we could cache the value here so we don't need to prase the same JSON twice
+              try {
+                const Import = JSON.parse(input);
+                DraftDataTreeVaildator.parse(Import);
+              } catch(error) {
+                alert("data doesn't match schema");
+                err = error
+              } finally {
+                if (!err) setDrafts(() => JSON.parse(input));
+                setOpenImport(false);
+              }
             }}
           >
             Import
           </Button>
         </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={openDrafting}
+        onClose={() => {
+          setOpenDrafting(false);
+        }}
+      >
+        <ModalHeader>WARNING</ModalHeader>
+        <ModalBody>
+          New draft is under construction. There will not be any features
+          implemented yet.
+        </ModalBody>
+        <ModalFooter>
+          <Button color="failure">Exit</Button>
+        </ModalFooter>
       </Modal>
 
       <Table hoverable>
@@ -109,10 +141,20 @@ export default function Drafts() {
       <div className="flex justify-center gap-5">
         <Clipboard valueToCopy={JSON.stringify(drafts)} label="Export" />
         <Button onClick={() => setOpenImport(true)}>Import</Button>
-        <Button>New Draft</Button>
+        <Button
+          onClick={() => {
+            setOpenDrafting(true);
+          }}
+        >
+          New Draft
+        </Button>
+        <Link href="/edit" passHref>
+          <Tooltip content="for development use. Remove when finished prototyping">
+            <Button>Mock new drafting</Button>
+          </Tooltip>
+        </Link>
       </div>
       <NumberInput />
-      {/* <input type="number" className="max-h-10 rounded-lg"></input> */}
       {isDebug && <text>{JSON.stringify(drafts)}</text>}
     </>
   );
