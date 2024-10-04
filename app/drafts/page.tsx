@@ -1,4 +1,5 @@
 "use client";
+import { Export } from "@/components/export";
 import { debugAtom } from "@/store/debug";
 import {
   AllianceColor,
@@ -6,13 +7,18 @@ import {
   DraftDataTreeVaildator,
 } from "@/store/drafts";
 import { DraftDataScehema } from "@/utils/DraftDataSchema";
+import { ReadFile } from "@/utils/ReadFile";
 import {
   Button,
   Clipboard,
+  FileInput,
+  FloatingLabel,
+  Label,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -23,6 +29,7 @@ import {
   Tooltip,
 } from "flowbite-react";
 import { useAtom, useAtomValue } from "jotai";
+import { BookDashed, ImportIcon } from "lucide-react";
 import {
   compressToBase64,
   compressToUTF16,
@@ -31,42 +38,53 @@ import {
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { number } from "zod";
 
 export default function Drafts() {
+  //Literally refracture the entire code, very messy state management
   const [drafts, setDrafts] = useAtom(draftAtom);
   const isDebug = useAtomValue(debugAtom);
-  const [search, setSerach] = useState<string>("");
   const [input, setInput] = useState<string>("");
 
   const [openImport, setOpenImport] = useState<boolean>(false);
   const [openDrafting, setOpenDrafting] = useState<boolean>(false);
+  const [openWarning, setOpenWarning] = useState<boolean>(false);
 
-  //TODO: remove this after prototyping the website.
-  useEffect(() => {
-    setDrafts(() => new Array());
-    setDrafts((draft) => [
-      ...draft,
-      DraftDataScehema("test", 488, AllianceColor.Red),
-    ]);
-  }, [setDrafts]);
+  const [draftColor, setDraftColor] = useState<AllianceColor>(
+    AllianceColor.Red,
+  );
+  const [draftName, setDraftName] = useState<string>();
+  const [draftTeamNumber, setDraftTeamNumber] = useState<number>();
+
   return (
     <>
-      <Modal className="dark:text-gray-100"
+      <Modal
+        className="dark:text-gray-100"
         show={openImport}
         onClose={() => setOpenImport(false)}
       >
-        <Modal.Header>Import</Modal.Header>
-        <Modal.Body className="">
-          Import your data! The entire tree will be vaildated so you do not need
-          to worry if your data breaks the website! Though it will override
-          current drafts
-        </Modal.Body>
+        <Modal.Header>
+          <div className="flex items-center justify-between gap-2">
+            <ImportIcon></ImportIcon>
+            <text>Import</text>
+          </div>
+        </Modal.Header>
+        <Modal.Body></Modal.Body>
         <div className="flex justify-center">
-          <TextInput
-            onChange={(event) => {
-              setInput(event.target.value);
+          <FileInput
+            accept=".scouting"
+            onInput={(event) => {
+              //TODO: extract this into a function
+              const file = event.currentTarget.files?.[0];
+              if (file) {
+                const fileReader = new FileReader();
+                fileReader.onload = (event) => {
+                  setInput(event.target?.result as string);
+                };
+                fileReader.readAsText(file);
+              }
             }}
-          ></TextInput>
+          />
         </div>
         <div className="h-10"></div>
         <Modal.Footer>
@@ -100,16 +118,93 @@ export default function Drafts() {
         }}
         className="dark:text-gray-100"
       >
-        <ModalHeader>WARNING</ModalHeader>
+        <ModalHeader>
+          <div className="flex items-center justify-between gap-2">
+            <BookDashed></BookDashed>
+            <text>New Draft</text>
+          </div>
+        </ModalHeader>
         <ModalBody>
-          New draft is under construction. There will not be any features
-          implemented yet.
+          {/* TODO: change this into a react component for cleaner and understandable code. */}
+          <div className="mb-2 block">
+            <Label value="Draft name" />
+          </div>
+          <TextInput
+            required
+            onChange={(event) => {
+              setDraftName(event.currentTarget.value);
+            }}
+          />
+          <div className="mb-2" />
+          <div className="mb-2 block ">
+            <Label value="Team name" />
+          </div>
+          <TextInput
+            required
+            placeholder="number only"
+            onInput={(event) => {
+              event.currentTarget.value = event.currentTarget.value.replace(
+                //stole this from chatgpt lol
+                /[^0-9]/g,
+                "",
+              );
+              setDraftTeamNumber(Number(event.currentTarget.value));
+            }}
+          />
+          <div className="mb-2" />
+          <div className="mb-2 block">
+            <Label value="Alliance color" />
+          </div>
+          <Select
+            defaultValue="none"
+            onChange={(event) => {
+              event.currentTarget.value === "Red"
+                ? setDraftColor(AllianceColor.Red)
+                : setDraftColor(AllianceColor.Blue);
+            }}
+          >
+            <option>Red</option>
+            <option>Blue</option>
+          </Select>
         </ModalBody>
         <ModalFooter>
-          <Button color="failure">Exit</Button>
+          <Link href="/edit" passHref>
+            <Button
+              disabled={
+                draftColor == null ||
+                draftTeamNumber == null ||
+                draftName == null
+              }
+              onClick={() => {
+                setDrafts(() => [
+                  ...drafts,
+                  DraftDataScehema(draftName!, draftTeamNumber!, draftColor),
+                ]);
+              }}
+            >
+              Start draft!
+            </Button>
+          </Link>
         </ModalFooter>
       </Modal>
-
+      <Modal show={openWarning} onClose={() => setOpenWarning(false)}>
+        <ModalHeader>WARNING</ModalHeader>
+        <ModalBody>
+          This will clear all your current drafts. Click I wish to proceed to
+          continue
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color="warning"
+            onClick={() => {
+              setDrafts(() => []);
+              setOpenWarning(false);
+            }}
+          >
+            I wish to proceed
+          </Button>
+        </ModalFooter>
+      </Modal>
       <Table hoverable>
         <TableHead>
           <TableHeadCell>Draft name</TableHeadCell>
@@ -150,10 +245,6 @@ export default function Drafts() {
       </Table>
       <div className="h-10" />
       <div className="flex justify-center gap-5">
-        <Clipboard
-          valueToCopy={compressToUTF16(JSON.stringify(drafts))}
-          label="Export"
-        />
         <Button onClick={() => setOpenImport(true)}>Import</Button>
         <Button
           onClick={() => {
@@ -162,11 +253,10 @@ export default function Drafts() {
         >
           New Draft
         </Button>
-        <Link href="/edit" passHref>
-          <Tooltip content="for development use. Remove when finished prototyping">
-            <Button>Mock new drafting</Button>
-          </Tooltip>
-        </Link>
+        <Export contents={compressToUTF16(JSON.stringify(drafts))}>
+          Export
+        </Export>
+        <Button onClick={() => setOpenWarning(true)}>Clear Drafts</Button>
       </div>
       {isDebug && <text>{JSON.stringify(drafts)}</text>}
     </>
