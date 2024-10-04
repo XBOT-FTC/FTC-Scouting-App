@@ -51,9 +51,12 @@ export default function Drafts() {
   }, [setDrafts]);
   return (
     <>
-      <Modal show={openImport} onClose={() => setOpenImport(false)}>
+      <Modal className="dark:text-gray-100"
+        show={openImport}
+        onClose={() => setOpenImport(false)}
+      >
         <Modal.Header>Import</Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="">
           Import your data! The entire tree will be vaildated so you do not need
           to worry if your data breaks the website! Though it will override
           current drafts
@@ -95,6 +98,7 @@ export default function Drafts() {
         onClose={() => {
           setOpenDrafting(false);
         }}
+        className="dark:text-gray-100"
       >
         <ModalHeader>WARNING</ModalHeader>
         <ModalBody>
