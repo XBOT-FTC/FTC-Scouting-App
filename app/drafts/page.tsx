@@ -1,18 +1,7 @@
 "use client";
-import { Export } from "@/components/export";
-import { debugAtom } from "@/store/debug";
-import {
-  AllianceColor,
-  draftAtom,
-  DraftDataTreeVaildator,
-} from "@/store/drafts";
-import { DraftDataScehema } from "@/utils/DraftDataSchema";
-import { ReadFile } from "@/utils/ReadFile";
 import {
   Button,
-  Clipboard,
   FileInput,
-  FloatingLabel,
   Label,
   Modal,
   ModalBody,
@@ -26,25 +15,27 @@ import {
   TableHeadCell,
   TableRow,
   TextInput,
-  Tooltip,
 } from "flowbite-react";
 import { useAtom, useAtomValue } from "jotai";
 import { BookDashed, ImportIcon } from "lucide-react";
-import {
-  compressToBase64,
-  compressToUTF16,
-  decompressFromUTF16,
-} from "lz-string";
-
+import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { number } from "zod";
+import { useState } from "react";
+
+import { Export } from "@/components/export";
+import { debugAtom } from "@/store/debug";
+import {
+  AllianceColor,
+  draftAtom,
+  DraftDataTreeVaildator,
+} from "@/store/drafts";
+import { DraftDataScehema } from "@/utils/DraftDataSchema";
 
 export default function Drafts() {
   //Literally refracture the entire code, very messy state management
   const [drafts, setDrafts] = useAtom(draftAtom);
   const isDebug = useAtomValue(debugAtom);
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState<string>();
 
   const [openImport, setOpenImport] = useState<boolean>(false);
   const [openDrafting, setOpenDrafting] = useState<boolean>(false);
@@ -55,6 +46,7 @@ export default function Drafts() {
   );
   const [draftName, setDraftName] = useState<string>();
   const [draftTeamNumber, setDraftTeamNumber] = useState<number>();
+  // const [editor, setEditorAtom] = useAtom(editorAtom);
 
   return (
     <>
@@ -65,11 +57,11 @@ export default function Drafts() {
       >
         <Modal.Header>
           <div className="flex items-center justify-between gap-2">
-            <ImportIcon></ImportIcon>
+            <ImportIcon />
             <text>Import</text>
           </div>
         </Modal.Header>
-        <Modal.Body></Modal.Body>
+        <Modal.Body />
         <div className="flex justify-center">
           <FileInput
             accept=".scouting"
@@ -86,15 +78,15 @@ export default function Drafts() {
             }}
           />
         </div>
-        <div className="h-10"></div>
+        <div className="h-10" />
         <Modal.Footer>
           <Button
             onClick={() => {
               let err;
               //Maybe we could cache the value here so we don't need to prase the same JSON twice
-              const deserialized = decompressFromUTF16(input);
+              const deserialized = decompressFromUTF16(input!);
               try {
-                const deserialized = decompressFromUTF16(input);
+                const deserialized = decompressFromUTF16(input!);
                 const Import = JSON.parse(deserialized);
                 DraftDataTreeVaildator.parse(Import);
               } catch (error) {
@@ -105,6 +97,7 @@ export default function Drafts() {
                 setOpenImport(false);
               }
             }}
+            disabled={input === undefined}
           >
             Import
           </Button>
@@ -120,7 +113,7 @@ export default function Drafts() {
       >
         <ModalHeader>
           <div className="flex items-center justify-between gap-2">
-            <BookDashed></BookDashed>
+            <BookDashed />
             <text>New Draft</text>
           </div>
         </ModalHeader>
@@ -136,7 +129,7 @@ export default function Drafts() {
             }}
           />
           <div className="mb-2" />
-          <div className="mb-2 block ">
+          <div className="mb-2 block">
             <Label value="Team name" />
           </div>
           <TextInput
@@ -158,9 +151,11 @@ export default function Drafts() {
           <Select
             defaultValue="none"
             onChange={(event) => {
-              event.currentTarget.value === "Red"
-                ? setDraftColor(AllianceColor.Red)
-                : setDraftColor(AllianceColor.Blue);
+              if (event.currentTarget.value === "Red") {
+                setDraftColor(AllianceColor.Red);
+              } else {
+                setDraftColor(AllianceColor.Blue);
+              }
             }}
           >
             <option>Red</option>
@@ -215,12 +210,11 @@ export default function Drafts() {
           </TableHeadCell>
         </TableHead>
         <TableBody className="divide-y">
-          {drafts.map((value) => {
-            value.name;
+          {drafts.map((value, index) => {
             return (
               <TableRow
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                key={value.name}
+                key={index}
               >
                 <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {value.name}
@@ -229,9 +223,16 @@ export default function Drafts() {
                 <TableCell>
                   {value.color === AllianceColor.Red ? "Red" : "Blue"}
                 </TableCell>
-                <TableCell>
+                <TableCell className="flex justify-center gap-10">
                   <Link
-                    onClick={() => {}}
+                    onClick={() => {
+                      // setEditorAtom(() => {
+                      //   return {
+                      //     draftData: drafts[index],
+                      //     arrayPosition: index,
+                      //   };
+                      // });
+                    }}
                     href="/edit"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >

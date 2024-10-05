@@ -1,9 +1,12 @@
+import "./globals.css";
+
+import { ThemeModeScript } from "flowbite-react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Button, Navbar, ThemeModeScript } from "flowbite-react";
-import "./globals.css";
-import { Nav } from "@/components/nav";
+import { ReactNode } from "react";
+
 import { Foot } from "@/components/foot";
+import { Nav } from "@/components/nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -25,7 +28,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Nav />
         <main className="dark:bg-gray-800">{children}</main>
-        <div className="flex min-h-screen dark:bg-gray-800 " />
+        <div className="flex min-h-screen dark:bg-gray-800" />
         <Foot />
       </body>
     </html>

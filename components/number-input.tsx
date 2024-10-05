@@ -1,13 +1,16 @@
 "use client";
-import { ArrowBigDown, ChevronDown, ChevronUp, Upload } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
 export interface NumberInputProps {
+  /** the default value for number  */
+  defaultValue?: number;
   onChange?: (number: number) => void;
 }
 
-export function NumberInput({ onChange }: NumberInputProps) {
-  const [number, setNumber] = useState<number>(0);
+export function NumberInput({ onChange, defaultValue = 0 }: NumberInputProps) {
+  const [number, setNumber] = useState<number>(defaultValue);
+
   return (
     <div className="grid size-20 place-items-center rounded-md bg-white shadow-md dark:bg-gray-800 dark:text-gray-200">
       <button

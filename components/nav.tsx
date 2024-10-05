@@ -1,7 +1,5 @@
 "use client";
-import { debugAtom } from "@/store/debug";
 import {
-  Button,
   DarkThemeToggle,
   Navbar,
   NavbarBrand,
@@ -9,12 +7,10 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
-import { useAtom, useSetAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 
 export function Nav() {
-  const [isDebug, setDebug] = useAtom(debugAtom);
   return (
     <Navbar fluid>
       <NavbarBrand as={Link} href="/">
