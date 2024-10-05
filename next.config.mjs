@@ -3,7 +3,8 @@ const nextConfig = {
     basePath: "/FTC-Scouting-App",
     assetPrefix: '/FTC-Scouting-App/',
     output: "export",
-    reactStrictMode: true,
+    //strict mode rerenders twice, which slows down the performance.
+    // reactStrictMode: true,
     images: {
         unoptimized: true
     }

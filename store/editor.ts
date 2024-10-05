@@ -1,4 +1,3 @@
 import { atom } from "jotai";
-import { PhaseData } from "./drafts";
 
-export const editorAtom = atom<PhaseData>()
+export const positionAtom = atom<number>(0);

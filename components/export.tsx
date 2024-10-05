@@ -1,8 +1,7 @@
 import { Button } from "flowbite-react";
-import { content } from "flowbite-react/tailwind";
-import React from "react";
+import { PropsWithChildren } from "react";
 
-export interface ExportProps extends React.PropsWithChildren {
+export interface ExportProps extends PropsWithChildren {
   contents: string;
 }
 export function Export({ contents, children }: ExportProps) {

@@ -1,13 +1,13 @@
 "use client";
-import { NumberInput } from "@/components/number-input";
-import { Acent, AllianceColor, DraftData } from "@/store/drafts";
-import { DraftDataScehema } from "@/utils/DraftDataSchema";
 import { Button, ButtonGroup } from "flowbite-react";
 import { useState } from "react";
 
+import { NumberInput } from "@/components/number-input";
+
 export default function Home() {
-  const [mode, setMode] = useState<"auto" | "teleop" | "end">("auto");
-  const localData: DraftData = DraftDataScehema("test", 488, AllianceColor.Red);
+  const [, setMode] = useState<"auto" | "teleop" | "end">("auto");
+  // const [drafts, setDrafts] = useAtom(draftAtom);
+  // const [position, setPosition] = useAtom(positionAtom);
   return (
     <>
       <ButtonGroup className="flex justify-center">
@@ -38,11 +38,7 @@ export default function Home() {
       <div className="dark:text-gray-100">
         <text className="flex h-10 justify-center">Scored Sample</text>
         <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
-          <NumberInput
-            onChange={(val) => {
-              localData.auto!.net = val;
-            }}
-          />
+          <NumberInput />
           <text>Net</text>
           <NumberInput />
           <text>Low</text>
