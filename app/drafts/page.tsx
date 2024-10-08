@@ -16,7 +16,7 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { BookDashed, ImportIcon } from "lucide-react";
 import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 import Link from "next/link";
@@ -29,6 +29,7 @@ import {
   draftAtom,
   DraftDataTreeVaildator,
 } from "@/store/drafts";
+import { editorAtom } from "@/store/editor";
 import { DraftDataScehema } from "@/utils/DraftDataSchema";
 
 export default function Drafts() {
@@ -44,9 +45,10 @@ export default function Drafts() {
   const [draftColor, setDraftColor] = useState<AllianceColor>(
     AllianceColor.Red,
   );
+
   const [draftName, setDraftName] = useState<string>();
   const [draftTeamNumber, setDraftTeamNumber] = useState<number>();
-  // const [editor, setEditorAtom] = useAtom(editorAtom);
+  const setEditorAtom = useSetAtom(editorAtom);
 
   return (
     <>
@@ -226,12 +228,7 @@ export default function Drafts() {
                 <TableCell className="flex justify-center gap-10">
                   <Link
                     onClick={() => {
-                      // setEditorAtom(() => {
-                      //   return {
-                      //     draftData: drafts[index],
-                      //     arrayPosition: index,
-                      //   };
-                      // });
+                      setEditorAtom(index);
                     }}
                     href="/edit"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"

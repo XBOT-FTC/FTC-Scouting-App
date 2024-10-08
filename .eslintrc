@@ -30,6 +30,7 @@
     "simple-import-sort/exports": "warn",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "react/self-closing-comp": "warn"
+    "react/self-closing-comp": "warn",
+    "no-undef": "off"
   }
 }
