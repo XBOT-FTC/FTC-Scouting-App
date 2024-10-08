@@ -44,6 +44,9 @@ export function Nav() {
         <NavbarLink href="#">Services</NavbarLink>
         <NavbarLink href="#">Pricing</NavbarLink>
         <NavbarLink href="#">Contact</NavbarLink> */}
+        <Link href="/auto" passHref>
+          <NavbarLink active>Mock passing new draft</NavbarLink>
+        </Link>
       </NavbarCollapse>
     </Navbar>
   );
