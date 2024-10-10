@@ -12,6 +12,7 @@
     "fix": "eslint --fix . --ext .ts,.tsx,.js,.jsx"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "flowbite-react": "^0.10.2",
     "jotai": "^2.10.0",
     "lucide-react": "^0.447.0",
