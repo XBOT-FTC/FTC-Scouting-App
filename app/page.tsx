@@ -1,7 +1,10 @@
+import React from "react";
+import Image from "next/image";
+
 export default function Home() {
   return (
     <div className="grid justify-center">
-      <img src="image.png" width={201} height={191} />
+      <Image src="/Image.png" width={201} height={191} alt="Picture of logo" />
       <div className="grid justify-center text-2xl">
         <p>
           <b>Welcome!</b>
