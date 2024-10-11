@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const positionAtom = atom<number>(0);
+export const editorAtom = atom<number>(0);
