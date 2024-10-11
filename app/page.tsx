@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -28,7 +29,9 @@ export default function Home() {
             </div>
             <input type="text" placeholder="Name" required></input>
             <div className="m-20 grid justify-center rounded-lg bg-blue-400 box-decoration-slice p-3 text-white">
-              <button type="submit">Next</button>
+              <Link href={"/allianceselection"}>
+                <button type="submit">Next</button>
+              </Link>
             </div>
           </form>
         </div>
