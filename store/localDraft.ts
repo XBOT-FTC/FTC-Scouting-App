@@ -1,9 +1,10 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
 import { DraftDataScehema } from "@/utils/DraftDataSchema";
 
 import { AllianceColor, DraftData } from "./drafts";
 
-export const localDraftAtom = atom<DraftData>(
+export const localDraftAtom = atomWithStorage<DraftData>(
+  "LocalDraft",
   DraftDataScehema("thing", 1, AllianceColor.Red),
 );
