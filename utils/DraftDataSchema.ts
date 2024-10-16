@@ -43,7 +43,6 @@ export function DraftDataScehema(
     },
     color: color,
     comments: "",
-    defenseRating: 1,
     driverRating: 1,
     name: name,
     team: team,
