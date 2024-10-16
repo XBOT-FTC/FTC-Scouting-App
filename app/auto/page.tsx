@@ -8,13 +8,17 @@ import { localDraftAtom } from "@/store/localDraft";
 
 export default function Home() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
-  window.addEventListener("beforeunload", (event) => {
-    const warningMessage =
-      "Your changes have not been saved. Are you sure you want to leave?";
-    event.preventDefault(); // Standard method for most browsers
-    event.returnValue = warningMessage; // Legacy method for some browsers
-    return warningMessage; // Some browsers will display a default message
-  });
+  /** @see https://stackoverflow.com/questions/55151041/window-is-not-defined-in-next-js-react-app */
+  if (typeof window !== "undefined") {
+    window.addEventListener("beforeunload", (event) => {
+      const warningMessage =
+        "Your changes have not been saved. Are you sure you want to leave?";
+      event.preventDefault(); // Standard method for most browsers
+      event.returnValue = warningMessage; // Legacy method for some browsers
+      return warningMessage; // Some browsers will display a default message
+    });
+  }
+
   return (
     <>
       <ButtonGroup className="flex justify-center">
