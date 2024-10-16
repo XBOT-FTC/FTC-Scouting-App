@@ -35,7 +35,7 @@ async function run() {
 /** utilty function that uploads the draft. CURRENTLY ONLY UPLOADS TO `test` COLLECTION.
  * CHANGE IT AFTER THE CODE IS READY.
  */
-async function uploadDraft(schema: DraftData) {
+export async function uploadDraft(schema: DraftData) {
   try {
     await client.connect();
     await client.db("MatchData").collection("test").insertOne(schema);
@@ -49,7 +49,7 @@ async function uploadDraft(schema: DraftData) {
   }
 }
 
-async function readDrafts() {
+export async function readDrafts() {
   try {
     const cursor = client.db("MatchData").collection("test").find();
     console.log(await cursor.toArray());
@@ -64,7 +64,6 @@ async function readDrafts() {
 }
 
 run().catch(console.dir);
-
-uploadDraft(DraftDataScehema("test", 488, AllianceColor.Red));
-readDrafts();
-// client.close();
+uploadDraft(DraftDataScehema("da lao", 488, AllianceColor.Red)).finally(() => {
+  client.close();
+});

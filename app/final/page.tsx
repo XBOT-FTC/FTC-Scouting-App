@@ -10,11 +10,14 @@ import {
   RangeSlider,
   Textarea,
 } from "flowbite-react";
+import { useAtom } from "jotai";
 import { useState } from "react";
+
+import { localDraftAtom } from "@/store/localDraft";
 
 export default function Home() {
   const [openSubmit, setOpenSubmit] = useState(false);
-
+  const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
   return (
     <main className="dark:text-white">
       <Modal
@@ -26,11 +29,11 @@ export default function Home() {
         <ModalBody>You are submitting this draft! Are you sure!</ModalBody>
         <ModalFooter>
           <Button
-            onClick={() =>
+            onClick={() => {
               alert(
-                "We have detected that you submitted your draft. The implementation on backend isn't done yet tho",
-              )
-            }
+                `Mock uploading draft to MONGODB (remove this alert in public release):\n\n${JSON.stringify(localDraft)}`,
+              );
+            }}
           >
             Submit
           </Button>
@@ -41,6 +44,12 @@ export default function Home() {
       </div>
       <div className="flex justify-center">
         <Textarea
+          onChange={(event) => {
+            setLocalDraft({
+              ...localDraft,
+              comments: event.currentTarget.value,
+            });
+          }}
           className="max-w-96"
           id="comment"
           placeholder="Leave a comment..."
@@ -50,12 +59,23 @@ export default function Home() {
       </div>
       <div className="mb-3 block" />
       <div className="flex justify-center">
-        Defense rating:
-        <RangeSlider id="disabled-range" min={1} max={5} />
-      </div>
-      <div className="flex justify-center">
         Driver rating:
-        <RangeSlider id="disabled-range" min={1} max={5} />
+        <RangeSlider
+          id="disabled-range"
+          min={1}
+          max={5}
+          onChange={(event) => {
+            setLocalDraft({
+              ...localDraft,
+              driverRating: Number(event.currentTarget.value) as
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5,
+            });
+          }}
+        />
       </div>
       <div className="mb-3 block" />
 

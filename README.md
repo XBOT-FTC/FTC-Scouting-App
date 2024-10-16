@@ -2,7 +2,17 @@
 1. Install dependencies: `npm i`
 2. Start the server: `npm run dev`
 3. Format the code: `npm run format` or `ctrl+s` to format the file
----
+
+# Setting up the local database
+* In your folder, create a `.env` file. 
+* In your code setup the following environment variable(s)
+```env
+MONGO_DB_PASSWORD=YOUR_MONGO_DB_PASSWORD
+```
+## API (unstable)
+* `readDrafts`: Reads the entire database without any filters
+* `writeDraft`: Writes a new entry
+
 ## Pre-equisite
 * [nodejs](https://nodejs.org/en)
 * [npm](https://www.npmjs.com/)
@@ -20,12 +30,6 @@
 * Do no touch .gitignore unless you know what you are doing
 * keep `.gitkeep` files *if* you don't have anything commited inside the folder
 ---
-# Setting up the local database
-* In your folder, create a `.env` file. 
-* In your code setup the following environment variable(s)
-```env
-MONGO_DB_PASSWORD=YOUR_MONGO_DB_PASSWORD
-```
 # Installation instructions
 1. Install dependencies: `npm i`
 2. Start the server: `npm run dev`
@@ -46,12 +50,3 @@ MONGO_DB_PASSWORD=YOUR_MONGO_DB_PASSWORD
 # Warning
 * Do no touch .gitignore unless you know what you are doing
 * keep `.gitkeep` files *if* you don't have anything commited inside the folder
-# Setting up the local database
-* In your folder, create a `.env` file. 
-* In your code setup the following environment variable(s)
-```env
-MONGO_DB_PASSWORD=YOUR_MONGO_DB_PASSWORD
-```
-## API (unstable)
-* `readDrafts`: Reads the entire database without any filters
-* `writeDraft`: Writes a new entry
