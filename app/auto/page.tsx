@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "flowbite-react";
+import { Button, Select } from "flowbite-react";
 import { useAtom } from "jotai";
 import Link from "next/link";
 
@@ -7,6 +7,7 @@ import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
 import { ScoringInput } from "@/components/scoring-input";
 import { ScoringSection } from "@/components/scoring-section";
+import { Acent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/localDraft";
 
 export default function Auto() {
@@ -32,62 +33,63 @@ export default function Auto() {
         ]}
       />
 
-      <div className="dark:text-gray-100">
-        <ScoringSection sectionName="Scored Sample">
-          <ScoringInput
-            defaultValue={localDraft.auto.net}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                auto: { ...localDraft.auto, net: val },
-              });
-            }}
-            description="Net"
-          />
-          <ScoringInput
-            defaultValue={localDraft.auto.lowNet}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                auto: { ...localDraft.auto, lowNet: val },
-              });
-            }}
-            description="Low"
-          />
-          <ScoringInput
-            defaultValue={localDraft.auto.highNet}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                auto: { ...localDraft.auto, highNet: val },
-              });
-            }}
-            description="High"
-          />
-        </ScoringSection>
+      <ScoringSection sectionName="Scored Sample">
+        <ScoringInput
+          defaultValue={localDraft.auto.net}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              auto: { ...localDraft.auto, net: val },
+            });
+          }}
+          description="Net"
+        />
+        <ScoringInput
+          defaultValue={localDraft.auto.lowBasket}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              auto: { ...localDraft.auto, lowBasket: val },
+            });
+          }}
+          description="Low"
+        />
+        <ScoringInput
+          defaultValue={localDraft.auto.highBasket}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              auto: { ...localDraft.auto, highBasket: val },
+            });
+          }}
+          description="High"
+        />
+      </ScoringSection>
 
-        <ScoringSection sectionName="Scored Specimens">
-          <ScoringInput
-            defaultValue={localDraft.auto.lowSpecimen}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                auto: { ...localDraft.auto, lowSpecimen: val },
-              });
-            }}
-            description="Low"
-          />
-          <ScoringInput
-            defaultValue={localDraft.auto.highSpecimen}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                auto: { ...localDraft.auto, highSpecimen: val },
-              });
-            }}
-            description="High"
-          />
-        </ScoringSection>
+      <ScoringSection sectionName="Scored Specimen">
+        <ScoringInput
+          defaultValue={localDraft.auto.lowChamber}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              auto: { ...localDraft.auto, lowChamber: val },
+            });
+          }}
+          description="Low"
+        />
+        <ScoringInput
+          defaultValue={localDraft.auto.highChamber}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              auto: { ...localDraft.auto, highChamber: val },
+            });
+          }}
+          description="High"
+        />
+      </ScoringSection>
+
+      <div className="grid place-items-center gap-5 text-center">
         <CheckboxText
           defaultChecked={localDraft.auto.fouled}
           onChange={(checked) => {
@@ -114,8 +116,33 @@ export default function Auto() {
             });
           }}
         />
-      </div>
-      <div className="flex justify-center">
+        <Select
+          defaultValue={
+            localDraft.auto.acent === Acent.Level1
+              ? "Level 1"
+              : localDraft.auto.acent === Acent.Observation
+                ? "Observation"
+                : undefined
+          }
+          onChange={(event) => {
+            const value = event.currentTarget.value;
+            if (value === "Level 1") {
+              setLocalDraft({
+                ...localDraft,
+                auto: { ...localDraft.auto, acent: Acent.Level1 },
+              });
+            }
+            if (value === "Observation") {
+              setLocalDraft({
+                ...localDraft,
+                auto: { ...localDraft.auto, acent: Acent.Observation },
+              });
+            }
+          }}
+        >
+          <option>Observation</option>
+          <option>Level 1</option>
+        </Select>
         <Link href="/teleop">
           <Button>Next</Button>
         </Link>

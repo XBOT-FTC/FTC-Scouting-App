@@ -4,10 +4,10 @@ import { z } from "zod";
 export type DraftName = string;
 
 export enum Acent {
-  Low,
-  Medium,
-  High,
-  Parked,
+  Observation,
+  Level1,
+  Level2,
+  Level3,
 }
 
 export enum AllianceColor {
@@ -17,21 +17,19 @@ export enum AllianceColor {
 
 export interface PhaseData {
   /** the amount of pieces scored in lower net */
-  lowNet: number;
+  lowBasket: number;
   /** the amount of pieces scored in high net */
-  highNet: number;
+  highBasket: number;
+  /** the net score in the floor */
+  net: number;
   /** the specimens scored in low bar  */
-  lowSpecimen: number;
+  lowChamber: number;
   /** high specimens scored in high bar */
-  highSpecimen: number;
-  /** the acent the robot ended with */
-  acent: Acent;
+  highChamber: number;
   /** if the robot has performed a foul move */
   fouled: boolean;
   /** if the robot was disabled during this phase */
   disabled: boolean;
-  /** the net score in the floor */
-  net: number;
 }
 
 export const PhaseDataVaildator = z
@@ -79,11 +77,17 @@ export interface DraftData {
   /** the rating for driver */
   driverRating: 1 | 2 | 3 | 4 | 5;
   /** data for auto phase */
-  auto: PhaseData;
+  auto: PhaseData & {
+    acent: Exclude<Acent, "Level2" | "Level3">;
+  };
   /** the data for auto phase */
   teleop: PhaseData;
   /** the data for end phase */
-  end: PhaseData;
+  end: {
+    fouled: boolean;
+    disabled: boolean;
+    acent: Acent;
+  };
   /** the draft name */
   name: string;
 }

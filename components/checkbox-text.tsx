@@ -12,7 +12,7 @@ export function CheckboxText({
   onChange,
 }: CheckboxTextProps) {
   return (
-    <div className="grid place-items-center rounded-md">
+    <div className="grid place-items-center">
       {description}
       <div />
       <Checkbox

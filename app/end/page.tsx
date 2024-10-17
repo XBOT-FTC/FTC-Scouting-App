@@ -1,25 +1,53 @@
 "use client";
-import { Button, Select } from "flowbite-react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  Textarea,
+} from "flowbite-react";
 import { useAtom } from "jotai";
-import Link from "next/link";
+import { useState } from "react";
 
 import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
-import { ScoringInput } from "@/components/scoring-input";
-import { ScoringSection } from "@/components/scoring-section";
+import { RangeText } from "@/components/range-text";
 import { Acent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/localDraft";
 
 export default function End() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
+  const [openSubmit, setOpenSubmit] = useState(false);
+
   const AcentMap = new Map([
-    ["Low", Acent.Low],
-    ["Medium", Acent.Medium],
-    ["High", Acent.High],
-    ["Parked", Acent.Parked],
+    ["Level 1", Acent.Level1],
+    ["Level 2", Acent.Level2],
+    ["Level 3", Acent.Level3],
+    ["Observation", Acent.Observation],
   ]);
   return (
     <>
+      <Modal
+        show={openSubmit}
+        onClose={() => setOpenSubmit(false)}
+        className="dark:text-white"
+      >
+        <ModalHeader className="flex justify-center">Confirming</ModalHeader>
+        <ModalBody>You are submitting this draft! Are you sure!</ModalBody>
+        <ModalFooter>
+          <Button
+            onClick={() => {
+              alert(
+                `Mock uploading draft to MONGODB (remove this alert in public release):\n\n${JSON.stringify(localDraft)}`,
+              );
+            }}
+          >
+            Submit
+          </Button>
+        </ModalFooter>
+      </Modal>
       <PhaseToggle
         phases={[
           { href: "/auto", name: "Auto" },
@@ -28,8 +56,100 @@ export default function End() {
         ]}
       />
 
-      <div className="dark:text-gray-100">
-        <ScoringSection sectionName="Scored Sample">
+      <div className="grid place-items-center gap-5 text-center dark:text-gray-100">
+        <text>
+          Acent
+          <Select
+            defaultValue={
+              localDraft.end.acent === Acent.Observation
+                ? "Observation"
+                : localDraft.end.acent === Acent.Level1
+                  ? "Level 1"
+                  : localDraft.end.acent === Acent.Level2
+                    ? "Level 2"
+                    : localDraft.end.acent === Acent.Level3
+                      ? "Level 3"
+                      : undefined
+            }
+            onChange={(event) => {
+              const value = event.currentTarget.value;
+              setLocalDraft({
+                ...localDraft,
+                end: { ...localDraft.end, acent: AcentMap.get(value)! },
+              });
+            }}
+          >
+            <option>Observation</option>
+            <option>Level 1</option>
+            <option>Level 2</option>
+            <option>Level 3</option>
+          </Select>
+        </text>
+        <CheckboxText
+          description="Fouled"
+          defaultChecked={localDraft.end.fouled}
+          onChange={(checked) => {
+            setLocalDraft({
+              ...localDraft,
+              end: {
+                ...localDraft.end,
+                fouled: checked,
+              },
+            });
+          }}
+        />
+        <CheckboxText
+          description="Robot Disabled"
+          defaultChecked={localDraft.end.disabled}
+          onChange={(checked) => {
+            setLocalDraft({
+              ...localDraft,
+              end: {
+                ...localDraft.end,
+                disabled: checked,
+              },
+            });
+          }}
+        />
+        <Textarea
+          onChange={(event) => {
+            setLocalDraft({
+              ...localDraft,
+              comments: event.currentTarget.value,
+            });
+          }}
+          className="max-w-56"
+          id="comment"
+          placeholder="Additional comments..."
+          required
+          rows={4}
+        />
+        <RangeText
+          description="Driver rating"
+          min={1}
+          max={5}
+          onChange={(value) => {
+            setLocalDraft({
+              ...localDraft,
+              driverRating: value,
+            });
+          }}
+        />
+
+        <Button
+          onClick={() => {
+            setOpenSubmit(true);
+          }}
+        >
+          Submit
+        </Button>
+      </div>
+    </>
+  );
+}
+
+{
+  /* <ScoringSection sectionName="Scored Sample">
           <ScoringInput
             defaultValue={localDraft.end.net}
             onChange={(val) => {
@@ -60,9 +180,11 @@ export default function End() {
             }}
             description="High"
           />
-        </ScoringSection>
+        </ScoringSection> */
+}
 
-        <ScoringSection sectionName="Scored Specimens">
+{
+  /* <ScoringSection sectionName="Scored Specimen">
           <ScoringInput
             defaultValue={localDraft.end.lowSpecimen}
             onChange={(val) => {
@@ -83,71 +205,5 @@ export default function End() {
             }}
             description="High"
           />
-        </ScoringSection>
-        <div className="grid grid-flow-col grid-rows-4 justify-center gap-5 text-center">
-          <text>
-            Acent
-            <div className="gap-5">
-              <Select
-                defaultValue={
-                  localDraft.end.acent === Acent.Parked
-                    ? "Parked"
-                    : localDraft.end.acent === Acent.Low
-                      ? "Low"
-                      : localDraft.end.acent === Acent.Medium
-                        ? "Medium"
-                        : localDraft.end.acent === Acent.High
-                          ? "High"
-                          : undefined
-                }
-                onChange={(event) => {
-                  const value = event.currentTarget.value;
-                  setLocalDraft({
-                    ...localDraft,
-                    end: { ...localDraft.end, acent: AcentMap.get(value)! },
-                  });
-                }}
-              >
-                <option>Parked</option>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-              </Select>
-            </div>
-          </text>
-          <CheckboxText
-            defaultChecked={localDraft.end.fouled}
-            onChange={(checked) => {
-              setLocalDraft({
-                ...localDraft,
-                end: {
-                  ...localDraft.end,
-                  fouled: checked,
-                },
-              });
-            }}
-            description="Fouled"
-          />
-          <CheckboxText
-            description="Robot Disabled"
-            defaultChecked={localDraft.end.fouled}
-            onChange={(checked) => {
-              setLocalDraft({
-                ...localDraft,
-                end: {
-                  ...localDraft.end,
-                  fouled: checked,
-                },
-              });
-            }}
-          />
-        </div>
-        <div className="flex justify-center">
-          <Link href="/final">
-            <Button>Next</Button>
-          </Link>
-        </div>
-      </div>
-    </>
-  );
+        </ScoringSection> */
 }
