@@ -64,21 +64,21 @@ export default function End() {
 
         <ScoringSection sectionName="Scored Specimens">
           <ScoringInput
-            defaultValue={localDraft.end.lowNet}
+            defaultValue={localDraft.end.lowSpecimen}
             onChange={(val) => {
               setLocalDraft({
                 ...localDraft,
-                end: { ...localDraft.end, lowNet: val },
+                end: { ...localDraft.end, lowSpecimen: val },
               });
             }}
             description="Low"
           />
           <ScoringInput
-            defaultValue={localDraft.end.highNet}
+            defaultValue={localDraft.end.highSpecimen}
             onChange={(val) => {
               setLocalDraft({
                 ...localDraft,
-                end: { ...localDraft.end, highNet: val },
+                end: { ...localDraft.end, highSpecimen: val },
               });
             }}
             description="High"

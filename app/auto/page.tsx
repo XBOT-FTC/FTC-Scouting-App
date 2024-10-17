@@ -68,21 +68,21 @@ export default function Auto() {
 
         <ScoringSection sectionName="Scored Specimens">
           <ScoringInput
-            defaultValue={localDraft.auto.lowNet}
+            defaultValue={localDraft.auto.lowSpecimen}
             onChange={(val) => {
               setLocalDraft({
                 ...localDraft,
-                auto: { ...localDraft.auto, lowNet: val },
+                auto: { ...localDraft.auto, lowSpecimen: val },
               });
             }}
             description="Low"
           />
           <ScoringInput
-            defaultValue={localDraft.auto.highNet}
+            defaultValue={localDraft.auto.highSpecimen}
             onChange={(val) => {
               setLocalDraft({
                 ...localDraft,
-                auto: { ...localDraft.auto, highNet: val },
+                auto: { ...localDraft.auto, highSpecimen: val },
               });
             }}
             description="High"

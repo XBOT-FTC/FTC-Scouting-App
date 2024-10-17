@@ -35,21 +35,21 @@ export default function Teleop() {
               description="Net"
             />
             <ScoringInput
-              defaultValue={localDraft.teleop.lowNet}
+              defaultValue={localDraft.teleop.lowSpecimen}
               onChange={(val) => {
                 setLocalDraft({
                   ...localDraft,
-                  teleop: { ...localDraft.teleop, lowNet: val },
+                  teleop: { ...localDraft.teleop, lowSpecimen: val },
                 });
               }}
               description="Low"
             />
             <ScoringInput
-              defaultValue={localDraft.teleop.highNet}
+              defaultValue={localDraft.teleop.highSpecimen}
               onChange={(val) => {
                 setLocalDraft({
                   ...localDraft,
-                  teleop: { ...localDraft.teleop, highNet: val },
+                  teleop: { ...localDraft.teleop, highSpecimen: val },
                 });
               }}
               description="High"
