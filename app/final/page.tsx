@@ -13,7 +13,7 @@ import {
 import { useAtom } from "jotai";
 import { useState } from "react";
 
-import { localDraftAtom } from "@/store/localDraft";
+import { localDraftAtom } from "@/store/local-draft";
 
 export default function Home() {
   const [openSubmit, setOpenSubmit] = useState(false);

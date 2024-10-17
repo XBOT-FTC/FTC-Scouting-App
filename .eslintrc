@@ -12,7 +12,8 @@
     "prettier",
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:@cspell/recommended"
   ],
   "settings": {
     "tailwindcss": {
@@ -21,7 +22,19 @@
         "createTheme"
       ],
       "classRegex": "^(class(Name)|theme)?$"
-    }
+    },
+    "@cspell/spellchecker": [{
+      "dictionaries": [
+        "custom"
+      ],
+      "dictionaryDefinitions": [
+        {
+          "name": "custom",
+          "path": "custom-words.txt",
+          "addWords": true
+        }
+      ]
+    }]
   },
   "rules": {
     "prettier/prettier": "warn",
