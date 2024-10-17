@@ -1,119 +1,111 @@
 "use client";
-import { Button, ButtonGroup, Checkbox } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { useAtom } from "jotai";
 import Link from "next/link";
 
-import { NumberInput } from "@/components/number-input";
+import { CheckboxText } from "@/components/checkbox-text";
+import { PhaseToggle } from "@/components/phase-toggle";
+import { ScoringInput } from "@/components/scoring-input";
+import { ScoringSection } from "@/components/scoring-section";
 import { localDraftAtom } from "@/store/localDraft";
 
-export default function Home() {
+export default function Teleop() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
   return (
     <>
-      <ButtonGroup className="flex justify-center">
-        <Button>
-          <Link href="/auto">Auto</Link>
-        </Button>
-
-        <Button>
-          <Link href="/teleop"> Teleop</Link>
-        </Button>
-
-        <Button>
-          <Link href="/end">End</Link>
-        </Button>
-      </ButtonGroup>
-
-      <div className="h-10" />
+      <PhaseToggle
+        phases={[
+          { href: "/auto", name: "Auto" },
+          { href: "/teleop", name: "Teleop" },
+          { href: "/end", name: "End" },
+        ]}
+      />
 
       <div className="dark:text-gray-100">
-        <text className="flex h-10 justify-center">Scored Sample</text>
         <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
-          <NumberInput
-            defaultValue={localDraft.teleop.net}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, net: val },
-              });
-            }}
-          />
-          <text>Net</text>
-          <NumberInput
-            defaultValue={localDraft.teleop.lowNet}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, lowNet: val },
-              });
-            }}
-          />
-          <text>Low</text>
-          <NumberInput
-            defaultValue={localDraft.teleop.highNet}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, highNet: val },
-              });
-            }}
-          />
-          <text>High</text>
-        </div>
-        <text className="flex h-10 justify-center">Scored Specimen</text>
-        <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
-          <NumberInput
-            defaultValue={localDraft.teleop.lowSpecimen}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, lowSpecimen: val },
-              });
-            }}
-          />
-          <text>Low</text>
-          <NumberInput
-            defaultValue={localDraft.teleop.highSpecimen}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, highSpecimen: val },
-              });
-            }}
-          />
-          <text>High</text>
+          <ScoringSection sectionName="Scored Sample">
+            <ScoringInput
+              defaultValue={localDraft.teleop.net}
+              onChange={(val) => {
+                setLocalDraft({
+                  ...localDraft,
+                  teleop: { ...localDraft.teleop, net: val },
+                });
+              }}
+              description="Net"
+            />
+            <ScoringInput
+              defaultValue={localDraft.teleop.lowNet}
+              onChange={(val) => {
+                setLocalDraft({
+                  ...localDraft,
+                  teleop: { ...localDraft.teleop, lowNet: val },
+                });
+              }}
+              description="Low"
+            />
+            <ScoringInput
+              defaultValue={localDraft.teleop.highNet}
+              onChange={(val) => {
+                setLocalDraft({
+                  ...localDraft,
+                  teleop: { ...localDraft.teleop, highNet: val },
+                });
+              }}
+              description="High"
+            />
+          </ScoringSection>
+
+          <ScoringSection sectionName="Scored Specimens">
+            <ScoringInput
+              defaultValue={localDraft.teleop.lowNet}
+              onChange={(val) => {
+                setLocalDraft({
+                  ...localDraft,
+                  teleop: { ...localDraft.teleop, lowNet: val },
+                });
+              }}
+              description="Low"
+            />
+            <ScoringInput
+              defaultValue={localDraft.teleop.highNet}
+              onChange={(val) => {
+                setLocalDraft({
+                  ...localDraft,
+                  teleop: { ...localDraft.teleop, highNet: val },
+                });
+              }}
+              description="High"
+            />
+          </ScoringSection>
         </div>
         <div className="grid grid-flow-col grid-rows-4 justify-center gap-5 text-center">
-          <text>
-            Fouled <div />
-            <Checkbox
-              defaultChecked={localDraft.teleop.fouled}
-              onChange={(event) => {
-                setLocalDraft({
-                  ...localDraft,
-                  teleop: {
-                    ...localDraft.teleop,
-                    fouled: event.currentTarget.checked,
-                  },
-                });
-              }}
-            />
-          </text>
-          <text>
-            Robot Disabled <div />
-            <Checkbox
-              defaultChecked={localDraft.teleop.disabled}
-              onChange={(event) => {
-                setLocalDraft({
-                  ...localDraft,
-                  teleop: {
-                    ...localDraft.teleop,
-                    disabled: event.currentTarget.checked,
-                  },
-                });
-              }}
-            />
-          </text>
+          <CheckboxText
+            defaultChecked={localDraft.teleop.fouled}
+            onChange={(checked) => {
+              setLocalDraft({
+                ...localDraft,
+                teleop: {
+                  ...localDraft.teleop,
+                  fouled: checked,
+                },
+              });
+            }}
+            description="Fouled"
+          />
+          <CheckboxText
+            description="Robot Disabled"
+            defaultChecked={localDraft.teleop.fouled}
+            onChange={(checked) => {
+              setLocalDraft({
+                ...localDraft,
+                teleop: {
+                  ...localDraft.teleop,
+                  fouled: checked,
+                },
+              });
+            }}
+          />
         </div>
       </div>
       <div className="flex justify-center">

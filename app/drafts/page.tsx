@@ -16,14 +16,13 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { BookDashed, ImportIcon } from "lucide-react";
 import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 import Link from "next/link";
 import { useState } from "react";
 
 import { Export } from "@/components/export";
-import { debugAtom } from "@/store/debug";
 import {
   AllianceColor,
   draftAtom,
@@ -35,7 +34,6 @@ import { DraftDataScehema } from "@/utils/DraftDataSchema";
 export default function Drafts() {
   //Literally refracture the entire code, very messy state management
   const [drafts, setDrafts] = useAtom(draftAtom);
-  const isDebug = useAtomValue(debugAtom);
   const [input, setInput] = useState<string>();
 
   const [openImport, setOpenImport] = useState<boolean>(false);
@@ -256,7 +254,6 @@ export default function Drafts() {
         </Export>
         <Button onClick={() => setOpenWarning(true)}>Clear Drafts</Button>
       </div>
-      {isDebug && <text>{JSON.stringify(drafts)}</text>}
     </>
   );
 }

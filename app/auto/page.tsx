@@ -1,12 +1,15 @@
 "use client";
-import { Button, ButtonGroup, Checkbox } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { useAtom } from "jotai";
 import Link from "next/link";
 
-import { NumberInput } from "@/components/number-input";
+import { CheckboxText } from "@/components/checkbox-text";
+import { PhaseToggle } from "@/components/phase-toggle";
+import { ScoringInput } from "@/components/scoring-input";
+import { ScoringSection } from "@/components/scoring-section";
 import { localDraftAtom } from "@/store/localDraft";
 
-export default function Home() {
+export default function Auto() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
   /** @see https://stackoverflow.com/questions/55151041/window-is-not-defined-in-next-js-react-app */
   if (typeof window !== "undefined") {
@@ -21,26 +24,17 @@ export default function Home() {
 
   return (
     <>
-      <ButtonGroup className="flex justify-center">
-        <Button>
-          <Link href="/auto">Auto</Link>
-        </Button>
-
-        <Button>
-          <Link href="/teleop">Teleop</Link>
-        </Button>
-
-        <Button>
-          <Link href="/end">End</Link>
-        </Button>
-      </ButtonGroup>
-
-      <div className="h-10" />
+      <PhaseToggle
+        phases={[
+          { href: "/auto", name: "Auto" },
+          { href: "/teleop", name: "Teleop" },
+          { href: "/end", name: "End" },
+        ]}
+      />
 
       <div className="dark:text-gray-100">
-        <text className="flex h-10 justify-center">Scored Sample</text>
-        <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
-          <NumberInput
+        <ScoringSection sectionName="Scored Sample">
+          <ScoringInput
             defaultValue={localDraft.auto.net}
             onChange={(val) => {
               setLocalDraft({
@@ -48,9 +42,9 @@ export default function Home() {
                 auto: { ...localDraft.auto, net: val },
               });
             }}
+            description="Net"
           />
-          <text>Net</text>
-          <NumberInput
+          <ScoringInput
             defaultValue={localDraft.auto.lowNet}
             onChange={(val) => {
               setLocalDraft({
@@ -58,9 +52,9 @@ export default function Home() {
                 auto: { ...localDraft.auto, lowNet: val },
               });
             }}
+            description="Low"
           />
-          <text>Low</text>
-          <NumberInput
+          <ScoringInput
             defaultValue={localDraft.auto.highNet}
             onChange={(val) => {
               setLocalDraft({
@@ -68,64 +62,58 @@ export default function Home() {
                 auto: { ...localDraft.auto, highNet: val },
               });
             }}
+            description="High"
           />
-          <text>High</text>
-        </div>
-        <text className="flex h-10 justify-center">Scored Specimen</text>
-        <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
-          <NumberInput
-            defaultValue={localDraft.auto.lowSpecimen}
+        </ScoringSection>
+
+        <ScoringSection sectionName="Scored Specimens">
+          <ScoringInput
+            defaultValue={localDraft.auto.lowNet}
             onChange={(val) => {
               setLocalDraft({
                 ...localDraft,
-                auto: { ...localDraft.auto, lowSpecimen: val },
+                auto: { ...localDraft.auto, lowNet: val },
               });
             }}
+            description="Low"
           />
-          <text>Low</text>
-          <NumberInput
-            defaultValue={localDraft.auto.highSpecimen}
+          <ScoringInput
+            defaultValue={localDraft.auto.highNet}
             onChange={(val) => {
               setLocalDraft({
                 ...localDraft,
-                auto: { ...localDraft.auto, highSpecimen: val },
+                auto: { ...localDraft.auto, highNet: val },
               });
             }}
+            description="High"
           />
-          <text>High</text>
-        </div>
-        <div className="grid grid-flow-col grid-rows-4 justify-center gap-5 text-center">
-          <text>
-            Fouled <div />
-            <Checkbox
-              defaultChecked={localDraft.auto.fouled}
-              onChange={(event) => {
-                setLocalDraft({
-                  ...localDraft,
-                  auto: {
-                    ...localDraft.auto,
-                    fouled: event.currentTarget.checked,
-                  },
-                });
-              }}
-            />
-          </text>
-          <text>
-            Robot Disabled <div />
-            <Checkbox
-              defaultChecked={localDraft.auto.disabled}
-              onChange={(event) => {
-                setLocalDraft({
-                  ...localDraft,
-                  auto: {
-                    ...localDraft.auto,
-                    disabled: event.currentTarget.checked,
-                  },
-                });
-              }}
-            />
-          </text>
-        </div>
+        </ScoringSection>
+        <CheckboxText
+          defaultChecked={localDraft.auto.fouled}
+          onChange={(checked) => {
+            setLocalDraft({
+              ...localDraft,
+              auto: {
+                ...localDraft.auto,
+                fouled: checked,
+              },
+            });
+          }}
+          description="Fouled"
+        />
+        <CheckboxText
+          description="Robot Disabled"
+          defaultChecked={localDraft.auto.fouled}
+          onChange={(checked) => {
+            setLocalDraft({
+              ...localDraft,
+              auto: {
+                ...localDraft.auto,
+                fouled: checked,
+              },
+            });
+          }}
+        />
       </div>
       <div className="flex justify-center">
         <Link href="/teleop">

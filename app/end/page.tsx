@@ -1,13 +1,16 @@
 "use client";
-import { Button, ButtonGroup, Checkbox, Select } from "flowbite-react";
+import { Button, Select } from "flowbite-react";
 import { useAtom } from "jotai";
 import Link from "next/link";
 
-import { NumberInput } from "@/components/number-input";
+import { CheckboxText } from "@/components/checkbox-text";
+import { PhaseToggle } from "@/components/phase-toggle";
+import { ScoringInput } from "@/components/scoring-input";
+import { ScoringSection } from "@/components/scoring-section";
 import { Acent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/localDraft";
 
-export default function Home() {
+export default function End() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
   const AcentMap = new Map([
     ["Low", Acent.Low],
@@ -17,26 +20,37 @@ export default function Home() {
   ]);
   return (
     <>
-      <ButtonGroup className="flex justify-center">
-        <Button>
-          <Link href="/auto">Auto</Link>
-        </Button>
-
-        <Button>
-          <Link href="/teleop"> Teleop</Link>
-        </Button>
-
-        <Button>
-          <Link href="/end">End</Link>
-        </Button>
-      </ButtonGroup>
-
-      <div className="h-10" />
+      <PhaseToggle
+        phases={[
+          { href: "/auto", name: "Auto" },
+          { href: "/teleop", name: "Teleop" },
+          { href: "/end", name: "End" },
+        ]}
+      />
 
       <div className="dark:text-gray-100">
-        <text className="flex h-10 justify-center">Scored Sample</text>
-        <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
-          <NumberInput
+        <ScoringSection sectionName="Scored Sample">
+          <ScoringInput
+            defaultValue={localDraft.end.net}
+            onChange={(val) => {
+              setLocalDraft({
+                ...localDraft,
+                end: { ...localDraft.end, net: val },
+              });
+            }}
+            description="Net"
+          />
+          <ScoringInput
+            defaultValue={localDraft.end.lowNet}
+            onChange={(val) => {
+              setLocalDraft({
+                ...localDraft,
+                end: { ...localDraft.end, lowNet: val },
+              });
+            }}
+            description="Low"
+          />
+          <ScoringInput
             defaultValue={localDraft.end.highNet}
             onChange={(val) => {
               setLocalDraft({
@@ -44,9 +58,22 @@ export default function Home() {
                 end: { ...localDraft.end, highNet: val },
               });
             }}
+            description="High"
           />
-          <text>Net</text>
-          <NumberInput
+        </ScoringSection>
+
+        <ScoringSection sectionName="Scored Specimens">
+          <ScoringInput
+            defaultValue={localDraft.end.lowNet}
+            onChange={(val) => {
+              setLocalDraft({
+                ...localDraft,
+                end: { ...localDraft.end, lowNet: val },
+              });
+            }}
+            description="Low"
+          />
+          <ScoringInput
             defaultValue={localDraft.end.highNet}
             onChange={(val) => {
               setLocalDraft({
@@ -54,42 +81,9 @@ export default function Home() {
                 end: { ...localDraft.end, highNet: val },
               });
             }}
+            description="High"
           />
-          <text>Low</text>
-          <NumberInput
-            defaultValue={localDraft.end.highNet}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                end: { ...localDraft.end, highNet: val },
-              });
-            }}
-          />
-          <text>High</text>
-        </div>
-        <text className="flex h-10 justify-center">Scored Specimen</text>
-        <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
-          <NumberInput
-            defaultValue={localDraft.end.highNet}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                end: { ...localDraft.end, highNet: val },
-              });
-            }}
-          />
-          <text>Low</text>
-          <NumberInput
-            defaultValue={localDraft.end.highNet}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                end: { ...localDraft.end, highNet: val },
-              });
-            }}
-          />
-          <text>High</text>
-        </div>
+        </ScoringSection>
         <div className="grid grid-flow-col grid-rows-4 justify-center gap-5 text-center">
           <text>
             Acent
@@ -121,38 +115,33 @@ export default function Home() {
               </Select>
             </div>
           </text>
-          <text>
-            Fouled <div />
-            <Checkbox
-              defaultChecked={localDraft.end.fouled}
-              onChange={(event) => {
-                setLocalDraft({
-                  ...localDraft,
-                  end: {
-                    ...localDraft.end,
-                    fouled: event.currentTarget.checked,
-                  },
-                });
-              }}
-            />
-          </text>
-          <text>
-            Robot Disabled <div />
-            <Checkbox
-              defaultChecked={localDraft.end.fouled}
-              onChange={(event) => {
-                setLocalDraft({
-                  ...localDraft,
-                  end: {
-                    ...localDraft.end,
-                    fouled: event.currentTarget.checked,
-                  },
-                });
-              }}
-            />
-          </text>
+          <CheckboxText
+            defaultChecked={localDraft.end.fouled}
+            onChange={(checked) => {
+              setLocalDraft({
+                ...localDraft,
+                end: {
+                  ...localDraft.end,
+                  fouled: checked,
+                },
+              });
+            }}
+            description="Fouled"
+          />
+          <CheckboxText
+            description="Robot Disabled"
+            defaultChecked={localDraft.end.fouled}
+            onChange={(checked) => {
+              setLocalDraft({
+                ...localDraft,
+                end: {
+                  ...localDraft.end,
+                  fouled: checked,
+                },
+              });
+            }}
+          />
         </div>
-        <div className="mb-2 block" />
         <div className="flex justify-center">
           <Link href="/final">
             <Button>Next</Button>
