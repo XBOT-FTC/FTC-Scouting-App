@@ -1,4 +1,5 @@
-import { AllianceColor, Ascent, DraftData } from "@/store/drafts";
+import { AllianceColor, Ascent } from "@/store/drafts";
+import { DraftData } from "@/types/draft";
 
 /**
  * A utility function that constructs draft data. If there is a macro

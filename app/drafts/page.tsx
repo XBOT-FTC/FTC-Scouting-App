@@ -29,7 +29,7 @@ import {
   DraftDataTreeValidator,
 } from "@/store/drafts";
 import { editorAtom } from "@/store/editor";
-import { DraftDataSchema } from "@/utils/DraftDataSchema";
+import { DraftDataSchema } from "@/utils/draft-data-schema";
 
 export default function Drafts() {
   //Literally refracture the entire code, very messy state management

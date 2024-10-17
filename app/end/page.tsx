@@ -5,7 +5,6 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Select,
   Textarea,
 } from "flowbite-react";
 import { useAtom } from "jotai";
@@ -14,19 +13,13 @@ import { useState } from "react";
 import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
 import { RangeText } from "@/components/range-text";
-import { Ascent } from "@/store/drafts";
-import { localDraftAtom } from "@/store/localDraft";
+import { SelectInputText } from "@/components/select-input-text";
+import { localDraftAtom } from "@/store/local-draft";
 
 export default function End() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
   const [openSubmit, setOpenSubmit] = useState(false);
 
-  const AscentMap = new Map([
-    ["Level 1", Ascent.Level1],
-    ["Level 2", Ascent.Level2],
-    ["Level 3", Ascent.Level3],
-    ["Observation", Ascent.Observation],
-  ]);
   return (
     <>
       <Modal
@@ -56,35 +49,23 @@ export default function End() {
         ]}
       />
 
-      <div className="grid place-items-center gap-5 text-center dark:text-gray-100">
-        <text>
-          Ascent
-          <Select
-            defaultValue={
-              localDraft.end.ascent === Ascent.Observation
-                ? "Observation"
-                : localDraft.end.ascent === Ascent.Level1
-                  ? "Level 1"
-                  : localDraft.end.ascent === Ascent.Level2
-                    ? "Level 2"
-                    : localDraft.end.ascent === Ascent.Level3
-                      ? "Level 3"
-                      : undefined
-            }
-            onChange={(event) => {
-              const value = event.currentTarget.value;
-              setLocalDraft({
-                ...localDraft,
-                end: { ...localDraft.end, ascent: AscentMap.get(value)! },
-              });
-            }}
-          >
-            <option>Observation</option>
-            <option>Level 1</option>
-            <option>Level 2</option>
-            <option>Level 3</option>
-          </Select>
-        </text>
+      <div className="grid place-items-center gap-5 text-center">
+        <SelectInputText
+          defaultValue={localDraft.end.ascent}
+          onChange={(value) => {
+            setLocalDraft({
+              ...localDraft,
+              end: { ...localDraft.end, ascent: value },
+            });
+          }}
+          description="Ascent"
+        >
+          <option>None</option>
+          <option>Level1</option>
+          <option>Level2</option>
+          <option>Level3</option>
+          <option>Level3</option>
+        </SelectInputText>
         <CheckboxText
           description="Fouled"
           defaultChecked={localDraft.end.fouled}
@@ -144,6 +125,9 @@ export default function End() {
           Submit
         </Button>
       </div>
+      <SelectInputText description="Test">
+        <option>hello world</option>
+      </SelectInputText>
     </>
   );
 }

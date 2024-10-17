@@ -7,7 +7,7 @@ import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
 import { ScoringInput } from "@/components/scoring-input";
 import { ScoringSection } from "@/components/scoring-section";
-import { localDraftAtom } from "@/store/localDraft";
+import { localDraftAtom } from "@/store/local-draft";
 
 export default function Teleop() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
