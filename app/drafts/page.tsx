@@ -26,10 +26,10 @@ import { Export } from "@/components/export";
 import {
   AllianceColor,
   draftAtom,
-  DraftDataTreeVaildator,
+  DraftDataTreeValidator,
 } from "@/store/drafts";
 import { editorAtom } from "@/store/editor";
-import { DraftDataScehema } from "@/utils/DraftDataSchema";
+import { DraftDataSchema } from "@/utils/DraftDataSchema";
 
 export default function Drafts() {
   //Literally refracture the entire code, very messy state management
@@ -88,7 +88,7 @@ export default function Drafts() {
               try {
                 const deserialized = decompressFromUTF16(input!);
                 const Import = JSON.parse(deserialized);
-                DraftDataTreeVaildator.parse(Import);
+                DraftDataTreeValidator.parse(Import);
               } catch (error) {
                 alert("data doesn't match schema");
                 err = error;
@@ -173,7 +173,7 @@ export default function Drafts() {
               onClick={() => {
                 setDrafts(() => [
                   ...drafts,
-                  DraftDataScehema(draftName!, draftTeamNumber!, draftColor),
+                  DraftDataSchema(draftName!, draftTeamNumber!, draftColor),
                 ]);
               }}
             >

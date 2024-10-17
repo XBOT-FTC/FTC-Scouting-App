@@ -14,18 +14,18 @@ import { useState } from "react";
 import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
 import { RangeText } from "@/components/range-text";
-import { Acent } from "@/store/drafts";
+import { Ascent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/localDraft";
 
 export default function End() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
   const [openSubmit, setOpenSubmit] = useState(false);
 
-  const AcentMap = new Map([
-    ["Level 1", Acent.Level1],
-    ["Level 2", Acent.Level2],
-    ["Level 3", Acent.Level3],
-    ["Observation", Acent.Observation],
+  const AscentMap = new Map([
+    ["Level 1", Ascent.Level1],
+    ["Level 2", Ascent.Level2],
+    ["Level 3", Ascent.Level3],
+    ["Observation", Ascent.Observation],
   ]);
   return (
     <>
@@ -58,16 +58,16 @@ export default function End() {
 
       <div className="grid place-items-center gap-5 text-center dark:text-gray-100">
         <text>
-          Acent
+          Ascent
           <Select
             defaultValue={
-              localDraft.end.acent === Acent.Observation
+              localDraft.end.ascent === Ascent.Observation
                 ? "Observation"
-                : localDraft.end.acent === Acent.Level1
+                : localDraft.end.ascent === Ascent.Level1
                   ? "Level 1"
-                  : localDraft.end.acent === Acent.Level2
+                  : localDraft.end.ascent === Ascent.Level2
                     ? "Level 2"
-                    : localDraft.end.acent === Acent.Level3
+                    : localDraft.end.ascent === Ascent.Level3
                       ? "Level 3"
                       : undefined
             }
@@ -75,7 +75,7 @@ export default function End() {
               const value = event.currentTarget.value;
               setLocalDraft({
                 ...localDraft,
-                end: { ...localDraft.end, acent: AcentMap.get(value)! },
+                end: { ...localDraft.end, ascent: AscentMap.get(value)! },
               });
             }}
           >

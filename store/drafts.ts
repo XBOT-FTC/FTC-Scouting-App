@@ -3,7 +3,8 @@ import { z } from "zod";
 
 export type DraftName = string;
 
-export enum Acent {
+export enum Ascent {
+  None,
   Observation,
   Level1,
   Level2,
@@ -32,21 +33,21 @@ export interface PhaseData {
   disabled: boolean;
 }
 
-export const PhaseDataVaildator = z
+export const PhaseDataValidator = z
   .object({
     lowNet: z.number(),
     highNet: z.number(),
     lowSpecimen: z.number(),
     highSpecimen: z.number(),
     net: z.number(),
-    //since enums are compiled to numbers, we can just use literal numbers to vaildate enums
-    acent: z.literal(0).or(z.literal(1).or(z.literal(2).or(z.literal(3)))),
+    //since enums are compiled to numbers, we can just use literal numbers to validate enums
+    ascent: z.literal(0).or(z.literal(1).or(z.literal(2).or(z.literal(3)))),
     fouled: z.boolean(),
     disabled: z.boolean(),
   })
   .strict("Cannot prase JSON data");
 
-export const DraftDataVaildator = z
+export const DraftDataValidator = z
   .object({
     team: z.number(),
     color: z.literal(0).or(z.literal(1)),
@@ -58,13 +59,13 @@ export const DraftDataVaildator = z
       .literal(1)
       .or(z.literal(2).or(z.literal(3).or(z.literal(4).or(z.literal(5))))),
     name: z.string(),
-    auto: PhaseDataVaildator,
-    teleop: PhaseDataVaildator,
-    end: PhaseDataVaildator,
+    auto: PhaseDataValidator,
+    teleop: PhaseDataValidator,
+    end: PhaseDataValidator,
   })
   .strict("Cannot prase JSON data");
 
-export const DraftDataTreeVaildator = z.array(DraftDataVaildator);
+export const DraftDataTreeValidator = z.array(DraftDataValidator);
 
 //we would still need to manually type DraftData since it is more clear for enums
 export interface DraftData {
@@ -78,7 +79,7 @@ export interface DraftData {
   driverRating: 1 | 2 | 3 | 4 | 5;
   /** data for auto phase */
   auto: PhaseData & {
-    acent: Exclude<Acent, "Level2" | "Level3">;
+    ascent: Exclude<Ascent, "Level2" | "Level3">;
   };
   /** the data for auto phase */
   teleop: PhaseData;
@@ -86,7 +87,7 @@ export interface DraftData {
   end: {
     fouled: boolean;
     disabled: boolean;
-    acent: Acent;
+    ascent: Ascent;
   };
   /** the draft name */
   name: string;

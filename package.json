@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx --ignore-pattern '.next'",
-    "fix": "eslint --fix . --ext .ts,.tsx,.js,.jsx --ignore-pattern .next",
+    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "fix": "eslint --fix . --ext .ts,.tsx,.js,.jsx",
     "prepare": "husky"
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@cspell/eslint-plugin": "^8.15.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

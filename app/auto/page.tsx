@@ -7,7 +7,7 @@ import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
 import { ScoringInput } from "@/components/scoring-input";
 import { ScoringSection } from "@/components/scoring-section";
-import { Acent } from "@/store/drafts";
+import { Ascent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/localDraft";
 
 export default function Auto() {
@@ -118,9 +118,9 @@ export default function Auto() {
         />
         <Select
           defaultValue={
-            localDraft.auto.acent === Acent.Level1
+            localDraft.auto.ascent === Ascent.Level1
               ? "Level 1"
-              : localDraft.auto.acent === Acent.Observation
+              : localDraft.auto.ascent === Ascent.Observation
                 ? "Observation"
                 : undefined
           }
@@ -129,13 +129,13 @@ export default function Auto() {
             if (value === "Level 1") {
               setLocalDraft({
                 ...localDraft,
-                auto: { ...localDraft.auto, acent: Acent.Level1 },
+                auto: { ...localDraft.auto, ascent: Ascent.Level1 },
               });
             }
             if (value === "Observation") {
               setLocalDraft({
                 ...localDraft,
-                auto: { ...localDraft.auto, acent: Acent.Observation },
+                auto: { ...localDraft.auto, ascent: Ascent.Observation },
               });
             }
           }}
