@@ -78,8 +78,6 @@ export interface DraftData {
   comments: string;
   /** the rating for driver */
   driverRating: 1 | 2 | 3 | 4 | 5;
-  /** the rating for defense */
-  defenseRating: 1 | 2 | 3 | 4 | 5;
   /** data for auto phase */
   auto: PhaseData;
   /** the data for auto phase */

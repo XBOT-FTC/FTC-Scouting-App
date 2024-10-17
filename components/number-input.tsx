@@ -26,8 +26,10 @@ export function NumberInput({ onChange, defaultValue = 0 }: NumberInputProps) {
       <div />
       <button
         onClick={() => {
-          if (number > 0) setNumber(number - 1);
-          if (onChange) onChange(number - 1);
+          if (number > 0) {
+            setNumber(number - 1);
+            if (onChange) onChange(number - 1);
+          }
         }}
       >
         <ChevronDown className="self-end" />

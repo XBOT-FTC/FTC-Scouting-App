@@ -5,23 +5,8 @@ import { useState } from "react";
 import { NumberInput } from "@/components/number-input";
 
 export default function Home() {
+  //TODO: remove this state when we actually don't need this for the actual build. Keep it for now
   const [, setMode] = useState<"auto" | "teleop" | "end">("auto");
-  // const [drafts, setDrafts] = useAtom(draftAtom);
-  // const editor = useAtomValue(editorAtom);
-
-  // function newSchema() {
-  //   return DraftDataScehema(
-  //     drafts[editor].name,
-  //     drafts[editor].team,
-  //     drafts[editor].color,
-  //   );
-  // }
-
-  // function updateDraft(draftSchema: DraftData) {
-  //   const newDrafts = [...drafts];
-  //   newDrafts[editor] = draftSchema;
-  //   setDrafts(newDrafts);
-  // }
 
   return (
     <>
