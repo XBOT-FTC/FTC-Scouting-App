@@ -15,6 +15,7 @@ import { PhaseToggle } from "@/components/phase-toggle";
 import { RangeText } from "@/components/range-text";
 import { SelectInputText } from "@/components/select-input-text";
 import { localDraftAtom } from "@/store/local-draft";
+import { CalculatePoints } from "@/utils/calculate-points";
 
 export default function End() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
@@ -32,8 +33,11 @@ export default function End() {
         <ModalFooter>
           <Button
             onClick={() => {
+              const points = CalculatePoints(localDraft);
               alert(
-                `Mock uploading draft to MONGODB (remove this alert in public release):\n\n${JSON.stringify(localDraft)}`,
+                `Mock uploading draft to MONGODB (remove this alert in public release): 
+                \nauto: ${points.auto} \nteleop: ${points.teleop} \nend: ${points.end} \ntotal: ${points.auto + points.teleop + points.end}
+                \n${JSON.stringify(localDraft)}`,
               );
             }}
           >
