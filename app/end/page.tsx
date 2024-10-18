@@ -65,7 +65,6 @@ export default function End() {
           <option>Level1</option>
           <option>Level2</option>
           <option>Level3</option>
-          <option>Level3</option>
         </SelectInputText>
         <CheckboxText
           description="Fouled"
