@@ -61,6 +61,7 @@ export default function End() {
           description="Ascent"
         >
           <option>None</option>
+          <option>Observation</option>
           <option>Level1</option>
           <option>Level2</option>
           <option>Level3</option>
@@ -125,9 +126,6 @@ export default function End() {
           Submit
         </Button>
       </div>
-      <SelectInputText description="Test">
-        <option>hello world</option>
-      </SelectInputText>
     </>
   );
 }
