@@ -1,6 +1,7 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-import { AllianceColor, DraftData } from "@/store/drafts";
+import { AllianceColor } from "@/store/drafts";
+import { DraftData } from "@/types/draft";
 import { DraftDataSchema } from "@/utils/draft-data-schema";
 
 require("dotenv").config();
