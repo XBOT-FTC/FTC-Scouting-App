@@ -1,7 +1,5 @@
 "use client";
-import { Button } from "flowbite-react";
 import { useAtom } from "jotai";
-import Link from "next/link";
 
 import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
@@ -91,19 +89,6 @@ export default function Auto() {
 
       <div className="grid place-items-center gap-5 text-center">
         <CheckboxText
-          defaultChecked={localDraft.auto.fouled}
-          onChange={(checked) => {
-            setLocalDraft({
-              ...localDraft,
-              auto: {
-                ...localDraft.auto,
-                fouled: checked,
-              },
-            });
-          }}
-          description="Fouled"
-        />
-        <CheckboxText
           description="Robot Disabled"
           defaultChecked={localDraft.auto.fouled}
           onChange={(checked) => {
@@ -116,6 +101,22 @@ export default function Auto() {
             });
           }}
         />
+        <CheckboxText
+          defaultChecked={localDraft.auto.fouled}
+          onChange={(checked) => {
+            setLocalDraft({
+              ...localDraft,
+              auto: {
+                ...localDraft.auto,
+                fouled: checked,
+              },
+            });
+          }}
+          description="Fouled"
+        />
+      </div>
+      <div className="mb-3 block" />
+      <div className="grid place-items-center gap-5 text-center">
         <SelectInputText
           description="Ascent"
           defaultValue={localDraft.auto.ascent}
@@ -130,9 +131,6 @@ export default function Auto() {
           <option>Observation</option>
           <option>Level 1</option>
         </SelectInputText>
-        <Link href="/teleop">
-          <Button>Next</Button>
-        </Link>
       </div>
     </>
   );

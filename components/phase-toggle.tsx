@@ -19,7 +19,7 @@ export function PhaseToggle({ phases }: PhaseToggleProps) {
           );
         })}
       </ButtonGroup>
-      <div className="h-10" />
+      <div className="mb-5 block" />
     </>
   );
 }
