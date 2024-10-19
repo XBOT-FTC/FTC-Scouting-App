@@ -17,7 +17,7 @@ export function RangeText<T extends number, U extends number>({
 }: RangeTextProps<T, U>) {
   return (
     <div>
-      <text>{description}</text>
+      <text className="select-none">{description}</text>
       <RangeSlider
         defaultValue={min}
         min={min}

@@ -12,7 +12,7 @@ export function CheckboxText({
   onChange,
 }: CheckboxTextProps) {
   return (
-    <div className="grid place-items-center">
+    <div className="grid select-none place-items-center">
       {description}
       <div />
       <Checkbox

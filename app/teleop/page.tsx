@@ -1,7 +1,5 @@
 "use client";
-import { Button } from "flowbite-react";
 import { useAtom } from "jotai";
-import Link from "next/link";
 
 import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
@@ -21,63 +19,61 @@ export default function Teleop() {
         ]}
       />
 
-      <div className="grid grid-flow-col grid-rows-2 justify-center gap-5 text-center">
-        <ScoringSection sectionName="Scored Sample">
-          <ScoringInput
-            defaultValue={localDraft.teleop.net}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, net: val },
-              });
-            }}
-            description="Net"
-          />
-          <ScoringInput
-            defaultValue={localDraft.teleop.lowBasket}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, lowBasket: val },
-              });
-            }}
-            description="Low"
-          />
-          <ScoringInput
-            defaultValue={localDraft.teleop.highBasket}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, highBasket: val },
-              });
-            }}
-            description="High"
-          />
-        </ScoringSection>
+      <ScoringSection sectionName="Scored Sample">
+        <ScoringInput
+          defaultValue={localDraft.teleop.net}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              teleop: { ...localDraft.teleop, net: val },
+            });
+          }}
+          description="Net"
+        />
+        <ScoringInput
+          defaultValue={localDraft.teleop.lowBasket}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              teleop: { ...localDraft.teleop, lowBasket: val },
+            });
+          }}
+          description="Low"
+        />
+        <ScoringInput
+          defaultValue={localDraft.teleop.highBasket}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              teleop: { ...localDraft.teleop, highBasket: val },
+            });
+          }}
+          description="High"
+        />
+      </ScoringSection>
 
-        <ScoringSection sectionName="Scored Specimen">
-          <ScoringInput
-            defaultValue={localDraft.teleop.lowChamber}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, lowChamber: val },
-              });
-            }}
-            description="Low"
-          />
-          <ScoringInput
-            defaultValue={localDraft.teleop.highChamber}
-            onChange={(val) => {
-              setLocalDraft({
-                ...localDraft,
-                teleop: { ...localDraft.teleop, highChamber: val },
-              });
-            }}
-            description="High"
-          />
-        </ScoringSection>
-      </div>
+      <ScoringSection sectionName="Scored Specimen">
+        <ScoringInput
+          defaultValue={localDraft.teleop.lowChamber}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              teleop: { ...localDraft.teleop, lowChamber: val },
+            });
+          }}
+          description="Low"
+        />
+        <ScoringInput
+          defaultValue={localDraft.teleop.highChamber}
+          onChange={(val) => {
+            setLocalDraft({
+              ...localDraft,
+              teleop: { ...localDraft.teleop, highChamber: val },
+            });
+          }}
+          description="High"
+        />
+      </ScoringSection>
 
       <div className="grid place-items-center gap-5 text-center">
         <CheckboxText
@@ -106,9 +102,6 @@ export default function Teleop() {
             });
           }}
         />
-        <Link href="/end">
-          <Button>Next</Button>
-        </Link>
       </div>
     </>
   );

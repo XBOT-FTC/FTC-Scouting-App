@@ -12,9 +12,10 @@ export function ScoringInput({
   description,
 }: ScoringInputProps) {
   return (
-    <>
+    <div>
       <NumberInput defaultValue={defaultValue} onChange={onChange} />
-      <text>{description}</text>
-    </>
+      <div className="mb-2 block" />
+      <text className="select-none">{description}</text>
+    </div>
   );
 }

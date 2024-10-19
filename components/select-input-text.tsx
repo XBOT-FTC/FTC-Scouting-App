@@ -14,8 +14,8 @@ export function SelectInputText({
   onChange,
 }: SelectInputProps) {
   return (
-    <div className="grid place-items-center text-center">
-      {description}
+    <div className="grid select-none place-items-center text-center">
+      <text className="select-none">{description}</text>
       <Select
         defaultValue={defaultValue}
         onChange={(event) => {
