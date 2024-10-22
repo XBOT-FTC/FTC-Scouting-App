@@ -1,23 +1,26 @@
 "use client";
-import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [testString, setTestString] = useState("");
-  const api = fetch("http://localhost:3000/api");
+  // const api = fetch("http://localhost:3000/api", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({ test: true }),
+  // });
 
-  useEffect(() => {
-    api.then((value) => {
-      value.json().then((value) => {
-        console.log(value);
-        setTestString(value);
-      });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   api.then((value) => {
+  //     value.json().then((value) => {
+  //       setTestString(value);
+  //     });
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <>
-      <h1 className="text-2xl dark:text-white">{JSON.stringify(testString)}</h1>
+      <h1 className="text-2xl dark:text-white" />
     </>
   );
 }
