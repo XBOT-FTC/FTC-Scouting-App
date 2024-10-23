@@ -31,10 +31,8 @@ export interface DraftData {
   /** the data for auto phase */
   teleop: PhaseData;
   /** the data for end phase */
-  end: {
-    fouled: boolean;
-    disabled: boolean;
-    ascent: Ascent;
+  end: PhaseData & {
+    ascent: Exclude<Ascent, "Level2" | "Level3">;
   };
   /** the draft name */
   name: string;
