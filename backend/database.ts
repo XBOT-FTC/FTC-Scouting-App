@@ -1,10 +1,12 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-import { AllianceColor, DraftData } from "@/store/drafts";
-import { DraftDataScehema } from "@/utils/DraftDataSchema";
+import { AllianceColor } from "@/store/drafts";
+import { DraftData } from "@/types/draft";
+import { DraftDataSchema } from "@/utils/draft-data-schema";
 
 require("dotenv").config();
 
+// eslint-disable-next-line @cspell/spellchecker
 const uri = `mongodb+srv://xbot:${process.env.MONGO_DB_PASSWORD}@scoutingapp-intothedeep.s6jr6.mongodb.net/?retryWrites=true&w=majority&appName=ScoutingApp-IntoTheDeep`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -32,7 +34,7 @@ async function run() {
   }
 }
 
-/** utilty function that uploads the draft. CURRENTLY ONLY UPLOADS TO `test` COLLECTION.
+/** utility function that uploads the draft. CURRENTLY ONLY UPLOADS TO `test` COLLECTION.
  * CHANGE IT AFTER THE CODE IS READY.
  */
 export async function uploadDraft(schema: DraftData) {
@@ -64,6 +66,6 @@ export async function readDrafts() {
 }
 
 run().catch(console.dir);
-uploadDraft(DraftDataScehema("da lao", 488, AllianceColor.Red)).finally(() => {
+uploadDraft(DraftDataSchema("da lao", 488, AllianceColor.Red)).finally(() => {
   client.close();
 });
