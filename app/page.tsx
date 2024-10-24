@@ -13,7 +13,7 @@ export default function Home() {
           alt="Picture of logo"
         />
       </div>
-      <div className="box-content border-black bg-white p-10">
+      <div className="mt-5 box-content border-2 border-black bg-white p-5">
         <div className="mb-10 grid justify-center text-2xl text-black">
           <p>
             <b>Welcome</b>
@@ -28,7 +28,7 @@ export default function Home() {
               </p>
             </div>
             <input type="text" placeholder="Name" required></input>
-            <div className="m-20 grid justify-center rounded-lg bg-blue-400 box-decoration-slice p-3 text-white">
+            <div className="m-20 grid justify-center rounded-sm bg-blue-400 box-decoration-slice p-3 text-white hover:bg-blue-800">
               <Link href={"/allianceselection"}>
                 <button type="submit">Next</button>
               </Link>
