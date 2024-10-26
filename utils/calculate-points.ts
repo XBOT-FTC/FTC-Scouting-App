@@ -1,10 +1,10 @@
 import { Ascent } from "@/store/drafts";
-import { DraftData } from "@/types/draft";
+import { TeamMatch } from "@/types/draft";
 
 /** a utility function that calculates the
  * points depending on the draft schema
  */
-export function CalculatePoints(draft: DraftData) {
+export function CalculatePoints(draft: TeamMatch) {
   function InferAscent(level: Ascent) {
     switch (level) {
       case Ascent.Observation:

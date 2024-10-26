@@ -1,4 +1,6 @@
-export interface PhaseData {
+import { TeamNumber } from "./team-properties";
+
+export interface TeamPhase {
   /** the amount of pieces scored in lower net */
   lowBasket: number;
   /** the amount of pieces scored in high net */
@@ -15,9 +17,10 @@ export interface PhaseData {
   disabled: boolean;
 }
 
-export interface DraftData {
+/** a certain team's performance in a match */
+export interface TeamMatch {
   /** the team number of the robot */
-  team: number;
+  team: TeamNumber;
   /** the color of the alliance */
   color: AllianceColor;
   /** the additional comments scouters can add */
@@ -36,4 +39,6 @@ export interface DraftData {
   };
   /** the draft name */
   name: string;
+  /**if this match has scouted or not */
+  scouted: boolean;
 }

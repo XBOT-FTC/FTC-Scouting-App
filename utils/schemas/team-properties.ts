@@ -1,4 +1,4 @@
-import { TeamNumber, TeamProperties } from "@/types/team-properties";
+import { TeamProperties } from "@/types/team-properties";
 
 /** creates a new PropertiesSchema */
 export function TeamPropertiesSchema(
@@ -7,7 +7,7 @@ export function TeamPropertiesSchema(
   teamNumber: number,
 ): TeamProperties {
   return {
-    _id: teamNumber as TeamNumber,
+    team: teamNumber as TeamNumber,
     matches: [],
     name: teamName,
     rank: rank,
