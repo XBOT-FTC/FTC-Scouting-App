@@ -32,6 +32,11 @@ export function DraftDataSchema(
       net: 0,
     },
     end: {
+      lowBasket: 0,
+      highBasket: 0,
+      lowChamber: 0,
+      highChamber: 0,
+      net: 0,
       ascent: Ascent.None,
       disabled: false,
       fouled: false,
