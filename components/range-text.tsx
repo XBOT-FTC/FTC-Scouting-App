@@ -5,6 +5,7 @@ interface RangeTextProps<T extends number, U extends number> {
   description: string;
   min: T;
   max: U;
+  defaultValue?: number;
   onChange?: (value: IntRange<T, Sum<U, 1>>) => void;
 }
 
@@ -13,19 +14,18 @@ export function RangeText<T extends number, U extends number>({
   description,
   min,
   max,
+  defaultValue,
   onChange,
 }: RangeTextProps<T, U>) {
   return (
     <div>
       <text className="select-none">{description}</text>
       <RangeSlider
-        defaultValue={min}
+        defaultValue={defaultValue || min}
         min={min}
         max={max}
         onChange={(event) => {
-          //we need to disable the type system here since typescript cannot infer this correctly
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          if (onChange) onChange(Number(event.currentTarget.value) as any);
+          if (onChange) onChange(Number(event.currentTarget.value) as never);
         }}
       />
     </div>

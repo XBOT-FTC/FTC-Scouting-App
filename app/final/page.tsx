@@ -1,93 +1,86 @@
 "use client";
 
-import {
-  Button,
-  Label,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  RangeSlider,
-  Textarea,
-} from "flowbite-react";
-import { useAtom } from "jotai";
+import { Button } from "flowbite-react";
+import Image from "next/image";
 import { useState } from "react";
+import ReactConfetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
-import { localDraftAtom } from "@/store/local-draft";
+import { Overflow } from "@/components/overflow";
+import { getRandomInteger } from "@/utils/random-range";
+
+//21
 
 export default function Home() {
-  const [openSubmit, setOpenSubmit] = useState(false);
-  const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
-  return (
-    <main className="dark:text-white">
-      <Modal
-        show={openSubmit}
-        onClose={() => setOpenSubmit(false)}
-        className="dark:text-white"
-      >
-        <ModalHeader className="flex justify-center">Confirming</ModalHeader>
-        <ModalBody>You are submitting this draft! Are you sure!</ModalBody>
-        <ModalFooter>
-          <Button
-            onClick={() => {
-              alert(
-                `Mock uploading draft to MONGODB (remove this alert in public release):\n\n${JSON.stringify(localDraft)}`,
-              );
-            }}
-          >
-            Submit
-          </Button>
-        </ModalFooter>
-      </Modal>
-      <div className="flex justify-center">
-        <Label htmlFor="comment" value="Additional comments" />
-      </div>
-      <div className="flex justify-center">
-        <Textarea
-          onChange={(event) => {
-            setLocalDraft({
-              ...localDraft,
-              comments: event.currentTarget.value,
-            });
-          }}
-          className="max-w-96"
-          id="comment"
-          placeholder="Leave a comment..."
-          required
-          rows={4}
-        />
-      </div>
-      <div className="mb-3 block" />
-      <div className="flex justify-center">
-        Driver rating:
-        <RangeSlider
-          id="disabled-range"
-          min={1}
-          max={5}
-          onChange={(event) => {
-            setLocalDraft({
-              ...localDraft,
-              driverRating: Number(event.currentTarget.value) as
-                | 1
-                | 2
-                | 3
-                | 4
-                | 5,
-            });
-          }}
-        />
-      </div>
-      <div className="mb-3 block" />
+  const [number, setNumber] = useState(1);
+  const [congrats, setCongrats] = useState(false);
+  const [rolling, setRolling] = useState(false);
+  function roll() {
+    for (let i = 0; i < 50; i++) {
+      setRolling(true);
+      setTimeout(
+        () => {
+          setNumber(getRandomInteger(1, 21));
+        },
+        i * 100 + (i ** 3 - i ** 2.99),
+      );
+    }
+    setTimeout(
+      () => {
+        setCongrats(true);
+      },
+      50 * 100 + (50 ** 3 - 50 ** 2.99) + 1000,
+    );
+  }
 
-      <div className="flex justify-center">
+  const { width, height } = useWindowSize();
+
+  return (
+    <>
+      <div className="grid justify-center text-center">
+        {rolling ? (
+          <Overflow>
+            <div className="flex size-full min-h-screen items-center justify-center bg-black opacity-80">
+              <div className="flex min-h-screen items-center justify-center text-5xl text-white">
+                {number}
+              </div>
+            </div>
+            {congrats ? (
+              <ReactConfetti
+                numberOfPieces={1000}
+                recycle={false}
+                width={width}
+                height={height}
+              />
+            ) : (
+              <></>
+            )}
+          </Overflow>
+        ) : (
+          <></>
+        )}
+
+        <Image
+          alt="scouter's rng"
+          src={"images/thumbnail.jpg"}
+          width={1000}
+          height={100}
+        />
         <Button
+          disabled={rolling}
           onClick={() => {
-            setOpenSubmit(true);
+            roll();
           }}
         >
-          Submit
+          Roll
         </Button>
       </div>
-    </main>
+      <ReactConfetti
+        numberOfPieces={1000}
+        recycle={false}
+        width={width}
+        height={height}
+      />
+    </>
   );
 }
