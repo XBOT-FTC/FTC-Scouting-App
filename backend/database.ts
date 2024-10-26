@@ -2,6 +2,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { AllianceColor } from "@/store/drafts";
 import { DraftData } from "@/types/draft";
+import { TeamPropertiesCollection } from "@/types/team-properties";
 import { DraftDataSchema } from "@/utils/draft-data-schema";
 
 require("dotenv").config();
@@ -53,7 +54,10 @@ export async function uploadDraft(schema: DraftData) {
 
 export async function readDrafts() {
   try {
-    const cursor = client.db("MatchData").collection("test").find();
+    const cursor = client
+      .db("MatchData")
+      .collection<TeamPropertiesCollection>("Matchs")
+      .find({ test: { $ } });
     console.log(await cursor.toArray());
   } catch (err) {
     console.log(
@@ -66,6 +70,8 @@ export async function readDrafts() {
 }
 
 run().catch(console.dir);
+readDrafts();
+
 uploadDraft(DraftDataSchema("da lao", 488, AllianceColor.Red)).finally(() => {
   client.close();
 });
