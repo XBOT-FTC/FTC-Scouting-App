@@ -12,6 +12,5 @@ export interface TeamProperties {
 
 export interface Match {
   match: MatchNumber;
-  //TODO: remove this intersection and put it into DraftData once the schema is proven right
   teams: Array<DraftData>;
 }
