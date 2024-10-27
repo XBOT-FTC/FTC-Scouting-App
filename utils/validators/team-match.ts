@@ -1,34 +1,33 @@
 import { z } from "zod";
 
-/** for internal usage */
-const validatePhase = z
-  .object({
-    lowNet: z.number(),
-    highNet: z.number(),
-    lowSpecimen: z.number(),
-    highSpecimen: z.number(),
-    net: z.number(),
-    //since enums are compiled to numbers, we can just use literal numbers to validate enums
-    ascent: z.literal(0).or(z.literal(1).or(z.literal(2).or(z.literal(3)))),
-    fouled: z.boolean(),
-    disabled: z.boolean(),
-  })
-  .strict("Cannot parse JSON data");
+/** for internal usage
+ * @private
+ */
+const validatePhase = z.strictObject({
+  lowBasket: z.number(),
+  highBasket: z.number(),
+  lowChamber: z.number(),
+  highChamber: z.number(),
+  net: z.number(),
+  ascent: z.enum(["None", "Observation", "Level1", "Level2", "Level3"]),
+  fouled: z.boolean(),
+  disabled: z.boolean(),
+});
 
-export const validateTeamMatch = z
-  .object({
-    team: z.number(),
-    color: z.literal(0).or(z.literal(1)),
-    comments: z.string(),
-    driverRating: z
-      .literal(1)
-      .or(z.literal(2).or(z.literal(3).or(z.literal(4).or(z.literal(5))))),
-    defenseRating: z
-      .literal(1)
-      .or(z.literal(2).or(z.literal(3).or(z.literal(4).or(z.literal(5))))),
-    name: z.string(),
-    auto: validatePhase,
-    teleop: validatePhase,
-    end: validatePhase,
-  })
-  .strict("Cannot parse JSON data");
+export const validateTeamMatch = z.strictObject({
+  team: z.number(),
+  color: z.union([z.literal(0), z.literal(1)]),
+  comments: z.string(),
+  driverRating: z.union([
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+  ]),
+  name: z.string(),
+  auto: validatePhase,
+  teleop: validatePhase.omit({ ascent: true }),
+  end: validatePhase,
+  scouted: z.boolean(),
+});

@@ -1,3 +1,5 @@
+import { Ascent } from "@/store/drafts";
+
 import { TeamNumber } from "./team-properties";
 
 export interface TeamPhase {
@@ -29,13 +31,13 @@ export interface TeamMatch {
   driverRating: 1 | 2 | 3 | 4 | 5;
   /** data for auto phase */
   auto: PhaseData & {
-    ascent: Exclude<Ascent, "Level2" | "Level3">;
+    ascent: Ascent;
   };
   /** the data for auto phase */
   teleop: PhaseData;
   /** the data for end phase */
   end: PhaseData & {
-    ascent: Exclude<Ascent, "Level2" | "Level3">;
+    ascent: Ascent;
   };
   /** the draft name */
   name: string;
