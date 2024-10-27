@@ -14,20 +14,20 @@ export async function POST(request: Request) {
         deprecationErrors: true,
       },
     });
-    const json = (await request.json()) as TeamProperties;
+    const json: { team: number; data: TeamProperties } = await request.json();
     validateTeamProperties.parse(json);
-    const search = await client
-      .db("MatchData")
+    const database = client.db("MatchData");
+    const search = await database.collection("Team Properties").findOne({
+      team: json.team,
+    });
+    if (search === null)
+      return Response.json("cannot replace something that doesn't exist");
+    database
       .collection("Team Properties")
-      .findOne({ team: json.team });
-    if (search !== null)
-      return Response.json(
-        "Matches already exits, maybe you're looking for updating it?",
-      );
-    await client.db("MatchData").collection("Team Properties").insertOne(json);
+      .replaceOne({ team: json.team }, { ...search, ...json });
     return Response.json("ok");
-  } catch (err) {
-    return Response.json(err);
+  } catch {
+    return Response.json(`error ${JSON.stringify(request.body)}`);
   }
 }
 

@@ -30,17 +30,21 @@ fetch("http://localhost:3000/api/add-match", {
   const val = await value.json();
   console.log("add match:", val);
 });
-// const str = JSON.stringify({
-//   team: 488,
-//   data: TeamPropertiesSchema(1, "hello", 3231),
-// });
 
-// console.log(str);
-
-// fetch("http://localhost:3000/api/update-team", {
-//   method: "POST",
-//   body: str,
-// }).then(async (value) => {
-//   const val = await value.json();
-//   console.log(val);
-// });
+fetch("http://localhost:3000/api/add-team", {
+  method: "POST",
+  body: JSON.stringify(TeamPropertiesSchema(1, "hello", 3333)),
+})
+  .then(async (value) => {
+    const val = await value.json();
+    console.log(val);
+  })
+  .then(() => {
+    fetch("http://localhost:3000/api/update-team", {
+      method: "POST",
+      body: JSON.stringify(TeamPropertiesSchema(1, "hello", 3333)),
+    }).then(async (value) => {
+      const val = await value.json();
+      console.log(val);
+    });
+  });

@@ -1,6 +1,7 @@
 /* eslint-disable @cspell/spellchecker */
 import { MongoClient, ServerApiVersion } from "mongodb";
 
+import { Match } from "@/types/team-properties";
 import { validateMatch } from "@/utils/validators";
 
 export async function POST(request: Request) {
@@ -13,12 +14,20 @@ export async function POST(request: Request) {
         deprecationErrors: true,
       },
     });
-    const json = await request.json();
+    const json = (await request.json()) as Match;
     validateMatch.parse(json);
+    const search = await client
+      .db("MatchData")
+      .collection("Matches")
+      .findOne({ match: json.match });
+    if (search !== null)
+      return Response.json(
+        "Matches already exits, maybe you're looking for updating it?",
+      );
     await client.db("MatchData").collection("Matches").insertOne(json);
     return Response.json("ok");
-  } catch (err) {
-    return Response.json(`failed: ${err}`);
+  } catch {
+    return Response.json("failed");
   }
 }
 

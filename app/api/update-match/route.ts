@@ -1,7 +1,7 @@
 /* eslint-disable @cspell/spellchecker */
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-import { TeamProperties } from "@/types/team-properties";
+import { Match } from "@/types/team-properties";
 import { validateTeamProperties } from "@/utils/validators/team-properties";
 
 export async function POST(request: Request) {
@@ -14,20 +14,28 @@ export async function POST(request: Request) {
         deprecationErrors: true,
       },
     });
-    const json = (await request.json()) as TeamProperties;
+    const json = (await request.json()) as Match;
+
     validateTeamProperties.parse(json);
     const search = await client
       .db("MatchData")
-      .collection("Team Properties")
-      .findOne({ team: json.team });
-    if (search !== null)
-      return Response.json(
-        "Matches already exits, maybe you're looking for updating it?",
+      .collection("Matches")
+      .findOne({ matches: json.match });
+    if (search === null)
+      return Response.json("cannot replace something that doesn't exit");
+    await client
+      .db("MatchData")
+      .collection("Matches")
+      .replaceOne(
+        { match: json.match },
+        {
+          ...search,
+          ...json,
+        },
       );
-    await client.db("MatchData").collection("Team Properties").insertOne(json);
     return Response.json("ok");
-  } catch (err) {
-    return Response.json(err);
+  } catch {
+    return Response.json("failed");
   }
 }
 
