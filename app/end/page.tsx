@@ -35,7 +35,7 @@ export default function End() {
           <Button
             onClick={() => {
               try {
-                fetch("/api", {
+                fetch("/api/upload-draft", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify(localDraft),

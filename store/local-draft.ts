@@ -1,10 +1,10 @@
 import { atom } from "jotai";
 
-import { DraftData } from "@/types/draft";
-import { DraftDataSchema } from "@/utils/draft-data-schema";
+import { TeamMatch } from "@/types/draft";
+import { TeamMatchSchema } from "@/utils/schemas";
 
 import { AllianceColor } from "./drafts";
 
-export const localDraftAtom = atom<DraftData>(
-  DraftDataSchema("thing", 1, AllianceColor.Red),
+export const localDraftAtom = atom<TeamMatch>(
+  TeamMatchSchema("thing", 1, AllianceColor.Red),
 );

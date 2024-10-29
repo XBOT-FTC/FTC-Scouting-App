@@ -1,8 +1,9 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { AllianceColor } from "@/store/drafts";
-import { DraftData } from "@/types/draft";
-import { DraftDataSchema } from "@/utils/draft-data-schema";
+import { TeamMatch } from "@/types/draft";
+import { TeamPropertiesCollection } from "@/types/team-properties";
+import { TeamMatchSchema } from "@/utils/schemas";
 
 require("dotenv").config();
 
@@ -37,7 +38,7 @@ async function run() {
 /** utility function that uploads the draft. CURRENTLY ONLY UPLOADS TO `test` COLLECTION.
  * CHANGE IT AFTER THE CODE IS READY.
  */
-export async function uploadDraft(schema: DraftData) {
+export async function uploadDraft(schema: TeamMatch) {
   try {
     await client.connect();
     await client.db("MatchData").collection("test").insertOne(schema);
@@ -53,7 +54,10 @@ export async function uploadDraft(schema: DraftData) {
 
 export async function readDrafts() {
   try {
-    const cursor = client.db("MatchData").collection("test").find();
+    const cursor = client
+      .db("MatchData")
+      .collection<TeamPropertiesCollection>("Matches")
+      .find({ test: {} });
     console.log(await cursor.toArray());
   } catch (err) {
     console.log(
@@ -66,6 +70,8 @@ export async function readDrafts() {
 }
 
 run().catch(console.dir);
-uploadDraft(DraftDataSchema("da lao", 488, AllianceColor.Red)).finally(() => {
+readDrafts();
+
+uploadDraft(TeamMatchSchema("da lao", 488, AllianceColor.Red)).finally(() => {
   client.close();
 });
