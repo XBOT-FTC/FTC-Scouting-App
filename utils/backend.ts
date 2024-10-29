@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //util file that communicates with the backend, provides abstraction yay!
 //potential api needed to be implemented
 /**
