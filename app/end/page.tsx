@@ -8,8 +8,8 @@ import {
   Textarea,
 } from "flowbite-react";
 import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import ReactConfetti from "react-confetti";
 
 import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
@@ -20,6 +20,7 @@ import { localDraftAtom } from "@/store/local-draft";
 export default function End() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
   const [openSubmit, setOpenSubmit] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -34,7 +35,7 @@ export default function End() {
           <Button
             onClick={() => {
               try {
-                fetch("/api", {
+                fetch("/api/upload-draft", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify(localDraft),
@@ -45,6 +46,7 @@ export default function End() {
                 );
               } finally {
                 setOpenSubmit(false);
+                router.push("/final");
               }
             }}
           >
@@ -104,6 +106,7 @@ export default function End() {
           }}
         />
         <Textarea
+          defaultValue={localDraft.comments}
           onChange={(event) => {
             setLocalDraft({
               ...localDraft,
@@ -117,6 +120,7 @@ export default function End() {
           rows={4}
         />
         <RangeText
+          defaultValue={localDraft.driverRating}
           description="Driver rating"
           min={1}
           max={5}
@@ -136,7 +140,6 @@ export default function End() {
           Submit
         </Button>
       </div>
-      <ReactConfetti numberOfPieces={1000} draggable={true} />
     </>
   );
 }

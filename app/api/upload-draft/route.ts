@@ -1,4 +1,5 @@
 /* eslint-disable @cspell/spellchecker */
+//TODO: may deprecate this API endpoint due to add-match API
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 export async function GET() {

@@ -1,4 +1,8 @@
-export interface PhaseData {
+import { Ascent } from "@/store/drafts";
+
+import { TeamNumber } from "./team-properties";
+
+export interface TeamPhase {
   /** the amount of pieces scored in lower net */
   lowBasket: number;
   /** the amount of pieces scored in high net */
@@ -15,9 +19,10 @@ export interface PhaseData {
   disabled: boolean;
 }
 
-export interface DraftData {
+/** a certain team's performance in a match */
+export interface TeamMatch {
   /** the team number of the robot */
-  team: number;
+  team: TeamNumber;
   /** the color of the alliance */
   color: AllianceColor;
   /** the additional comments scouters can add */
@@ -26,16 +31,16 @@ export interface DraftData {
   driverRating: 1 | 2 | 3 | 4 | 5;
   /** data for auto phase */
   auto: PhaseData & {
-    ascent: Exclude<Ascent, "Level2" | "Level3">;
+    ascent: Ascent;
   };
   /** the data for auto phase */
   teleop: PhaseData;
   /** the data for end phase */
-  end: {
-    fouled: boolean;
-    disabled: boolean;
+  end: PhaseData & {
     ascent: Ascent;
   };
   /** the draft name */
   name: string;
+  /**if this match has scouted or not */
+  scouted: boolean;
 }

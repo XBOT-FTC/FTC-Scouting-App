@@ -1,16 +1,18 @@
 import { AllianceColor, Ascent } from "@/store/drafts";
-import { DraftData } from "@/types/draft";
+
+import { validateTeamMatch } from "../validators/team-match";
 
 /**
  * A utility function that constructs draft data. If there is a macro
  * that does this job, please delete this utility function and open a
  * issue. I hate doing this.
  */
-export function DraftDataSchema(
+export function TeamMatchSchema(
   name: string,
   team: number,
   color: AllianceColor,
-): DraftData {
+  scouted = false,
+): Zod.infer<typeof validateTeamMatch> {
   return {
     auto: {
       ascent: Ascent.None,
@@ -32,6 +34,11 @@ export function DraftDataSchema(
       net: 0,
     },
     end: {
+      lowBasket: 0,
+      highBasket: 0,
+      lowChamber: 0,
+      highChamber: 0,
+      net: 0,
       ascent: Ascent.None,
       disabled: false,
       fouled: false,
@@ -40,6 +47,7 @@ export function DraftDataSchema(
     comments: "",
     driverRating: 1,
     name: name,
-    team: team,
+    team: team as TeamNumber,
+    scouted: scouted,
   };
 }
