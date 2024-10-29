@@ -1,6 +1,4 @@
 "use client";
-import { Modal } from "flowbite-react";
-import { useState } from "react";
 
 export default function Home() {
   return (
