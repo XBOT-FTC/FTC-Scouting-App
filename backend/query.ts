@@ -16,6 +16,7 @@ type TeamMatchParticipation = {
   __typename: "TeamMatchParticipation";
   alliance: "Red" | "Blue";
   teamNumber: number;
+  teamName: string;
 };
 
 type Match = {
@@ -37,6 +38,7 @@ type EventByCodeData = {
   networkStatus: number;
 };
 
+
 const uri = `mongodb+srv://xbot:${process.env.MONGO_DB_PASSWORD}@scoutingapp-intothedeep.s6jr6.mongodb.net/?retryWrites=true&w=majority&appName=ScoutingApp-IntoTheDeep`;
 const mongo = new MongoClient(uri, {
   serverApi: {
@@ -56,6 +58,9 @@ client
             teams {
               alliance
               teamNumber
+              team{
+                name
+              }
             }
           }
         }
@@ -70,7 +75,7 @@ client
       value.teams.forEach((value) => {
         teams.push(
           TeamMatchSchema(
-            value.teamNumber.toString(),
+            value.teamName,
             value.teamNumber,
             value.alliance === "Red" ? AllianceColor.Red : AllianceColor.Blue,
             false,
