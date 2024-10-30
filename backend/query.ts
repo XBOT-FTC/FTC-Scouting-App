@@ -4,6 +4,7 @@ import {
     ApolloProvider,
     gql
   } from "@apollo/client";
+  import { MongoClient, ServerApiVersion } from "mongodb";
 
   const client = new ApolloClient({
     uri: 'https://api.ftcscout.org/graphql',
@@ -25,3 +26,8 @@ import {
 }
     `,
   }).then((result)=>console.log(JSON.stringify(result)));
+
+  
+
+  
+

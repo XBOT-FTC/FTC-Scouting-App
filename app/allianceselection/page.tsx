@@ -1,6 +1,26 @@
 "use client";
+import { useQuery, gql } from "@apollo/client";
 import { Modal } from "flowbite-react";
 import { useState } from "react";
+
+const getAllianceColor = gql`
+  query {
+    eventByCode(code: "USWAHALT", season: 2023) {
+      matches {
+        matchNum
+        teams {
+          alliance
+          teamNumber
+        }
+      }
+    }
+  }
+`;
+
+//get alliance color
+function DisplayTeamNum() {
+  const { loading, error, data } = useQuery(getAllianceColor);
+}
 
 export default function Home() {
   return (
