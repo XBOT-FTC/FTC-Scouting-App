@@ -1,10 +1,13 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-import { AllianceColor, DraftData } from "@/store/drafts";
-import { DraftDataScehema } from "@/utils/DraftDataSchema";
+import { AllianceColor } from "@/store/drafts";
+import { TeamMatch } from "@/types/draft";
+import { TeamPropertiesCollection } from "@/types/team-properties";
+import { TeamMatchSchema } from "@/utils/schemas";
 
 require("dotenv").config();
 
+// eslint-disable-next-line @cspell/spellchecker
 const uri = `mongodb+srv://xbot:${process.env.MONGO_DB_PASSWORD}@scoutingapp-intothedeep.s6jr6.mongodb.net/?retryWrites=true&w=majority&appName=ScoutingApp-IntoTheDeep`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -32,10 +35,10 @@ async function run() {
   }
 }
 
-/** utilty function that uploads the draft. CURRENTLY ONLY UPLOADS TO `test` COLLECTION.
+/** utility function that uploads the draft. CURRENTLY ONLY UPLOADS TO `test` COLLECTION.
  * CHANGE IT AFTER THE CODE IS READY.
  */
-export async function uploadDraft(schema: DraftData) {
+export async function uploadDraft(schema: TeamMatch) {
   try {
     await client.connect();
     await client.db("MatchData").collection("test").insertOne(schema);
@@ -51,7 +54,10 @@ export async function uploadDraft(schema: DraftData) {
 
 export async function readDrafts() {
   try {
-    const cursor = client.db("MatchData").collection("test").find();
+    const cursor = client
+      .db("MatchData")
+      .collection<TeamPropertiesCollection>("Matches")
+      .find({ test: {} });
     console.log(await cursor.toArray());
   } catch (err) {
     console.log(
@@ -64,6 +70,8 @@ export async function readDrafts() {
 }
 
 run().catch(console.dir);
-uploadDraft(DraftDataScehema("da lao", 488, AllianceColor.Red)).finally(() => {
+readDrafts();
+
+uploadDraft(TeamMatchSchema("da lao", 488, AllianceColor.Red)).finally(() => {
   client.close();
 });
