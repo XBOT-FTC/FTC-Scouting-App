@@ -1,22 +1,45 @@
-"use client";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
-  // const api = fetch("http://localhost:3000/api", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({ test: true }),
-  // });
+  return (
+    <div className="grid justify-center bg-gradient-to-b from-teal-400 from-20% via-teal-700 via-30% to-teal-900 to-85% text-white">
+      <div className="grid justify-center bg-transparent">
+        <Image
+          src="images/image.png"
+          width={201}
+          height={191}
+          alt="Picture of logo"
+        />
+      </div>
+      <div className="mt-5 box-content border-2 border-black bg-white p-5">
+        <div className="mb-10 grid justify-center text-2xl text-black">
+          <p>
+            <b>Welcome</b>
+          </p>
+        </div>
 
-  // useEffect(() => {
-  //   api.then((value) => {
-  //     value.json().then((value) => {
-  //       setTestString(value);
-  //     });
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+        <div className="grid justify-center border-black bg-white text-black">
+          <form action={"/url"} method="GET">
+            <div className="text-left text-black">
+              <p>
+                <b>Enter Name</b>
+              </p>
+            </div>
+            <input type="text" placeholder="Name" required></input>
+            <div className="m-20 grid justify-center rounded-sm bg-blue-400 box-decoration-slice p-3 text-white hover:bg-blue-800">
+              <Link href={"/url"}>
+                <button type="submit">Next</button>
+              </Link>
+            </div>
+          </form>
+        </div>
 
-  return <></>;
+        <div className="mt-10 grid justify-center text-gray-400">
+          <p>XBOT ROBOTICS</p>
+        </div>
+      </div>
+    </div>
+  );
 }
