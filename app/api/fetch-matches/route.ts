@@ -15,16 +15,17 @@ export async function POST(request: Request) {
     if (JSON.stringify(json) === "[]") {
       const search = await client
         .db("MatchData")
-        .collection("Matches")
+        .collection("Team Properties")
         .find()
         .toArray();
       return Response.json(search);
     }
     const search = await client
       .db("MatchData")
-      .collection("Matches")
-      .find({ match: { $in: json } })
+      .collection("Team Properties")
+      .find({ team: { $in: json } })
       .toArray();
+    return Response.json(search);
   } catch (err) {
     console.log("error!");
     return Response.json(err);
