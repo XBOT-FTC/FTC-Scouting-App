@@ -29,7 +29,7 @@ export default function Home() {
             </div>
             <input type="text" placeholder="Name" required />
             <div className="m-20 grid justify-center rounded-sm bg-blue-400 box-decoration-slice p-3 text-white hover:bg-blue-800">
-              <Link href={"/allianceselection"}>
+              <Link href={"/url"}>
                 <button type="submit">Next</button>
               </Link>
             </div>
