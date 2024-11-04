@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const redirectUrl =
-  "https://0706-174-164-190-207.ngrok-free.app/authentication";
+const redirectUrl = process.env.NEXT_PUBLIC_SLACK_REDIRECT_URI;
 
 export default function Home() {
   return (

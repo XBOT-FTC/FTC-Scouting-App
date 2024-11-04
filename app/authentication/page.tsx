@@ -1,3 +1,5 @@
+// ./app/authentication/page.tsx
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -27,7 +29,7 @@ const SlackCallbackPage = () => {
       if (code) {
         try {
           const response = await fetch(
-            "https://slack.com/openid.connect.token",
+            "https://slack.com/api/openid.connect.token",
             {
               method: "POST",
               headers: {
