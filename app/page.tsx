@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+const redirectUrl =
+  "https://0706-174-164-190-207.ngrok-free.app/authentication";
+
 export default function Home() {
   return (
     <div className="grid justify-center bg-gradient-to-b from-teal-400 from-20% via-teal-700 via-30% to-teal-900 to-85% text-white">
@@ -37,7 +40,7 @@ export default function Home() {
         </div>
 
         <a
-          href="https://slack.com/oauth/v2/authorize?scope=&amp;user_scope=&amp;redirect_uri=https%3A%2F%2Fslack.com%2Fopenid%2Fconnect%2Fauthorize&amp;client_id=7936020884293.7960731240339"
+          href={`https://slack.com/openid/connect/authorize?scope=openid&response_type=code&redirect_uri=${redirectUrl}&client_id=7936020884293.7960731240339`}
           style={{
             alignItems: "center",
             color: "#000",
