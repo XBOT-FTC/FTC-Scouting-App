@@ -15,7 +15,6 @@
   "dependencies": {
     "@react-spring/web": "^9.7.5",
     "@slack/web-api": "^7.7.0",
-    "cookie": "^1.0.1",
     "dotenv": "^16.4.5",
     "flowbite-react": "^0.10.2",
     "jotai": "^2.10.1",
@@ -26,6 +25,7 @@
     "next": "^15.0.1",
     "react": "^18",
     "react-confetti": "^6.1.0",
+    "react-cookie": "^7.2.2",
     "react-dom": "^18",
     "react-use": "^17.5.1",
     "type-fest": "^4.26.1",

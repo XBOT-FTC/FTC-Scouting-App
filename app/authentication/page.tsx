@@ -4,6 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 const SlackCallbackPage = () => {
   const router = useRouter();
@@ -11,6 +12,8 @@ const SlackCallbackPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [responseError, setResponseError] = useState<string | null>(null);
+
+  const [setCookie] = useCookies(["accessToken"]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -47,10 +50,11 @@ const SlackCallbackPage = () => {
           const data = await response.json();
           if (data.access_token) {
             setAccessToken(data.access_token); // Store the access token
-            await fetch("/api/auth/store-token", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ accessToken: data.access_token }),
+            setCookie("accessToken", data.access_token, {
+              path: "/", // Makes the cookie accessible across the app
+              secure: true, // Use true if your app is served over HTTPS
+              httpOnly: false, // Must be false since it's accessed on the client
+              sameSite: "Strict", // Provides some CSRF protection
             });
             router.push("/dashboard"); // Redirect to dashboard after successful authentication
           } else {
