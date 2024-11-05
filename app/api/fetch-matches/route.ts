@@ -12,20 +12,26 @@ export async function POST(request: Request) {
       },
     });
     const json = (await request.json()) as number[];
-
+    if (JSON.stringify(json) === "[]") {
+      const search = await client
+        .db("MatchData")
+        .collection("Team Properties")
+        .find()
+        .toArray();
+      return Response.json(search);
+    }
     const search = await client
       .db("MatchData")
-      .collection("Matches")
-      .find({ match: { $in: json } })
+      .collection("Team Properties")
+      .find({ team: { $in: json } })
       .toArray();
-
-    if (search !== null)
-      return Response.json(
-        "Matches already exits, maybe you're looking for updating it?",
-      );
-    await client.db("MatchData").collection("Team Properties").insertOne(json);
-    return Response.json("ok");
+    return Response.json(search);
   } catch (err) {
+    console.log("error!");
     return Response.json(err);
   }
+}
+
+export async function GET() {
+  return Response.json("Please use POST request please.");
 }
