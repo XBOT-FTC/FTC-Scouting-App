@@ -1,6 +1,6 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 export default function Home() {
   return (
@@ -27,7 +27,7 @@ export default function Home() {
                 <b>Enter Name</b>
               </p>
             </div>
-            <input type="text" placeholder="Name" required></input>
+            <input type="text" placeholder="Name" required />
             <div className="m-20 grid justify-center rounded-sm bg-blue-400 box-decoration-slice p-3 text-white hover:bg-blue-800">
               <Link href={"/url"}>
                 <button type="submit">Next</button>
