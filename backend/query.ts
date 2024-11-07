@@ -1,9 +1,10 @@
-import { AllianceColor } from "@/store/drafts";
-import { TeamMatch } from "@/types/draft";
-import { MatchCollection } from "@/types/team-properties";
-import { TeamMatchSchema } from "@/utils/schemas";
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { MongoClient, ServerApiVersion } from "mongodb";
+
+import { AllianceColor } from "@/store/drafts";
+import { TeamMatch } from "@/types/match";
+import { MatchCollection } from "@/types/team-properties";
+import { TeamMatchSchema } from "@/utils/schemas";
 
 const client = new ApolloClient({
   uri: "https://api.ftcscout.org/graphql",

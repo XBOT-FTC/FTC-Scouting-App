@@ -30,13 +30,13 @@ export interface TeamMatch {
   /** the rating for driver */
   driverRating: 1 | 2 | 3 | 4 | 5;
   /** data for auto phase */
-  auto: PhaseData & {
+  auto: TeamPhase & {
     ascent: Ascent;
   };
   /** the data for auto phase */
-  teleop: PhaseData;
+  teleop: TeamPhase;
   /** the data for end phase */
-  end: PhaseData & {
+  end: TeamPhase & {
     ascent: Ascent;
   };
   /** the draft name */

@@ -2,7 +2,7 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { Match } from "@/types/team-properties";
-import { validateTeamProperties } from "@/utils/validators/team-properties";
+import { validateMatch } from "@/utils/validators";
 
 export async function POST(request: Request) {
   try {
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     });
     const json = (await request.json()) as Match;
 
-    validateTeamProperties.parse(json);
+    validateMatch.parse(json);
     const search = await client
       .db("MatchData")
       .collection("Matches")

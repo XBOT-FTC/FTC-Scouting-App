@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-import { TeamMatch } from "@/types/draft";
+import { TeamMatch } from "@/types/match";
 import { TeamMatchSchema } from "@/utils/schemas";
 
 import { AllianceColor } from "./drafts";

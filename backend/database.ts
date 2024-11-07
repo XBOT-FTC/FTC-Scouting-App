@@ -1,7 +1,7 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { AllianceColor } from "@/store/drafts";
-import { TeamMatch } from "@/types/draft";
+import { TeamMatch } from "@/types/match";
 import { TeamPropertiesCollection } from "@/types/team-properties";
 import { TeamMatchSchema } from "@/utils/schemas";
 

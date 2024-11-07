@@ -1,4 +1,4 @@
-import { TeamMatch } from "@/types/draft";
+import { TeamMatch } from "@/types/match";
 
 import { validateMatch } from "../validators";
 

@@ -1,4 +1,4 @@
-import { DraftData } from "./draft";
+import { TeamMatch } from "./match";
 
 export type TeamPropertiesCollection = Array<TeamProperties>;
 export type MatchCollection = Array<Match>;
@@ -12,5 +12,5 @@ export interface TeamProperties {
 
 export interface Match {
   match: MatchNumber;
-  teams: Array<DraftData>;
+  teams: Array<TeamMatch>;
 }
