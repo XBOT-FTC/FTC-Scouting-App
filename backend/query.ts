@@ -1,9 +1,12 @@
 import { AllianceColor } from "@/store/drafts";
 import { TeamMatch } from "@/types/draft";
-import { MatchCollection } from "@/types/team-properties";
+import { TeamProp } from "@/types/draft";
+import { MatchCollection, TeamPropertiesCollection } from "@/types/team-properties";
 import { TeamMatchSchema } from "@/utils/schemas";
+import { TeamPropertiesSchema } from "@/utils/schemas";
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { MongoClient, ServerApiVersion } from "mongodb";
+import { Result } from "postcss";
 
 const client = new ApolloClient({
   uri: "https://api.ftcscout.org/graphql",
@@ -16,6 +19,8 @@ type TeamMatchParticipation = {
   __typename: "TeamMatchParticipation";
   alliance: "Red" | "Blue";
   teamNumber: number;
+  teamName: string;
+  matches: Array<number>;
 };
 
 type Match = {
@@ -37,6 +42,7 @@ type EventByCodeData = {
   networkStatus: number;
 };
 
+
 const uri = `mongodb+srv://xbot:${process.env.MONGO_DB_PASSWORD}@scoutingapp-intothedeep.s6jr6.mongodb.net/?retryWrites=true&w=majority&appName=ScoutingApp-IntoTheDeep`;
 const mongo = new MongoClient(uri, {
   serverApi: {
@@ -56,6 +62,9 @@ client
             teams {
               alliance
               teamNumber
+              team{
+                name
+              }
             }
           }
         }
@@ -70,7 +79,7 @@ client
       value.teams.forEach((value) => {
         teams.push(
           TeamMatchSchema(
-            value.teamNumber.toString(),
+            value.teamName,
             value.teamNumber,
             value.alliance === "Red" ? AllianceColor.Red : AllianceColor.Blue,
             false,
@@ -80,6 +89,59 @@ client
       convertedArray.push({
         match: value.matchNum as MatchNumber,
         teams: teams,
+      });
+    });
+
+    await mongo
+      .db("MatchData")
+      .collection("Matches")
+      .insertMany(convertedArray);
+  });
+
+  client.query({
+    query: gql`
+    query {
+        eventByCode(code: "USWAHALT", season: 2023) {
+          matches {
+          teams {
+            teamNumber
+            matches {
+              match {
+                matchNum
+              }
+            }
+          } 
+            matchNum
+            teams {
+              alliance
+              teamNumber
+              team{
+                name
+              }
+            }
+          }
+        }
+      }`,
+  }).then(async (result: EventByCodeData) => {
+    const convertedArray: TeamPropertiesCollection = [];
+
+    result.data.eventByCode.matches.forEach((value) => {
+      const teams: Array<TeamProp> = [];
+      value.teams.forEach((value) => {
+        teams.push(
+          TeamPropertiesSchema(
+            value.teamNumber,
+            value.teamName,
+            value.teamNumber,
+            value.matches,
+          ),
+        );
+      });
+      convertedArray.push({
+        team: 1 as TeamNumber,
+        rank: 0,
+        name: "",
+        matches: []
       });
     });
 
