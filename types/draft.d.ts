@@ -2,6 +2,8 @@ import { Ascent } from "@/store/drafts";
 
 import { TeamNumber } from "./team-properties";
 
+import {TeamName} from "./team-properties";
+
 export interface TeamPhase {
   /** the amount of pieces scored in lower net */
   lowBasket: number;
@@ -43,4 +45,11 @@ export interface TeamMatch {
   name: string;
   /**if this match has scouted or not */
   scouted: boolean;
+}
+
+export interface TeamProp{
+  team: number;
+  name: TeamName;
+  rank: number;
+  matches: Array<number>;
 }
