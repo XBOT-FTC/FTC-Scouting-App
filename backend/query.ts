@@ -17,6 +17,7 @@ type TeamMatchParticipation = {
   __typename: "TeamMatchParticipation";
   alliance: "Red" | "Blue";
   teamNumber: number;
+  teamName: string;
 };
 
 type Match = {
@@ -47,6 +48,18 @@ const mongo = new MongoClient(uri, {
   },
 });
 
+function removeDuplicatesByKey<T>(arr: T[], key: keyof T): T[] {
+  const seen = new Set();
+  return arr.filter((item) => {
+    const keyValue = item[key];
+    if (seen.has(keyValue)) {
+      return false;
+    }
+    seen.add(keyValue);
+    return true;
+  });
+}
+
 client
   .query({
     query: gql`
@@ -57,6 +70,9 @@ client
             teams {
               alliance
               teamNumber
+              team {
+                name
+              }
             }
           }
         }
@@ -71,11 +87,11 @@ client
       value.teams.forEach((value) => {
         teams.push(
           TeamMatchSchema(
-            value.teamNumber.toString(),
+            value.teamName,
             value.teamNumber,
             value.alliance === "Red" ? AllianceColor.Red : AllianceColor.Blue,
             false,
-          ),
+          ) as TeamMatch,
         );
       });
       convertedArray.push({
@@ -83,17 +99,15 @@ client
         teams: teams,
       });
     });
-
     await mongo
       .db("MatchData")
       .collection("Matches")
-      .insertMany(convertedArray);
+      .insertMany(removeDuplicatesByKey(convertedArray, "match"));
+    fetch("http://localhost:3000/api/fetch-matches", {
+      method: "POST",
+      body: JSON.stringify([]),
+    }).then(async (value) => {
+      // const val = await value.json();
+    });
+    mongo.close();
   });
-
-fetch("http://localhost:3000/api/fetch-matches", {
-  method: "POST",
-  body: JSON.stringify([]),
-}).then(async (value) => {
-  const val = await value.json();
-  console.log(JSON.stringify(val));
-});
