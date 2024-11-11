@@ -18,6 +18,7 @@ type TeamMatchParticipation = {
   alliance: "Red" | "Blue";
   teamNumber: number;
   teamName: string;
+  matches: Array<number>;
 };
 
 type Match = {

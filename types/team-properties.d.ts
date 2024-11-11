@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 import { TeamMatch } from "./match";
 
 export type TeamPropertiesCollection = Array<TeamProperties>;
@@ -13,4 +15,5 @@ export interface TeamProperties {
 export interface Match {
   match: MatchNumber;
   teams: Array<TeamMatch>;
+  _id?: ObjectId;
 }

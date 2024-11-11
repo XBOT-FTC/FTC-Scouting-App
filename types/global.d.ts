@@ -22,4 +22,12 @@ export declare global {
      */
     __nominal_do_not_use_rank: unique symbol;
   };
+
+  type ExcludeNominalKeys<T> = {
+    [K in keyof T as K extends `__nominal${string}`
+      ? never
+      : K]: T[K] extends object
+      ? ExcludeNominalKeys<T[K]> // Recursively apply to nested objects
+      : T[K];
+  };
 }

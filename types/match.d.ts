@@ -36,8 +36,10 @@ export interface TeamMatch {
   /** the data for auto phase */
   teleop: TeamPhase;
   /** the data for end phase */
-  end: TeamPhase & {
+  end: {
     ascent: Ascent;
+    disabled: boolean;
+    fouled: boolean;
   };
   /** the draft name */
   name: string;

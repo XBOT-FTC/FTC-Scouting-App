@@ -15,6 +15,7 @@ import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
 import { RangeText } from "@/components/range-text";
 import { SelectInputText } from "@/components/select-input-text";
+import { Ascent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/local-draft";
 
 export default function End() {
@@ -68,7 +69,7 @@ export default function End() {
           onChange={(value) => {
             setLocalDraft({
               ...localDraft,
-              end: { ...localDraft.end, ascent: value },
+              end: { ...localDraft.end, ascent: value as Ascent },
             });
           }}
           description="Ascent"

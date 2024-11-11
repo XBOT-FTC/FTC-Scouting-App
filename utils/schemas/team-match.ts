@@ -1,6 +1,5 @@
 import { AllianceColor, Ascent } from "@/store/drafts";
-
-import { validateTeamMatch } from "../validators/team-match";
+import { TeamMatch } from "@/types/match";
 
 /**
  * A utility function that constructs draft data. If there is a macro
@@ -12,7 +11,7 @@ export function TeamMatchSchema(
   team: number,
   color: AllianceColor,
   scouted = false,
-): Zod.infer<typeof validateTeamMatch> {
+): TeamMatch {
   return {
     auto: {
       ascent: Ascent.None,
@@ -34,11 +33,6 @@ export function TeamMatchSchema(
       net: 0,
     },
     end: {
-      lowBasket: 0,
-      highBasket: 0,
-      lowChamber: 0,
-      highChamber: 0,
-      net: 0,
       ascent: Ascent.None,
       disabled: false,
       fouled: false,

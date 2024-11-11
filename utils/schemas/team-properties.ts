@@ -1,4 +1,4 @@
-import { validateTeamProperties } from "../validators/team-properties";
+import { TeamProperties } from "@/types/team-properties";
 
 /** creates a new PropertiesSchema */
 export function TeamPropertiesSchema(
@@ -6,10 +6,10 @@ export function TeamPropertiesSchema(
   teamName: string,
   teamNumber: number,
   matches = new Array<number>(),
-): Zod.infer<typeof validateTeamProperties> {
+): TeamProperties {
   return {
     team: teamNumber as TeamNumber,
-    matches: matches,
+    matches: matches as Array<MatchNumber>,
     name: teamName,
     rank: rank,
   };
