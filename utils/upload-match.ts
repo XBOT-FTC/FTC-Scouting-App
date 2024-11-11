@@ -1,16 +1,16 @@
 import { TeamMatch } from "@/types/match";
-import { Match } from "@/types/team-properties";
 
-export async function uploadMatch(match: TeamMatch, team: MatchNumber) {
-  await fetch("http://localhost:3000/api/fetch-matches", {
+/** updates the given match with the team
+ * if the team doesn't exist in that match
+ * or, the team alliance color doesn't match,
+ * it will not upload the match
+ */
+export async function uploadMatch(match: TeamMatch, matchNumber: MatchNumber) {
+  await fetch("http://localhost:3000/api/upload-match", {
     method: "POST",
-    body: JSON.stringify([team]),
-  }).then(async (response) => {
-    const parsed = (await response.json()) as Array<TeamMatch>;
-    console.log(JSON.stringify(parsed));
-    fetch("api/update-match", {
-      method: "POST",
-      body: JSON.stringify({ match: team, teams: parsed } as Match),
-    });
+    body: JSON.stringify({ teamMatch: match, matchNumber: matchNumber } as {
+      teamMatch: TeamMatch;
+      matchNumber: number;
+    }),
   });
 }

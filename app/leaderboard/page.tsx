@@ -13,6 +13,7 @@ import { WithId } from "mongodb";
 import { useEffect, useState } from "react";
 import { useEffectOnce } from "react-use";
 
+import { SelectInputText } from "@/components/select-input-text";
 import { sortAtom } from "@/store/sort";
 import { Statistics } from "@/types/statistics";
 import { Match } from "@/types/team-properties";
@@ -92,25 +93,25 @@ export default function Leaderboard() {
             });
           }
 
-          if (calculation.total > low.get(matchData.team)!.total) {
+          if (calculation.total < low.get(matchData.team)!.total) {
             low.set(matchData.team, {
               ...low.get(matchData.team)!,
               total: calculation.total,
             });
           }
-          if (calculation.climb > low.get(matchData.team)!.climb) {
+          if (calculation.climb < low.get(matchData.team)!.climb) {
             low.set(matchData.team, {
               ...low.get(matchData.team)!,
               climb: calculation.climb,
             });
           }
-          if (calculation.specimen > low.get(matchData.team)!.specimen) {
+          if (calculation.specimen < low.get(matchData.team)!.specimen) {
             low.set(matchData.team, {
               ...low.get(matchData.team)!,
               specimen: calculation.specimen,
             });
           }
-          if (calculation.basket > low.get(matchData.team)!.basket) {
+          if (calculation.basket < low.get(matchData.team)!.basket) {
             low.set(matchData.team, {
               ...low.get(matchData.team)!,
               basket: calculation.basket,
@@ -181,47 +182,47 @@ export default function Leaderboard() {
     if (low.size === 0) return;
     if (filter === "total") {
       if (sort === "maximum") {
-        setDisplay(arrHigh.sort((a, b) => a.total - b.total));
+        setDisplay(arrHigh.sort((a, b) => a.total + b.total));
       }
       if (sort === "minimum") {
         //valid
-        setDisplay(arrLow.sort((a, b) => a.total - b.total));
+        setDisplay(arrLow.sort((a, b) => a.total + b.total));
       }
       if (sort === "average") {
-        setDisplay(arrAverage.sort((a, b) => a.total - b.total));
+        setDisplay(arrAverage.sort((a, b) => a.total + b.total));
       }
     }
     if (filter === "climb") {
       if (sort === "maximum") {
-        setDisplay(arrHigh.sort((a, b) => a.climb - b.climb));
+        setDisplay(arrHigh.sort((a, b) => a.climb + b.climb));
       }
       if (sort === "minimum") {
-        setDisplay(arrLow.sort((a, b) => a.climb - b.climb));
+        setDisplay(arrLow.sort((a, b) => a.climb + b.climb));
       }
       if (sort === "average") {
-        setDisplay(arrAverage.sort((a, b) => a.climb - b.climb));
+        setDisplay(arrAverage.sort((a, b) => a.climb + b.climb));
       }
     }
     if (filter === "specimen") {
       if (sort === "maximum") {
-        setDisplay(arrHigh.sort((a, b) => a.specimen - b.specimen));
+        setDisplay(arrHigh.sort((a, b) => a.specimen + b.specimen));
       }
       if (sort === "minimum") {
-        setDisplay(arrLow.sort((a, b) => a.specimen - b.specimen));
+        setDisplay(arrLow.sort((a, b) => a.specimen + b.specimen));
       }
       if (sort === "average") {
-        setDisplay(arrAverage.sort((a, b) => a.specimen - b.specimen));
+        setDisplay(arrAverage.sort((a, b) => a.specimen + b.specimen));
       }
     }
     if (filter === "basket") {
       if (sort === "maximum") {
-        setDisplay(arrHigh.sort((a, b) => a.basket - b.basket));
+        setDisplay(arrHigh.sort((a, b) => a.basket + b.basket));
       }
       if (sort === "minimum") {
-        setDisplay(arrLow.sort((a, b) => a.basket - b.basket));
+        setDisplay(arrLow.sort((a, b) => a.basket + b.basket));
       }
       if (sort === "average") {
-        setDisplay(arrAverage.sort((a, b) => a.basket - b.basket));
+        setDisplay(arrAverage.sort((a, b) => a.basket + b.basket));
       }
     }
   }, [average, filter, low, high, sort, setDisplay]);
@@ -232,6 +233,27 @@ export default function Leaderboard() {
 
   return (
     <>
+      <SelectInputText
+        onChange={(value) => {
+          setFilter(value as "basket");
+        }}
+        description="Filter"
+      >
+        <option>basket</option>
+        <option>specimen</option>
+        <option>climb</option>
+        <option>total</option>
+      </SelectInputText>
+      <SelectInputText
+        onChange={(value) => {
+          setSort(value as "average");
+        }}
+        description="Sort"
+      >
+        <option>average</option>
+        <option>minimum</option>
+        <option>maximum</option>
+      </SelectInputText>
       <Table hoverable>
         <TableHead>
           <TableHeadCell>Team</TableHeadCell>

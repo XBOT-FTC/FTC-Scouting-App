@@ -8,5 +8,4 @@ export const validateMatch: Zod.Schema<ExcludeNominalKeys<Match>> =
   z.strictObject({
     match: z.number(),
     teams: z.array(validateTeamMatch),
-    _id: z.optional(z.any()),
   });

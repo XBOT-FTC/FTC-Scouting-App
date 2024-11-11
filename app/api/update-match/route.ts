@@ -15,12 +15,14 @@ export async function POST(request: Request) {
       },
     });
     const json = (await request.json()) as Match;
+    console.log(json);
 
     validateMatch.parse(json);
+
     const search = await client
       .db("MatchData")
       .collection("Matches")
-      .findOne({ matches: json.match });
+      .findOne({ match: json.match });
     if (search === null)
       return Response.json("cannot replace something that doesn't exit");
     await client
@@ -35,6 +37,7 @@ export async function POST(request: Request) {
       );
     return Response.json("ok");
   } catch {
+    console.log("failed");
     return Response.json("failed");
   }
 }
