@@ -13,7 +13,7 @@ const SlackCallbackPage = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [responseError, setResponseError] = useState<string | null>(null);
 
-  const [setCookie] = useCookies(["accessToken"]);
+  const [cookies, setCookie] = useCookies(["accessToken"]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -54,7 +54,7 @@ const SlackCallbackPage = () => {
               path: "/", // Makes the cookie accessible across the app
               secure: true, // Use true if your app is served over HTTPS
               httpOnly: false, // Must be false since it's accessed on the client
-              sameSite: "Strict", // Provides some CSRF protection
+              sameSite: "strict", // Provides some CSRF protection
             });
             router.push("/dashboard"); // Redirect to dashboard after successful authentication
           } else {
