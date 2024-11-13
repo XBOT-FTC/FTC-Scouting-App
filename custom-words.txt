@@ -1,1 +1,7 @@
 teleop
+leaderboard
+xbot
+scoutingapp
+intothedeep
+matches
+USWAHALT

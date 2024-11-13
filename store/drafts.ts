@@ -1,6 +1,6 @@
 import { atomWithStorage } from "jotai/utils";
 
-import { TeamMatch } from "@/types/draft";
+import { TeamMatch } from "@/types/match";
 
 export type DraftName = string;
 

@@ -2,8 +2,6 @@ import { Ascent } from "@/store/drafts";
 
 import { TeamNumber } from "./team-properties";
 
-import {TeamName} from "./team-properties";
-
 export interface TeamPhase {
   /** the amount of pieces scored in lower net */
   lowBasket: number;
@@ -32,24 +30,19 @@ export interface TeamMatch {
   /** the rating for driver */
   driverRating: 1 | 2 | 3 | 4 | 5;
   /** data for auto phase */
-  auto: PhaseData & {
+  auto: TeamPhase & {
     ascent: Ascent;
   };
   /** the data for auto phase */
-  teleop: PhaseData;
+  teleop: TeamPhase;
   /** the data for end phase */
-  end: PhaseData & {
+  end: {
     ascent: Ascent;
+    disabled: boolean;
+    fouled: boolean;
   };
   /** the draft name */
   name: string;
   /**if this match has scouted or not */
   scouted: boolean;
-}
-
-export interface TeamProp{
-  team: number;
-  name: TeamName;
-  rank: number;
-  matches: Array<number>;
 }

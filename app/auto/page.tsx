@@ -6,6 +6,7 @@ import { PhaseToggle } from "@/components/phase-toggle";
 import { ScoringInput } from "@/components/scoring-input";
 import { ScoringSection } from "@/components/scoring-section";
 import { SelectInputText } from "@/components/select-input-text";
+import { Ascent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/local-draft";
 
 export default function Auto() {
@@ -123,7 +124,7 @@ export default function Auto() {
           onChange={(value) => {
             setLocalDraft({
               ...localDraft,
-              auto: { ...localDraft.auto, ascent: value },
+              auto: { ...localDraft.auto, ascent: value as Ascent },
             });
           }}
         >

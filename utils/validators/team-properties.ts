@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-export const validateTeamProperties = z.strictObject({
+import { TeamProperties } from "@/types/team-properties";
+
+export const validateTeamProperties: Zod.Schema<
+  ExcludeNominalKeys<TeamProperties>
+> = z.strictObject({
   team: z.number(),
   rank: z.number(),
   name: z.string(),

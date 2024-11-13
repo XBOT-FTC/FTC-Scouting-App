@@ -1,6 +1,5 @@
-import { TeamMatch } from "@/types/draft";
-
-import { validateMatch } from "../validators";
+import { TeamMatch } from "@/types/match";
+import { Match } from "@/types/team-properties";
 
 export function MatchesSchema(
   matchNumber: number,
@@ -8,9 +7,9 @@ export function MatchesSchema(
   team2: TeamMatch,
   team3: TeamMatch,
   team4: TeamMatch,
-): Zod.infer<typeof validateMatch> {
+): Match {
   return {
     match: matchNumber as MatchNumber,
-    team: [team1, team2, team3, team4],
+    teams: [team1, team2, team3, team4],
   };
 }

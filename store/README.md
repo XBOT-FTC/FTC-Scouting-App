@@ -1,2 +1,0 @@
-# Store
-Uses Jotai to store local data that **isn't transfered** to the server. When the client clears the cache of the browser or clears all the data. All jotai local data **will be removed**. This can be used to store things in the client that isn't as important as storing data.

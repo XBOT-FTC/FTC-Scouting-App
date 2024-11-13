@@ -1,12 +1,10 @@
-import { AllianceColor } from "@/store/drafts";
-import { TeamMatch } from "@/types/draft";
-import { TeamProp } from "@/types/draft";
-import { MatchCollection, TeamPropertiesCollection } from "@/types/team-properties";
-import { TeamMatchSchema } from "@/utils/schemas";
-import { TeamPropertiesSchema } from "@/utils/schemas";
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { MongoClient, ServerApiVersion } from "mongodb";
-import { Result } from "postcss";
+
+import { AllianceColor } from "@/store/drafts";
+import { TeamMatch } from "@/types/match";
+import { MatchCollection } from "@/types/team-properties";
+import { TeamMatchSchema } from "@/utils/schemas";
 
 const client = new ApolloClient({
   uri: "https://api.ftcscout.org/graphql",
@@ -42,7 +40,6 @@ type EventByCodeData = {
   networkStatus: number;
 };
 
-
 const uri = `mongodb+srv://xbot:${process.env.MONGO_DB_PASSWORD}@scoutingapp-intothedeep.s6jr6.mongodb.net/?retryWrites=true&w=majority&appName=ScoutingApp-IntoTheDeep`;
 const mongo = new MongoClient(uri, {
   serverApi: {
@@ -51,6 +48,18 @@ const mongo = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+
+function removeDuplicatesByKey<T>(arr: T[], key: keyof T): T[] {
+  const seen = new Set();
+  return arr.filter((item) => {
+    const keyValue = item[key];
+    if (seen.has(keyValue)) {
+      return false;
+    }
+    seen.add(keyValue);
+    return true;
+  });
+}
 
 client
   .query({
@@ -62,7 +71,7 @@ client
             teams {
               alliance
               teamNumber
-              team{
+              team {
                 name
               }
             }
@@ -83,7 +92,7 @@ client
             value.teamNumber,
             value.alliance === "Red" ? AllianceColor.Red : AllianceColor.Blue,
             false,
-          ),
+          ) as TeamMatch,
         );
       });
       convertedArray.push({
@@ -91,70 +100,15 @@ client
         teams: teams,
       });
     });
-
     await mongo
       .db("MatchData")
       .collection("Matches")
-      .insertMany(convertedArray);
-  });
-
-  client.query({
-    query: gql`
-    query {
-        eventByCode(code: "USWAHALT", season: 2023) {
-          matches {
-          teams {
-            teamNumber
-            matches {
-              match {
-                matchNum
-              }
-            }
-          } 
-            matchNum
-            teams {
-              alliance
-              teamNumber
-              team{
-                name
-              }
-            }
-          }
-        }
-      }`,
-  }).then(async (result: EventByCodeData) => {
-    const convertedArray: TeamPropertiesCollection = [];
-
-    result.data.eventByCode.matches.forEach((value) => {
-      const teams: Array<TeamProp> = [];
-      value.teams.forEach((value) => {
-        teams.push(
-          TeamPropertiesSchema(
-            value.teamNumber,
-            value.teamName,
-            value.teamNumber,
-            value.matches,
-          ),
-        );
-      });
-      convertedArray.push({
-        team: 1 as TeamNumber,
-        rank: 0,
-        name: "",
-        matches: []
-      });
+      .insertMany(removeDuplicatesByKey(convertedArray, "match"));
+    fetch("http://localhost:3000/api/fetch-matches", {
+      method: "POST",
+      body: JSON.stringify([]),
+    }).then(async () => {
+      // const val = await value.json();
     });
-
-    await mongo
-      .db("MatchData")
-      .collection("Matches")
-      .insertMany(convertedArray);
+    mongo.close();
   });
-
-fetch("http://localhost:3000/api/fetch-matches", {
-  method: "POST",
-  body: JSON.stringify([]),
-}).then(async (value) => {
-  const val = await value.json();
-  console.log(JSON.stringify(val));
-});
