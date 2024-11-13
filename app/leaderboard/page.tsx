@@ -36,7 +36,7 @@ export default function Leaderboard() {
     "basket" | "specimen" | "climb" | "total"
   >("total");
   const [sort, setSort] = useState<"average" | "minimum" | "maximum">(
-    "minimum",
+    "average",
   );
 
   useEffectOnce(() => {
@@ -132,8 +132,7 @@ export default function Leaderboard() {
           );
         });
       });
-      setLow(low);
-      setHigh(high);
+
       occurrence.forEach((divide, teamNumber) => {
         const prev = average.get(teamNumber)!;
         average.set(teamNumber, {
@@ -145,6 +144,8 @@ export default function Leaderboard() {
           total: prev.total / divide,
         });
       });
+      setLow(low);
+      setHigh(high);
       setAverage(average);
     });
   });
@@ -164,72 +165,51 @@ export default function Leaderboard() {
       arrAverage.push(value);
     });
 
-    //potential function to reduce lines
-    // function thing(
-    //   filter: "total" | "climb" | "specimen" | "basket",
-    //   sort: "maximum" | "minimum" | "average",
-    // ) {
-    //   if (sort === "maximum") {
-    //     setDisplay(arrHigh.sort((a, b) => a[filter] - b[filter]));
-    //   }
-    //   if (sort === "minimum") {
-    //     setDisplay(arrLow.sort((a, b) => a[filter] - b[filter]));
-    //   }
-    //   if (sort === "average") {
-    //     setDisplay(arrAverage.sort((a, b) => a[filter] - b[filter]));
-    //   }
-    // }
     if (low.size === 0) return;
+    const compareBy = (key: keyof Statistics) => {
+      // @ts-expect-error must be integer
+      return (a: Statistics, b: Statistics) => b[key] - a[key];
+    };
+
+    setDisplay(arrHigh.sort(compareBy("total")));
+
     if (filter === "total") {
       if (sort === "maximum") {
-        setDisplay(arrHigh.sort((a, b) => a.total + b.total));
-      }
-      if (sort === "minimum") {
-        //valid
-        setDisplay(arrLow.sort((a, b) => a.total + b.total));
-      }
-      if (sort === "average") {
-        setDisplay(arrAverage.sort((a, b) => a.total + b.total));
+        setDisplay(arrHigh.sort(compareBy("total")));
+      } else if (sort === "minimum") {
+        setDisplay(arrLow.sort(compareBy("total")).reverse());
+      } else if (sort === "average") {
+        setDisplay(arrAverage.sort(compareBy("total")));
       }
     }
     if (filter === "climb") {
       if (sort === "maximum") {
-        setDisplay(arrHigh.sort((a, b) => a.climb + b.climb));
-      }
-      if (sort === "minimum") {
-        setDisplay(arrLow.sort((a, b) => a.climb + b.climb));
-      }
-      if (sort === "average") {
-        setDisplay(arrAverage.sort((a, b) => a.climb + b.climb));
+        setDisplay(arrHigh.sort(compareBy("climb")));
+      } else if (sort === "minimum") {
+        setDisplay(arrLow.sort(compareBy("climb")).reverse());
+      } else if (sort === "average") {
+        setDisplay(arrAverage.sort(compareBy("climb")));
       }
     }
     if (filter === "specimen") {
       if (sort === "maximum") {
-        setDisplay(arrHigh.sort((a, b) => a.specimen + b.specimen));
-      }
-      if (sort === "minimum") {
-        setDisplay(arrLow.sort((a, b) => a.specimen + b.specimen));
-      }
-      if (sort === "average") {
-        setDisplay(arrAverage.sort((a, b) => a.specimen + b.specimen));
+        setDisplay(arrHigh.sort(compareBy("specimen")));
+      } else if (sort === "minimum") {
+        setDisplay(arrLow.sort(compareBy("specimen")).reverse());
+      } else if (sort === "average") {
+        setDisplay(arrAverage.sort(compareBy("specimen")));
       }
     }
     if (filter === "basket") {
       if (sort === "maximum") {
-        setDisplay(arrHigh.sort((a, b) => a.basket + b.basket));
-      }
-      if (sort === "minimum") {
-        setDisplay(arrLow.sort((a, b) => a.basket + b.basket));
-      }
-      if (sort === "average") {
-        setDisplay(arrAverage.sort((a, b) => a.basket + b.basket));
+        setDisplay(arrHigh.sort(compareBy("basket")));
+      } else if (sort === "minimum") {
+        setDisplay(arrLow.sort(compareBy("basket")).reverse());
+      } else if (sort === "average") {
+        setDisplay(arrAverage.sort(compareBy("basket")));
       }
     }
   }, [average, filter, low, high, sort, setDisplay]);
-
-  // useEffect(() => {
-  //   alert(JSON.stringify(display));
-  // }, [display]);
 
   return (
     <>
