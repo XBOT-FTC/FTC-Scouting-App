@@ -74,4 +74,4 @@ client
       }
     `,
   })
-  .then((result) => {});
+  .then(() => {});

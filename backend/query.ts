@@ -107,7 +107,7 @@ client
     fetch("http://localhost:3000/api/fetch-matches", {
       method: "POST",
       body: JSON.stringify([]),
-    }).then(async (value) => {
+    }).then(async () => {
       // const val = await value.json();
     });
     mongo.close();
