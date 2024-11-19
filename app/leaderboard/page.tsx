@@ -20,11 +20,6 @@ import { Match } from "@/types/team-properties";
 import { CalculatePoints } from "@/utils/calculate-points";
 import { StatisticsSchema } from "@/utils/schemas";
 
-//DESIGNS:
-//Highest Points, Basket, Specimen, Climb, Total
-//Lowest Points, Basket, Specimen, Climb, Total
-//Average Points, Basket, Specimen, Climb, Total
-
 export default function Leaderboard() {
   const [low, setLow] = useState<Map<TeamNumber, Statistics>>(new Map());
   const [high, setHigh] = useState<Map<TeamNumber, Statistics>>(new Map());
@@ -42,7 +37,7 @@ export default function Leaderboard() {
   useEffectOnce(() => {
     fetch("/api/fetch-matches", {
       method: "POST",
-      body: JSON.stringify([]),
+      body: JSON.stringify({ collection: "League Meet 1", matches: [] }),
     }).then(async (value) => {
       const average: Map<TeamNumber, Statistics> = new Map();
       const low: Map<TeamNumber, Statistics> = new Map();

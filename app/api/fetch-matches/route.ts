@@ -11,8 +11,11 @@ export async function POST(request: Request) {
         deprecationErrors: true,
       },
     });
-    const json = (await request.json()) as number[];
-    if (JSON.stringify(json) === "[]") {
+    const json = (await request.json()) as {
+      collection: string;
+      matches: Array<number>;
+    };
+    if (JSON.stringify(json.matches) === "[]") {
       const search = await client
         .db("MatchData")
         .collection("Matches")
@@ -23,7 +26,7 @@ export async function POST(request: Request) {
     const search = await client
       .db("MatchData")
       .collection("Matches")
-      .find({ match: { $in: json } })
+      .find({ match: { $in: json.matches } })
       .toArray();
     return Response.json(search);
   } catch (err) {
