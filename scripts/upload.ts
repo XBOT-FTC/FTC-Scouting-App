@@ -6,12 +6,52 @@ import { TeamMatch } from "@/types/match";
 import { MatchCollection } from "@/types/team-properties";
 import { TeamMatchSchema } from "@/utils/schemas";
 
+/** MUST STRICTLY FOLLOW QUERY LIKE THE EXAMPLE
+ * SHOWN BELOW. ONLY MODIFY THE EVENT CODE AND SEASON
+ * ```ts
+ * `query {
+        eventByCode(code: "USWAHALT", season: 2023) {
+          matches {
+            matchNum
+            teams {
+              alliance
+              teamNumber
+              team {
+                name
+              }
+            }
+          }
+        }
+      }`
+ * ```
+ * @example
+ */
+const QUERY_STRING = `      query {
+        eventByCode(code: "USWAHALT", season: 2023) {
+          matches {
+            matchNum
+            teams {
+              alliance
+              teamNumber
+              team {
+                name
+              }
+            }
+          }
+        }
+      }`;
+/** THIS IS THE COLLECTION NAME STORED STORED FOR EACH MATCH */
+const COMPETITION_NAME = "League Meet 1";
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 const client = new ApolloClient({
   uri: "https://api.ftcscout.org/graphql",
   cache: new InMemoryCache(),
 });
-
-//chatgpt generated
 
 type TeamMatchParticipation = {
   __typename: "TeamMatchParticipation";
@@ -63,28 +103,14 @@ function removeDuplicatesByKey<T>(arr: T[], key: keyof T): T[] {
 
 client
   .query({
-    query: gql`
-      query {
-        eventByCode(code: "USWAHALT", season: 2023) {
-          matches {
-            matchNum
-            teams {
-              alliance
-              teamNumber
-              team {
-                name
-              }
-            }
-          }
-        }
-      }
-    `,
+    query: gql(QUERY_STRING),
   })
   .then(async (result: EventByCodeData) => {
     const convertedArray: MatchCollection = [];
 
-    result.data.eventByCode.matches.forEach((value) => {
+    result.data.eventByCode.matches.forEach(async (value) => {
       const teams: Array<TeamMatch> = [];
+
       value.teams.forEach((value) => {
         teams.push(
           TeamMatchSchema(
@@ -100,15 +126,15 @@ client
         teams: teams,
       });
     });
+
     await mongo
       .db("MatchData")
-      .collection("Matches")
+      .collection(COMPETITION_NAME)
       .insertMany(removeDuplicatesByKey(convertedArray, "match"));
-    fetch("http://localhost:3000/api/fetch-matches", {
-      method: "POST",
-      body: JSON.stringify([]),
-    }).then(async () => {
-      // const val = await value.json();
-    });
+
+    mongo.close();
+  })
+  .catch((err) => {
+    console.log(`Failed to upload data to mongodb because ${err}`);
     mongo.close();
   });
