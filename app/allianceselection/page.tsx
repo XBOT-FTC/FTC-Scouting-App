@@ -35,10 +35,9 @@ export default function Home() {
         >
           <option disabled>Match Number</option>
           {response?.map((matchNum) => {
-            return <option>{matchNum.match}</option>;
+            return <option key={matchNum.match}>{matchNum.match}</option>;
           })}
         </select>
-        <br></br>
       </form>
     </div>
   );
