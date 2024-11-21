@@ -17,6 +17,7 @@ import { RangeText } from "@/components/range-text";
 import { SelectInputText } from "@/components/select-input-text";
 import { Ascent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/local-draft";
+import { TeamMatch } from "@/types/match";
 
 export default function End() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
@@ -39,12 +40,18 @@ export default function End() {
                 fetch("/api/upload-match", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(localDraft),
+                  body: JSON.stringify({
+                    matchNumber: 1,
+                    teamMatch: localDraft,
+                    collection: "League Meet 1",
+                  } as {
+                    teamMatch: TeamMatch;
+                    matchNumber: number;
+                    collection: string;
+                  }),
                 });
               } catch {
-                alert(
-                  "data failed to upload. Please try again later or save as draft",
-                );
+                alert("data failed to upload, try again later.");
               } finally {
                 setOpenSubmit(false);
                 router.push("/final");

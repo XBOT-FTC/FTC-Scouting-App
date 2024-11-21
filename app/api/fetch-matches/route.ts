@@ -18,14 +18,15 @@ export async function POST(request: Request) {
     if (JSON.stringify(json.matches) === "[]") {
       const search = await client
         .db("MatchData")
-        .collection("Matches")
+        .collection(json.collection)
         .find()
         .toArray();
       return Response.json(search);
     }
+    console.log(json);
     const search = await client
       .db("MatchData")
-      .collection("Matches")
+      .collection(json.collection)
       .find({ match: { $in: json.matches } })
       .toArray();
     return Response.json(search);

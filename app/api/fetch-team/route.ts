@@ -12,11 +12,11 @@ export async function POST(request: Request) {
       },
     });
     const json = (await request.json()) as number[];
-
+    console.log(json);
     if (JSON.stringify(json) === "[]") {
       const search = await client
         .db("MatchData")
-        .collection("Team Properties")
+        .collection("TeamProperties")
         .find()
         .toArray();
       return Response.json(search);
@@ -24,9 +24,10 @@ export async function POST(request: Request) {
 
     const search = await client
       .db("MatchData")
-      .collection("Team Properties")
+      .collection("TeamProperties")
       .find({ team: { $in: json } })
       .toArray();
+    console.log(search);
     return Response.json(search);
   } catch (err) {
     return Response.json(err);

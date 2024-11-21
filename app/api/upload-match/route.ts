@@ -15,11 +15,13 @@ export async function POST(request: Request) {
       },
     });
     const database = client.db("MatchData");
-    const collection = database.collection("Matches");
     const json = (await request.json()) as {
       teamMatch: TeamMatch;
       matchNumber: number;
+      collection: string;
     };
+
+    const collection = database.collection(json.collection);
 
     const data = (await collection.findOne({
       match: json.matchNumber,
