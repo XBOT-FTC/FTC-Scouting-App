@@ -39,7 +39,7 @@ export default function Home() {
         </div>
 
         <a
-          href={`https://slack.com/openid/connect/authorize?scope=openid&response_type=code&redirect_uri=${redirectUrl}&client_id=7936020884293.7960731240339`}
+          href={`https://slack.com/openid/connect/authorize?scope=openid,email,profile&response_type=code&redirect_uri=${redirectUrl}&client_id=7936020884293.7960731240339`}
           style={{
             alignItems: "center",
             color: "#000",
