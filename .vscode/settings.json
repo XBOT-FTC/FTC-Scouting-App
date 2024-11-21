@@ -20,4 +20,17 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.run": "onType",
   "eslint.format.enable": true,
+  "explorer.excludeGitIgnore": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.eslintignore": true,
+    "**/LICENSE": true,
+    "**/package-lock.json": true,
+    "**/tsconfig.json": true,
+    "**/tailwind.config.ts": true,
+    "**/cspell.json": true,
+    "**/postcss.config.js": true,
+    "**/prettier.config.js": true,
+    "**/.husky": true,
+  }
 }

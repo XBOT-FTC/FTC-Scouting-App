@@ -9,8 +9,10 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function Nav() {
+  const router = useRouter();
   return (
     <Navbar fluid>
       <NavbarBrand as={Link} href="/">
@@ -34,19 +36,39 @@ export function Nav() {
       </div>
       <NavbarCollapse>
         {/* See comment bellow */}
-        <Link href="/drafts" passHref>
-          <NavbarLink active>Drafts</NavbarLink>
-        </Link>
-        {/* Using Link to handle linking via basePath for you? */}
-        {/* <NavbarLink as={Link} href="#">
-          About
+        {/* <Link href="/drafts" passHref>
+        </Link> */}
+        <NavbarLink
+          as={"button"}
+          active
+          onClick={() => {
+            router.push("/drafts");
+          }}
+        >
+          Drafts
         </NavbarLink>
-        <NavbarLink href="#">Services</NavbarLink>
-        <NavbarLink href="#">Pricing</NavbarLink>
-        <NavbarLink href="#">Contact</NavbarLink> */}
-        <Link href="/auto" passHref>
-          <NavbarLink active>Mock passing new draft</NavbarLink>
-        </Link>
+
+        {/* Using Link to handle linking via basePath for you? */}
+
+        <NavbarLink
+          as={"button"}
+          active
+          onClick={() => {
+            router.push("/auto");
+          }}
+        >
+          Mock passing new draft
+        </NavbarLink>
+
+        <NavbarLink
+          as={"button"}
+          active
+          onClick={() => {
+            router.push("/leaderboard");
+          }}
+        >
+          Leaderboard
+        </NavbarLink>
       </NavbarCollapse>
     </Navbar>
   );

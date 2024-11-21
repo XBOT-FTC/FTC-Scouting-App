@@ -25,10 +25,12 @@ export default function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} dark:bg-gray-800 dark:text-gray-100`}
+      >
         <Nav />
-        <main className="dark:bg-gray-800">{children}</main>
-        <div className="flex min-h-screen dark:bg-gray-800" />
+        <main>{children}</main>
+        <div className="mb-10 block" />
         <Foot />
       </body>
     </html>

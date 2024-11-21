@@ -12,7 +12,7 @@ export function NumberInput({ onChange, defaultValue = 0 }: NumberInputProps) {
   const [number, setNumber] = useState<number>(defaultValue);
 
   return (
-    <div className="grid size-20 place-items-center rounded-md bg-white shadow-md dark:bg-gray-800 dark:text-gray-200">
+    <div className="grid size-20 place-items-center rounded-md bg-white shadow-xl dark:bg-gray-800 dark:text-gray-200">
       <button
         onClick={() => {
           setNumber(number + 1);
@@ -22,7 +22,7 @@ export function NumberInput({ onChange, defaultValue = 0 }: NumberInputProps) {
         <ChevronUp className="content-start" />
       </button>
       <div />
-      <text className="text-center">{number}</text>
+      <text className="select-none text-center">{number}</text>
       <div />
       <button
         onClick={() => {

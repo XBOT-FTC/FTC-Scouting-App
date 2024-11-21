@@ -17,26 +17,22 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { BookDashed, ImportIcon } from "lucide-react";
 import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 import Link from "next/link";
 import { useState } from "react";
+import { z } from "zod";
 
 import { Export } from "@/components/export";
-import { debugAtom } from "@/store/debug";
-import {
-  AllianceColor,
-  draftAtom,
-  DraftDataTreeVaildator,
-} from "@/store/drafts";
+import { AllianceColor, draftAtom } from "@/store/drafts";
 import { editorAtom } from "@/store/editor";
-import { DraftDataScehema } from "@/utils/DraftDataSchema";
+import { TeamMatchSchema } from "@/utils/schemas";
+import { validateTeamMatch } from "@/utils/validators/team-match";
 
 export default function Drafts() {
   //Literally refracture the entire code, very messy state management
   const [drafts, setDrafts] = useAtom(draftAtom);
-  const isDebug = useAtomValue(debugAtom);
   const [input, setInput] = useState<string>();
 
   const [openImport, setOpenImport] = useState<boolean>(false);
@@ -91,7 +87,7 @@ export default function Drafts() {
               try {
                 const deserialized = decompressFromUTF16(input!);
                 const Import = JSON.parse(deserialized);
-                DraftDataTreeVaildator.parse(Import);
+                z.array(validateTeamMatch).parse(Import);
               } catch (error) {
                 alert("data doesn't match schema");
                 err = error;
@@ -176,7 +172,7 @@ export default function Drafts() {
               onClick={() => {
                 setDrafts(() => [
                   ...drafts,
-                  DraftDataScehema(draftName!, draftTeamNumber!, draftColor),
+                  TeamMatchSchema(draftName!, draftTeamNumber!, draftColor),
                 ]);
               }}
             >
@@ -257,7 +253,6 @@ export default function Drafts() {
         </Export>
         <Button onClick={() => setOpenWarning(true)}>Clear Drafts</Button>
       </div>
-      {isDebug && <text>{JSON.stringify(drafts)}</text>}
     </>
   );
 }
