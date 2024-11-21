@@ -1,6 +1,11 @@
 /* eslint-disable prefer-const */
 "use client";
 import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Table,
   TableBody,
   TableCell,
@@ -10,7 +15,8 @@ import {
 } from "flowbite-react";
 import { useAtom } from "jotai";
 import { WithId } from "mongodb";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { SelectInputText } from "@/components/select-input-text";
@@ -21,6 +27,7 @@ import { CalculatePoints } from "@/utils/calculate-points";
 import { StatisticsSchema } from "@/utils/schemas";
 
 export default function Leaderboard() {
+  const router = useRouter();
   const [low, setLow] = useState<Map<TeamNumber, Statistics>>(new Map());
   const [high, setHigh] = useState<Map<TeamNumber, Statistics>>(new Map());
   const [average, setAverage] = useState<Map<TeamNumber, Statistics>>(
@@ -33,6 +40,8 @@ export default function Leaderboard() {
   const [sort, setSort] = useState<"average" | "minimum" | "maximum">(
     "average",
   );
+  const [team, setTeam] = useState<number>();
+  const [show, setShow] = useState<boolean>(false);
 
   useEffectOnce(() => {
     fetch("/api/fetch-matches", {
@@ -145,7 +154,7 @@ export default function Leaderboard() {
     });
   });
 
-  useEffect(() => {
+  useMemo(() => {
     const arrLow = new Array<Statistics>();
     const arrHigh = new Array<Statistics>();
     const arrAverage = new Array<Statistics>();
@@ -208,6 +217,23 @@ export default function Leaderboard() {
 
   return (
     <>
+      <Modal show={show} onClose={() => setShow(false)}>
+        <ModalHeader>Details</ModalHeader>
+        <ModalBody>
+          You are currently viewing details for <div /> team {team}
+          <div />
+          Do you want to continue?
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            onClick={() => {
+              router.push(`/details?team=${team}`);
+            }}
+          >
+            Continue
+          </Button>
+        </ModalFooter>
+      </Modal>
       <SelectInputText
         onChange={(value) => {
           setFilter(value as "basket");
@@ -229,31 +255,37 @@ export default function Leaderboard() {
         <option>minimum</option>
         <option>maximum</option>
       </SelectInputText>
-      <Table hoverable>
-        <TableHead>
-          <TableHeadCell>Team</TableHeadCell>
-          <TableHeadCell>Specimen</TableHeadCell>
-          <TableHeadCell>Basket</TableHeadCell>
-          <TableHeadCell>Climb</TableHeadCell>
-          <TableHeadCell>Total</TableHeadCell>
-        </TableHead>
-        <TableBody className="divide-y">
-          {display?.map((value, index) => {
-            return (
-              <TableRow
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                key={index}
-              >
-                <TableCell>{`${value.team}: ${value.name}`}</TableCell>
-                <TableCell>{value.specimen}</TableCell>
-                <TableCell>{value.basket}</TableCell>
-                <TableCell>{value.climb}</TableCell>
-                <TableCell>{value.total}</TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+      <div className="overflow-x-auto">
+        <Table hoverable>
+          <TableHead>
+            <TableHeadCell>Specimen</TableHeadCell>
+            <TableHeadCell>Basket</TableHeadCell>
+            <TableHeadCell>Climb</TableHeadCell>
+            <TableHeadCell>Total</TableHeadCell>
+            <TableHeadCell>Team</TableHeadCell>
+          </TableHead>
+          <TableBody className="divide-y">
+            {display?.map((value, index) => {
+              return (
+                <TableRow
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                  key={index}
+                  onClick={() => {
+                    setTeam(value.team);
+                    setShow(true);
+                  }}
+                >
+                  <TableCell>{value.specimen}</TableCell>
+                  <TableCell>{value.basket}</TableCell>
+                  <TableCell>{value.climb}</TableCell>
+                  <TableCell>{value.total}</TableCell>
+                  <TableCell>{`${value.team}: ${value.name}`}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
     </>
   );
 }

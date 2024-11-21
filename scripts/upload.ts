@@ -27,7 +27,7 @@ import { TeamMatchSchema } from "@/utils/schemas";
  * @example
  */
 const QUERY_STRING = `      query {
-        eventByCode(code: "USWAHALT", season: 2023) {
+        eventByCode(code: "USWARIM1", season: 2024) {
           matches {
             matchNum
             teams {
@@ -53,32 +53,38 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-type TeamMatchParticipation = {
-  __typename: "TeamMatchParticipation";
-  alliance: "Red" | "Blue";
-  teamNumber: number;
-  teamName: string;
-  matches: Array<number>;
-};
-
-type Match = {
-  __typename: "Match";
-  matchNum: number;
-  teams: TeamMatchParticipation[];
-};
-
-type Event = {
-  __typename: "Event";
-  matches: Match[];
-};
-
-type EventByCodeData = {
-  data: {
-    eventByCode: Event;
-  };
+export interface Root {
+  data: Data;
   loading: boolean;
   networkStatus: number;
-};
+}
+
+export interface Data {
+  eventByCode: EventByCode;
+}
+
+export interface EventByCode {
+  __typename: string;
+  matches: Match[];
+}
+
+export interface Match {
+  __typename: string;
+  matchNum: number;
+  teams: Team[];
+}
+
+export interface Team {
+  __typename: string;
+  alliance: string;
+  teamNumber: number;
+  team: Team2;
+}
+
+export interface Team2 {
+  __typename: string;
+  name: string;
+}
 
 const uri = `mongodb+srv://xbot:${process.env.MONGO_DB_PASSWORD}@scoutingapp-intothedeep.s6jr6.mongodb.net/?retryWrites=true&w=majority&appName=ScoutingApp-IntoTheDeep`;
 const mongo = new MongoClient(uri, {
@@ -105,16 +111,15 @@ client
   .query({
     query: gql(QUERY_STRING),
   })
-  .then(async (result: EventByCodeData) => {
+  .then(async (result: Root) => {
     const convertedArray: MatchCollection = [];
-
     result.data.eventByCode.matches.forEach(async (value) => {
       const teams: Array<TeamMatch> = [];
 
       value.teams.forEach((value) => {
         teams.push(
           TeamMatchSchema(
-            value.teamName,
+            value.team.name,
             value.teamNumber,
             value.alliance === "Red" ? AllianceColor.Red : AllianceColor.Blue,
             false,

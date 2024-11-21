@@ -5,3 +5,4 @@ scoutingapp
 intothedeep
 matches
 USWAHALT
+USWARIM1
