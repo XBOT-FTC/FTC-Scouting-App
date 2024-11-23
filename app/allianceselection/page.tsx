@@ -1,7 +1,8 @@
 "use client";
-import { MatchCollection } from "@/types/team-properties";
 import { useState } from "react";
 import { useEffectOnce } from "react-use";
+
+import { MatchCollection } from "@/types/team-properties";
 
 export default function Home() {
   const [response, setResponse] = useState<MatchCollection>();
@@ -9,11 +10,15 @@ export default function Home() {
   useEffectOnce(() => {
     fetch("/api/fetch-matches", {
       method: "POST",
-      body: JSON.stringify({ collection: "League Meet 1", matches: [] }),
+      body: JSON.stringify({
+        collection: "League Meet 1",
+        matches: [],
+      }),
     }).then(async (value) => {
       const matchData: MatchCollection = await value.json();
       setResponse(matchData);
-      alert("match data:" + matchData.length);
+      alert("match data: " + matchData.length);
+      alert("teams: " + matchData[0].teams[0].team);
       // const selectElement = document.getElementById("matchNumber");
       // for (let i = 1; i < matchData.length + 1; i++) {
       //   const option = document.createElement("option");
@@ -27,7 +32,7 @@ export default function Home() {
   return (
     <div className="grid justify-center bg-gradient-to-b from-teal-400 from-20% via-teal-700 via-30% to-teal-900 to-85% text-white">
       <form>
-        <label htmlFor="matchNumber"></label>
+        <label htmlFor="matchNumber" />
         <select
           className="rounded-md text-black"
           name="matchNumber"
@@ -39,6 +44,9 @@ export default function Home() {
           })}
         </select>
       </form>
+      <div className="grid justify-center bg-transparent p-2 text-xl md:p-4 lg:p-8">
+        Blue Alliance
+      </div>
     </div>
   );
 }
