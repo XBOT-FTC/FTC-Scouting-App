@@ -2,7 +2,6 @@
 
 "use client";
 
-import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 export default function DashboardPage() {
