@@ -73,28 +73,32 @@ export default function Home() {
           <option className="text-gray-500" value={"Team Number"} disabled>
             Team Number
           </option>
-          {response
-            ?.find((val) => val.match === matchNumber)
-            ?.teams.map((value, i) => {
-              return (
-                <option
-                  disabled={value.scouted}
-                  onClick={() => {
-                    setCursor(i);
-                    setLocalDraft(
-                      produce(localDraft, (draft) => {
-                        draft.name = value.name;
-                        draft.team = value.team;
-                        draft.color = value.color;
-                      }),
-                    );
-                  }}
-                  key={i}
-                >
-                  {value.team}
-                </option>
-              );
-            })}
+          {response ? (
+            response
+              ?.find((val) => val.match === matchNumber)
+              ?.teams.map((value, i) => {
+                return (
+                  <option
+                    disabled={value.scouted}
+                    onClick={() => {
+                      setCursor(i);
+                      setLocalDraft(
+                        produce(localDraft, (draft) => {
+                          draft.name = value.name;
+                          draft.team = value.team;
+                          draft.color = value.color;
+                        }),
+                      );
+                    }}
+                    key={i}
+                  >
+                    {value.team}
+                  </option>
+                );
+              })
+          ) : (
+            <></>
+          )}
         </select>
         <div className="mb-5" />
         <Button type="submit" className="flex justify-center">
