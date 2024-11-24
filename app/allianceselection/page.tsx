@@ -27,7 +27,7 @@ export default function Home() {
     });
   });
 
-  alert(response);
+  console.log(response);
 
   return (
     <div className="grid justify-center bg-gradient-to-b from-teal-400 from-20% via-teal-700 via-30% to-teal-900 to-85% text-white">
