@@ -8,7 +8,7 @@ import {
   Textarea,
 } from "flowbite-react";
 import { produce } from "immer";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -16,13 +16,16 @@ import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
 import { RangeText } from "@/components/range-text";
 import { SelectInputText } from "@/components/select-input-text";
+import { COMPETITION } from "@/constants/competition";
 import { Ascent } from "@/store/drafts";
 import { localDraftAtom } from "@/store/local-draft";
+import { matchAtom } from "@/store/match";
 import { TeamMatch } from "@/types/match";
 
 export default function End() {
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
   const [openSubmit, setOpenSubmit] = useState(false);
+  const matchNumber = useAtomValue(matchAtom);
   const router = useRouter();
 
   return (
@@ -42,11 +45,11 @@ export default function End() {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
-                    matchNumber: 1,
+                    matchNumber: matchNumber,
                     teamMatch: produce(localDraft, (draft) => {
                       draft.scouted = true;
                     }),
-                    collection: "League Meet 1",
+                    collection: COMPETITION,
                   } as {
                     teamMatch: TeamMatch;
                     matchNumber: number;
