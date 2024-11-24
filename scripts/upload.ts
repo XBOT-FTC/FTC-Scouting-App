@@ -1,6 +1,7 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
+import { COMPETITION } from "@/constants/competition";
 import { AllianceColor } from "@/store/drafts";
 import { TeamMatch } from "@/types/match";
 import { MatchCollection } from "@/types/team-properties";
@@ -40,8 +41,6 @@ const QUERY_STRING = `      query {
           }
         }
       }`;
-/** THIS IS THE COLLECTION NAME STORED STORED FOR EACH MATCH */
-const COMPETITION_NAME = "League Meet 1";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +133,7 @@ client
 
     await mongo
       .db("MatchData")
-      .collection(COMPETITION_NAME)
+      .collection(COMPETITION)
       .insertMany(removeDuplicatesByKey(convertedArray, "match"));
 
     mongo.close();

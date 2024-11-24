@@ -7,6 +7,7 @@ import {
   ModalHeader,
   Textarea,
 } from "flowbite-react";
+import { produce } from "immer";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -42,7 +43,9 @@ export default function End() {
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
                     matchNumber: 1,
-                    teamMatch: localDraft,
+                    teamMatch: produce(localDraft, (draft) => {
+                      draft.scouted = true;
+                    }),
                     collection: "League Meet 1",
                   } as {
                     teamMatch: TeamMatch;
