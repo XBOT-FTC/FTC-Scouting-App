@@ -40,23 +40,27 @@ export default function Home() {
           <option className="text-gray-500" disabled>
             Match Number
           </option>
-          {response?.map((match) => {
-            return (
-              <option
-                onClick={() => {
-                  setMatchNumber(match.match);
-                  produce(localDraft, (draft) => {
-                    draft.name = match.teams[cursor].name;
-                    draft.team = match.teams[cursor].team;
-                    draft.color = match.teams[cursor].color;
-                  });
-                }}
-                key={match.match}
-              >
-                {match.match}
-              </option>
-            );
-          })}
+          {response ? (
+            response.map((match) => {
+              return (
+                <option
+                  onClick={() => {
+                    setMatchNumber(match.match);
+                    produce(localDraft, (draft) => {
+                      draft.name = match.teams[cursor].name;
+                      draft.team = match.teams[cursor].team;
+                      draft.color = match.teams[cursor].color;
+                    });
+                  }}
+                  key={match.match}
+                >
+                  {match.match}
+                </option>
+              );
+            })
+          ) : (
+            <></>
+          )}
         </select>
         <div className="mb-5" />
         <select

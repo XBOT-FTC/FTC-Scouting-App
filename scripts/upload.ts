@@ -28,7 +28,7 @@ import { TeamMatchSchema } from "@/utils/schemas";
  * @example
  */
 const QUERY_STRING = `      query {
-        eventByCode(code: "USWARIM1", season: 2024) {
+        eventByCode(code: "USWARIM2", season: 2024) {
           matches {
             matchNum
             teams {
