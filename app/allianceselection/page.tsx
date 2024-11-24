@@ -40,7 +40,7 @@ export default function Home() {
           <option className="text-gray-500" disabled>
             Match Number
           </option>
-          {response ? (
+          {!(response === undefined) ? (
             response.map((match) => {
               return (
                 <option
@@ -73,7 +73,7 @@ export default function Home() {
           <option className="text-gray-500" value={"Team Number"} disabled>
             Team Number
           </option>
-          {response ? (
+          {!(response === undefined) ? (
             response
               ?.find((val) => val.match === matchNumber)
               ?.teams.map((value, i) => {
