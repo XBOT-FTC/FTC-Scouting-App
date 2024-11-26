@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { MatchCollection } from "@/types/team-properties";
 
 export default function Home() {
+  const [selectedValue, setSelectedValue] = useState(0);
   const [response, setResponse] = useState<MatchCollection>();
 
   useEffectOnce(() => {
@@ -18,7 +19,6 @@ export default function Home() {
       const matchData: MatchCollection = await value.json();
       setResponse(matchData);
       alert("match data: " + matchData.length);
-      alert("teams: " + matchData[0].teams[0].team);
       // const selectElement = document.getElementById("matchNumber");
       // for (let i = 1; i < matchData.length + 1; i++) {
       //   const option = document.createElement("option");
@@ -37,15 +37,30 @@ export default function Home() {
           className="rounded-md text-black"
           name="matchNumber"
           id="matchNumber"
+          onChange={(event) => {
+            setSelectedValue(Number(event.target.value));
+            alert(selectedValue);
+          }}
+          required
         >
           <option disabled>Match Number</option>
-          {response?.map((matchNum) => {
-            return <option key={matchNum.match}>{matchNum.match}</option>;
+          {response?.map((match) => {
+            return (
+              <option value={match.match} key={match.match}>
+                {match.match}
+              </option>
+            );
           })}
+        </select>
+        <select className="" name="teamNums" id="teamNums" aria-hidden={true}>
+          <div className="aspect-square w-28 flex-auto justify-center bg-blue-700">
+            blahblahblah
+          </div>
         </select>
       </form>
       <div className="grid justify-center bg-transparent p-2 text-xl md:p-4 lg:p-8">
         Blue Alliance
+        <div className="flex aspect-square justify-center bg-blue-800 text-xl text-white"></div>
       </div>
     </div>
   );
