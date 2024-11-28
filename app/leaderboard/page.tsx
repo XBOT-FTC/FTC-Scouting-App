@@ -20,6 +20,7 @@ import { useMemo, useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { SelectInputText } from "@/components/select-input-text";
+import { COMPETITION } from "@/constants/competition";
 import { sortAtom } from "@/store/sort";
 import { Statistics } from "@/types/statistics";
 import { Match } from "@/types/team-properties";
@@ -46,7 +47,7 @@ export default function Leaderboard() {
   useEffectOnce(() => {
     fetch("/api/fetch-matches", {
       method: "POST",
-      body: JSON.stringify({ collection: "League Meet 1", matches: [] }),
+      body: JSON.stringify({ collection: COMPETITION, matches: [] }),
     }).then(async (value) => {
       const average: Map<TeamNumber, Statistics> = new Map();
       const low: Map<TeamNumber, Statistics> = new Map();
