@@ -276,10 +276,10 @@ export default function Leaderboard() {
                     setShow(true);
                   }}
                 >
-                  <TableCell>{value.specimen}</TableCell>
-                  <TableCell>{value.basket}</TableCell>
-                  <TableCell>{value.climb}</TableCell>
-                  <TableCell>{value.total}</TableCell>
+                  <TableCell>{Math.round(value.specimen)}</TableCell>
+                  <TableCell>{Math.round(value.basket)}</TableCell>
+                  <TableCell>{Math.round(value.climb)}</TableCell>
+                  <TableCell>{Math.round(value.total)}</TableCell>
                   <TableCell>{`${value.team}: ${value.name}`}</TableCell>
                 </TableRow>
               );
