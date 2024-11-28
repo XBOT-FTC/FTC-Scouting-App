@@ -13,6 +13,7 @@ import { MatchCollection } from "@/types/team-properties";
 
 export default function Home() {
   const [response, setResponse] = useState<MatchCollection>();
+  const [_, rerender] = useState();
   const [matchNumber, setMatchNumber] = useAtom(matchAtom);
   const [cursor, setCursor] = useState<number>(0);
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
@@ -27,8 +28,6 @@ export default function Home() {
     });
   });
 
-  console.log(response);
-
   return (
     <div className="grid justify-center bg-gradient-to-b from-teal-400 from-20% via-teal-700 via-30% to-teal-900 to-85% text-white">
       <form>
@@ -37,6 +36,19 @@ export default function Home() {
           name="matchNumber"
           id="matchNumber"
           defaultValue="Match Number"
+          onChange={(event) => {
+            setMatchNumber(Number(event.currentTarget.value));
+            const match = response!.find(
+              (value) => value.match === Number(event.currentTarget.value),
+            )!;
+            setLocalDraft(
+              produce(localDraft, (draft) => {
+                draft.name = match.teams[cursor].name;
+                draft.team = match.teams[cursor].team;
+                draft.color = match.teams[cursor].color;
+              }),
+            );
+          }}
           required
         >
           <option className="text-gray-500" disabled>
@@ -45,17 +57,7 @@ export default function Home() {
           {!(response === undefined) ? (
             response.map((match) => {
               return (
-                <option
-                  onClick={() => {
-                    setMatchNumber(match.match);
-                    produce(localDraft, (draft) => {
-                      draft.name = match.teams[cursor].name;
-                      draft.team = match.teams[cursor].team;
-                      draft.color = match.teams[cursor].color;
-                    });
-                  }}
-                  key={match.match}
-                >
+                <option onChange={() => {}} key={match.match}>
                   {match.match}
                 </option>
               );
@@ -80,7 +82,7 @@ export default function Home() {
           >
             Team Number
           </option>
-          {!(response === undefined) ? (
+          {response ? (
             response
               ?.find((val) => val.match === matchNumber)
               ?.teams.map((value, i) => {
