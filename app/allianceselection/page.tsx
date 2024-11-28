@@ -13,7 +13,6 @@ import { MatchCollection } from "@/types/team-properties";
 
 export default function Home() {
   const [response, setResponse] = useState<MatchCollection>();
-  const [_, rerender] = useState();
   const [matchNumber, setMatchNumber] = useAtom(matchAtom);
   const [cursor, setCursor] = useState<number>(0);
   const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
