@@ -92,7 +92,7 @@ export default function Home() {
                         }),
                       );
                     }}
-                    key={i}
+                    key={value.team}
                   >
                     {value.team}
                   </option>
