@@ -72,7 +72,12 @@ export default function Home() {
           defaultValue="Team Number"
           required
         >
-          <option className="text-gray-500" value={"Team Number"} disabled>
+          <option
+            key={cursor}
+            className="text-gray-500"
+            value={"Team Number"}
+            disabled
+          >
             Team Number
           </option>
           {!(response === undefined) ? (
