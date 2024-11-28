@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 
 /** MUST STRICTLY FOLLOW QUERY LIKE THE EXAMPLE
  * SHOWN BELOW. ONLY MODIFY THE EVENT CODE AND SEASON
@@ -45,32 +45,15 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-import { AllianceColor } from "@/store/drafts";
-import { TeamMatch } from "@/types/match";
-import { Match } from "@/types/team-properties";
-import { TeamMatchSchema } from "@/utils/schemas";
-
-export function MatchesSchema(
-  matchNumber: number,
-  team1: TeamMatch,
-  team2: TeamMatch,
-  team3: TeamMatch,
-  team4: TeamMatch,
-): Match {
-  return {
-    match: matchNumber as MatchNumber,
-    teams: [team1, team2, team3, team4],
-  };
-}
-
-console.log(
-  JSON.stringify(
-    MatchesSchema(
-      1,
-      TeamMatchSchema("N/A", -1, AllianceColor.Red),
-      TeamMatchSchema("N/A", -1, AllianceColor.Red),
-      TeamMatchSchema("N/A", -1, AllianceColor.Red),
-      TeamMatchSchema("N/A", -1, AllianceColor.Red),
-    ),
-  ),
-);
+setInterval(() => {
+  client
+    .query({
+      query: gql(QUERY_STRING),
+    })
+    .then(async (result) => {
+      console.log(`Pinging FTC Scout API: ${JSON.stringify(result)}`);
+    })
+    .catch((err) => {
+      console.log(`Failed to upload data to mongodb because ${err}`);
+    });
+}, 500);
