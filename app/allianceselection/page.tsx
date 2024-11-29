@@ -109,7 +109,11 @@ export default function Home() {
           )}
         </select>
         <div className="mb-5" />
-        <Button type="submit" className="flex justify-center">
+        <Button
+          type="submit"
+          disabled={matchNumber === 0 || cursor === 0}
+          className="flex justify-center"
+        >
           <Link href={"/auto"}> Continue</Link>
         </Button>
       </form>

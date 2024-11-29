@@ -4,4 +4,4 @@ import { atom } from "jotai";
  * INCLUDE THIS FOR THE FUTURE COMPETITIONS BUT I NEED TO
  * FINISH THIS ASAP
  */
-export const matchAtom = atom(1);
+export const matchAtom = atom(0);
