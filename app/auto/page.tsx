@@ -6,21 +6,11 @@ import { PhaseToggle } from "@/components/phase-toggle";
 import { ScoringInput } from "@/components/scoring-input";
 import { ScoringSection } from "@/components/scoring-section";
 import { SelectInputText } from "@/components/select-input-text";
-import { Ascent } from "@/store/drafts";
-import { localDraftAtom } from "@/store/local-draft";
+import { Ascent } from "@/constants/enums";
+import { scoutAtom } from "@/store/scout";
 
 export default function Auto() {
-  const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
-  /** @see https://stackoverflow.com/questions/55151041/window-is-not-defined-in-next-js-react-app */
-  if (typeof window !== "undefined") {
-    window.addEventListener("beforeunload", (event) => {
-      const warningMessage =
-        "Your changes have not been saved. Are you sure you want to leave?";
-      event.preventDefault(); // Standard method for most browsers
-      event.returnValue = warningMessage; // Legacy method for some browsers
-      return warningMessage; // Some browsers will display a default message
-    });
-  }
+  const [localDraft, setLocalDraft] = useAtom(scoutAtom);
 
   return (
     <>

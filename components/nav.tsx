@@ -22,50 +22,14 @@ export function Nav() {
         </span>
       </NavbarBrand>
       <div className="flex md:order-2">
-        {/* <Button
-          as="span"
-          className="cursor-pointer"
-          onClick={() => {
-            setDebug((isDebug) => !isDebug );
-          }}
-        >
-          Debug Mode
-        </Button> */}
         <DarkThemeToggle />
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        {/* See comment bellow */}
-        {/* <Link href="/drafts" passHref>
-        </Link> */}
-        {/* <NavbarLink
-          as={"button"}
-          active
-          onClick={() => {
-            router.push("/drafts");
-          }}
-        >
-          Drafts
-        </NavbarLink> */}
-
-        {/* Using Link to handle linking via basePath for you? */}
-
-        {/* <NavbarLink
-          as={"button"}
-          active
-          onClick={() => {
-            router.push("/auto");
-          }}
-        >
-          Mock passing new draft
-        </NavbarLink> */}
-
         <NavbarLink
           as={"button"}
           active
-          onClick={() => {
-            router.push("/leaderboard");
-          }}
+          onClick={() => router.push("/leaderboard")}
         >
           Leaderboard
         </NavbarLink>

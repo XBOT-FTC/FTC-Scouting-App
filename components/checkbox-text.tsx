@@ -17,11 +17,7 @@ export function CheckboxText({
       <div />
       <Checkbox
         defaultChecked={defaultChecked}
-        onChange={(event) => {
-          if (onChange) {
-            onChange(event.currentTarget.checked);
-          }
-        }}
+        onChange={(event) => onChange ?? onChange!(event.currentTarget.checked)}
       />
     </div>
   );

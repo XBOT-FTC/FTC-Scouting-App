@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { Ascent } from "@/store/drafts";
+import { Ascent } from "@/constants/enums";
 import { TeamMatch } from "@/types/match";
 
 /** for internal usage

@@ -1,4 +1,4 @@
-import { AllianceColor, Ascent } from "@/store/drafts";
+import { AllianceColor, Ascent } from "@/constants/enums";
 import { TeamMatch } from "@/types/match";
 
 /**

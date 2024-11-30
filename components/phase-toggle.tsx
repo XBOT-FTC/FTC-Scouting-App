@@ -12,12 +12,7 @@ export function PhaseToggle({ phases }: PhaseToggleProps) {
       <ButtonGroup className="flex justify-center">
         {phases.map((value) => {
           return (
-            <Button
-              key={value.name}
-              onClick={() => {
-                router.push(value.href);
-              }}
-            >
+            <Button key={value.name} onClick={() => router.push(value.href)}>
               {value.name}
             </Button>
           );

@@ -1,4 +1,4 @@
-import { Ascent } from "@/store/drafts";
+import { Ascent } from "@/constants/enums";
 import { TeamMatch } from "@/types/match";
 
 /** a utility function that calculates the

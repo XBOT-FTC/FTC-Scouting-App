@@ -9,8 +9,6 @@ import { useWindowSize } from "react-use";
 import { Overflow } from "@/components/overflow";
 import { getRandomInteger } from "@/utils/random-range";
 
-//21
-
 export default function Home() {
   const [number, setNumber] = useState(1);
   const [congrats, setCongrats] = useState(false);
