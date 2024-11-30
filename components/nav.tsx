@@ -38,7 +38,7 @@ export function Nav() {
         {/* See comment bellow */}
         {/* <Link href="/drafts" passHref>
         </Link> */}
-        <NavbarLink
+        {/* <NavbarLink
           as={"button"}
           active
           onClick={() => {
@@ -46,11 +46,11 @@ export function Nav() {
           }}
         >
           Drafts
-        </NavbarLink>
+        </NavbarLink> */}
 
         {/* Using Link to handle linking via basePath for you? */}
 
-        <NavbarLink
+        {/* <NavbarLink
           as={"button"}
           active
           onClick={() => {
@@ -58,7 +58,7 @@ export function Nav() {
           }}
         >
           Mock passing new draft
-        </NavbarLink>
+        </NavbarLink> */}
 
         <NavbarLink
           as={"button"}

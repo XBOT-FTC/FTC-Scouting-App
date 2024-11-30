@@ -20,6 +20,7 @@ import { useMemo, useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { SelectInputText } from "@/components/select-input-text";
+import { COMPETITION } from "@/constants/competition";
 import { sortAtom } from "@/store/sort";
 import { Statistics } from "@/types/statistics";
 import { Match } from "@/types/team-properties";
@@ -46,7 +47,7 @@ export default function Leaderboard() {
   useEffectOnce(() => {
     fetch("/api/fetch-matches", {
       method: "POST",
-      body: JSON.stringify({ collection: "League Meet 1", matches: [] }),
+      body: JSON.stringify({ collection: COMPETITION, matches: [] }),
     }).then(async (value) => {
       const average: Map<TeamNumber, Statistics> = new Map();
       const low: Map<TeamNumber, Statistics> = new Map();
@@ -56,84 +57,87 @@ export default function Leaderboard() {
 
       response.forEach((match) => {
         match.teams.forEach((matchData) => {
-          const calculation = CalculatePoints(matchData);
-          if (average.get(matchData.team) === undefined) {
-            average.set(
-              matchData.team,
-              StatisticsSchema(matchData.name, matchData.team),
-            );
-            low.set(
-              matchData.team,
-              StatisticsSchema(matchData.name, matchData.team),
-            );
-            high.set(
-              matchData.team,
-              StatisticsSchema(matchData.name, matchData.team),
-            );
-          }
+          if (matchData.scouted) {
+            const calculation = CalculatePoints(matchData);
+            if (average.get(matchData.team) === undefined) {
+              average.set(
+                matchData.team,
+                StatisticsSchema(matchData.name, matchData.team),
+              );
+              low.set(
+                matchData.team,
+                StatisticsSchema(matchData.name, matchData.team),
+              );
+              high.set(
+                matchData.team,
+                StatisticsSchema(matchData.name, matchData.team),
+              );
+            }
 
-          if (calculation.total > high.get(matchData.team)!.total) {
-            high.set(matchData.team, {
-              ...high.get(matchData.team)!,
-              total: calculation.total,
-            });
-          }
-          if (calculation.climb > high.get(matchData.team)!.climb) {
-            high.set(matchData.team, {
-              ...high.get(matchData.team)!,
-              climb: calculation.climb,
-            });
-          }
-          if (calculation.specimen > high.get(matchData.team)!.specimen) {
-            high.set(matchData.team, {
-              ...high.get(matchData.team)!,
-              specimen: calculation.specimen,
-            });
-          }
-          if (calculation.basket > high.get(matchData.team)!.basket) {
-            high.set(matchData.team, {
-              ...high.get(matchData.team)!,
-              basket: calculation.basket,
-            });
-          }
+            if (calculation.total > high.get(matchData.team)!.total) {
+              high.set(matchData.team, {
+                ...high.get(matchData.team)!,
+                total: calculation.total,
+              });
+            }
+            if (calculation.climb > high.get(matchData.team)!.climb) {
+              high.set(matchData.team, {
+                ...high.get(matchData.team)!,
+                climb: calculation.climb,
+              });
+            }
+            if (calculation.specimen > high.get(matchData.team)!.specimen) {
+              high.set(matchData.team, {
+                ...high.get(matchData.team)!,
+                specimen: calculation.specimen,
+              });
+            }
+            if (calculation.basket > high.get(matchData.team)!.basket) {
+              high.set(matchData.team, {
+                ...high.get(matchData.team)!,
+                basket: calculation.basket,
+              });
+            }
 
-          if (calculation.total < low.get(matchData.team)!.total) {
-            low.set(matchData.team, {
-              ...low.get(matchData.team)!,
-              total: calculation.total,
-            });
-          }
-          if (calculation.climb < low.get(matchData.team)!.climb) {
-            low.set(matchData.team, {
-              ...low.get(matchData.team)!,
-              climb: calculation.climb,
-            });
-          }
-          if (calculation.specimen < low.get(matchData.team)!.specimen) {
-            low.set(matchData.team, {
-              ...low.get(matchData.team)!,
-              specimen: calculation.specimen,
-            });
-          }
-          if (calculation.basket < low.get(matchData.team)!.basket) {
-            low.set(matchData.team, {
-              ...low.get(matchData.team)!,
-              basket: calculation.basket,
-            });
-          }
+            if (calculation.total < low.get(matchData.team)!.total) {
+              low.set(matchData.team, {
+                ...low.get(matchData.team)!,
+                total: calculation.total,
+              });
+            }
+            if (calculation.climb < low.get(matchData.team)!.climb) {
+              low.set(matchData.team, {
+                ...low.get(matchData.team)!,
+                climb: calculation.climb,
+              });
+            }
+            if (calculation.specimen < low.get(matchData.team)!.specimen) {
+              low.set(matchData.team, {
+                ...low.get(matchData.team)!,
+                specimen: calculation.specimen,
+              });
+            }
+            if (calculation.basket < low.get(matchData.team)!.basket) {
+              low.set(matchData.team, {
+                ...low.get(matchData.team)!,
+                basket: calculation.basket,
+              });
+            }
 
-          average.set(matchData.team, {
-            ...average.get(matchData.team)!,
-            basket: average.get(matchData.team)!.basket + calculation.basket,
-            climb: average.get(matchData.team)!.climb + calculation.climb,
-            specimen:
-              average.get(matchData.team)!.specimen + calculation.specimen,
-            total: average.get(matchData.team)!.total + calculation.total,
-          });
-          occurrence.set(
-            matchData.team,
-            (occurrence.get(matchData.team) || 0) + 1,
-          );
+            average.set(matchData.team, {
+              ...average.get(matchData.team)!,
+              basket: average.get(matchData.team)!.basket + calculation.basket,
+              climb: average.get(matchData.team)!.climb + calculation.climb,
+              specimen:
+                average.get(matchData.team)!.specimen + calculation.specimen,
+              total: average.get(matchData.team)!.total + calculation.total,
+            });
+
+            occurrence.set(
+              matchData.team,
+              (occurrence.get(matchData.team) || 0) + 1,
+            );
+          }
         });
       });
 
@@ -275,10 +279,10 @@ export default function Leaderboard() {
                     setShow(true);
                   }}
                 >
-                  <TableCell>{value.specimen}</TableCell>
-                  <TableCell>{value.basket}</TableCell>
-                  <TableCell>{value.climb}</TableCell>
-                  <TableCell>{value.total}</TableCell>
+                  <TableCell>{Math.round(value.specimen)}</TableCell>
+                  <TableCell>{Math.round(value.basket)}</TableCell>
+                  <TableCell>{Math.round(value.climb)}</TableCell>
+                  <TableCell>{Math.round(value.total)}</TableCell>
                   <TableCell>{`${value.team}: ${value.name}`}</TableCell>
                 </TableRow>
               );

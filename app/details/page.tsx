@@ -13,6 +13,7 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useEffectOnce } from "react-use";
 
+import { COMPETITION } from "@/constants/competition";
 import { AllianceColor } from "@/store/drafts";
 import {
   Match,
@@ -37,7 +38,7 @@ export default function MyPage() {
         fetch("api/fetch-matches", {
           method: "POST",
           body: JSON.stringify({
-            collection: "League Meet 1",
+            collection: COMPETITION,
             matches: response[0].matches,
           } as {
             collection: string;

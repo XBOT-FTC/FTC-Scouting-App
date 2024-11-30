@@ -57,7 +57,7 @@ client
   .query({
     query: gql`
       query {
-        eventByCode(code: "USWARIM1", season: 2024) {
+        eventByCode(code: "USWARIM2", season: 2024) {
           teams {
             teamNumber
             team {

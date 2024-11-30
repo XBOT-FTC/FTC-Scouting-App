@@ -1,0 +1,7 @@
+import { atom } from "jotai";
+
+/**THIS IS HARDCODED SPECIFICALLY FOR THIS COMPETITION, MAY
+ * INCLUDE THIS FOR THE FUTURE COMPETITIONS BUT I NEED TO
+ * FINISH THIS ASAP
+ */
+export const matchAtom = atom(0);
