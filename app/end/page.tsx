@@ -17,13 +17,13 @@ import { PhaseToggle } from "@/components/phase-toggle";
 import { RangeText } from "@/components/range-text";
 import { SelectInputText } from "@/components/select-input-text";
 import { COMPETITION } from "@/constants/competition";
-import { Ascent } from "@/store/drafts";
-import { localDraftAtom } from "@/store/local-draft";
+import { Ascent } from "@/constants/enums";
 import { matchAtom } from "@/store/match";
+import { scoutAtom } from "@/store/scout";
 import { TeamMatch } from "@/types/match";
 
 export default function End() {
-  const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
+  const [localDraft, setLocalDraft] = useAtom(scoutAtom);
   const [openSubmit, setOpenSubmit] = useState(false);
   const matchNumber = useAtomValue(matchAtom);
   const router = useRouter();

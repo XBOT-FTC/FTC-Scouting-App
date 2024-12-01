@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { COMPETITION } from "@/constants/competition";
-import { AllianceColor } from "@/store/drafts";
+import { AllianceColor } from "@/constants/enums";
 import {
   Match,
   TeamProperties,

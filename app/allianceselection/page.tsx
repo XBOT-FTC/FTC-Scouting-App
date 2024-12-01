@@ -7,8 +7,8 @@ import { useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { COMPETITION } from "@/constants/competition";
-import { localDraftAtom } from "@/store/local-draft";
 import { matchAtom } from "@/store/match";
+import { scoutAtom } from "@/store/scout";
 import { MatchCollection } from "@/types/team-properties";
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
   const [matchNumber, setMatchNumber] = useAtom(matchAtom);
   const [team, setTeam] = useState<number>(0);
   const [cursor, setCursor] = useState<number>(0);
-  const [localDraft, setLocalDraft] = useAtom(localDraftAtom);
+  const [localDraft, setLocalDraft] = useAtom(scoutAtom);
   const router = useRouter();
 
   useEffectOnce(() => {

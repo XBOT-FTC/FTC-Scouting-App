@@ -17,9 +17,7 @@ export function SelectInputText({
       <text className="select-none">{description}</text>
       <select
         defaultValue={defaultValue}
-        onChange={(event) => {
-          if (onChange) onChange(event.currentTarget.value);
-        }}
+        onChange={(event) => onChange && onChange!(event.currentTarget.value)}
       >
         {children}
       </select>

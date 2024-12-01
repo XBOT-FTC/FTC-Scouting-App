@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { ScoringInput } from "@/components/scoring-input";
-import { AllianceColor } from "@/store/drafts";
+import { AllianceColor } from "@/constants/enums";
 import { TeamMatch } from "@/types/match";
 import {
   MatchCollection,

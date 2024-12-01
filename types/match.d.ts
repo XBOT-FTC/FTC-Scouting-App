@@ -1,4 +1,4 @@
-import { Ascent } from "@/store/drafts";
+import { Ascent } from "@/constants/enums";
 
 import { TeamNumber } from "./team-properties";
 

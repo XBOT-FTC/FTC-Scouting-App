@@ -11,31 +11,27 @@ export async function POST(request: Request) {
         deprecationErrors: true,
       },
     });
-    const json = (await request.json()) as {
+    const requestData = (await request.json()) as {
       collection: string;
       matches: Array<number>;
     };
-    if (JSON.stringify(json.matches) === "[]") {
+    if (JSON.stringify(requestData.matches) === "[]") {
       const search = await client
         .db("MatchData")
-        .collection(json.collection)
+        .collection(requestData.collection)
         .find()
         .toArray();
       return Response.json(search);
     }
-    console.log(json);
+
     const search = await client
       .db("MatchData")
-      .collection(json.collection)
-      .find({ match: { $in: json.matches } })
+      .collection(requestData.collection)
+      .find({ match: { $in: requestData.matches } })
       .toArray();
     return Response.json(search);
   } catch (err) {
     console.log("error!", err);
     return Response.json(err);
   }
-}
-
-export async function GET() {
-  return Response.json("Please use POST request please.");
 }

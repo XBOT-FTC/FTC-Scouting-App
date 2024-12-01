@@ -2,7 +2,7 @@ import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { COMPETITION } from "@/constants/competition";
-import { AllianceColor } from "@/store/drafts";
+import { AllianceColor } from "@/constants/enums";
 import { TeamMatch } from "@/types/match";
 import { MatchCollection } from "@/types/team-properties";
 import { TeamMatchSchema } from "@/utils/schemas";

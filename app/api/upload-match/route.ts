@@ -1,4 +1,3 @@
-import { assert } from "console";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { TeamMatch } from "@/types/match";
@@ -15,16 +14,16 @@ export async function POST(request: Request) {
       },
     });
     const database = client.db("MatchData");
-    const json = (await request.json()) as {
+    const requestData = (await request.json()) as {
       teamMatch: TeamMatch;
       matchNumber: number;
       collection: string;
     };
 
-    const collection = database.collection(json.collection);
+    const collection = database.collection(requestData.collection);
 
     const data = (await collection.findOne({
-      match: json.matchNumber,
+      match: requestData.matchNumber,
     })) as Match;
 
     {
@@ -32,19 +31,19 @@ export async function POST(request: Request) {
 
       data.teams.forEach((otherMatch) => {
         if (
-          otherMatch.team === json.teamMatch.team &&
-          otherMatch.color === json.teamMatch.color
+          otherMatch.team === requestData.teamMatch.team &&
+          otherMatch.color === requestData.teamMatch.color
         ) {
           found = true;
         }
       });
-      assert(found);
+      console.assert(found);
     }
 
     const update = new Array<TeamMatch>();
     data.teams.forEach((otherMatch) => {
-      if (otherMatch.team === json.teamMatch.team) {
-        update.push(json.teamMatch);
+      if (otherMatch.team === requestData.teamMatch.team) {
+        update.push(requestData.teamMatch);
       } else {
         update.push(otherMatch);
       }
@@ -52,9 +51,9 @@ export async function POST(request: Request) {
 
     await collection.replaceOne(
       {
-        match: json.matchNumber,
+        match: requestData.matchNumber,
       },
-      { teams: update, match: json.matchNumber },
+      { teams: update, match: requestData.matchNumber },
     );
     return Response.json("ok");
   } catch {
