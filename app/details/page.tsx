@@ -81,7 +81,7 @@ export default function MyPage() {
                             ?.find((match) => match.match === matchNumber)
                             ?.teams.map((data) => (
                               <>
-                                <TableRow>
+                                <TableRow onClick={() => alert(data.comments)}>
                                   <TableCell className="text-xs">
                                     {`${data.team}: ${data.name}`}
                                   </TableCell>
