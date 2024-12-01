@@ -25,7 +25,7 @@ export function RangeText<T extends number, U extends number>({
         min={min}
         max={max}
         onChange={(event) =>
-          onChange ?? onChange!(Number(event.currentTarget.value) as never)
+          onChange && onChange!(Number(event.currentTarget.value) as never)
         }
       />
     </div>
