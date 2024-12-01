@@ -2,6 +2,11 @@
 
 import {
   Accordion,
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Table,
   TableBody,
   TableCell,
@@ -27,6 +32,7 @@ export default function MyPage() {
   const team: string | null = searchParams.get("team");
   const [teamProperties, setTeamProperties] = useState<TeamProperties>();
   const [matches, setMatches] = useState<Array<Match>>();
+  const [comments, setComments] = useState<string | undefined>();
 
   useEffectOnce(() => {
     fetch("api/fetch-team", {
@@ -55,6 +61,18 @@ export default function MyPage() {
 
   return (
     <>
+      <Modal
+        onClose={() => setComments(undefined)}
+        show={comments !== undefined}
+      >
+        <ModalHeader>Comments</ModalHeader>
+        <ModalBody>
+          {comments === "" ? "No comments left by scouters" : comments}
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={() => setComments(undefined)}>Exit</Button>
+        </ModalFooter>
+      </Modal>
       {teamProperties ? (
         <>
           <p className="text-center">{`${teamProperties.team}: ${teamProperties.name}`}</p>
@@ -81,7 +99,9 @@ export default function MyPage() {
                             ?.find((match) => match.match === matchNumber)
                             ?.teams.map((data) => (
                               <>
-                                <TableRow onClick={() => alert(data.comments)}>
+                                <TableRow
+                                  onClick={() => setComments(data.comments)}
+                                >
                                   <TableCell className="text-xs">
                                     {`${data.team}: ${data.name}`}
                                   </TableCell>
