@@ -22,7 +22,7 @@ import { useEffectOnce } from "react-use";
 import { COMPETITION } from "@/constants/competition";
 import { sortAtom } from "@/store/sort";
 import { Statistics } from "@/types/statistics";
-import { Match } from "@/types/team-properties";
+import { Match, TeamPropertiesCollection } from "@/types/team-properties";
 import { CalculatePoints } from "@/utils/calculate-points";
 import { StatisticsSchema } from "@/utils/schemas";
 
@@ -63,9 +63,12 @@ export default function Leaderboard() {
       const low: Map<TeamNumber, Statistics> = new Map();
       const high: Map<TeamNumber, Statistics> = new Map();
       const occurrence = new Map<TeamNumber, number>();
-      const response: Array<WithId<Match>> = await value.json();
+      const teamProperties: TeamPropertiesCollection = await (
+        await fetch("api/fetch-team")
+      ).json();
+      const matches: Array<WithId<Match>> = await value.json();
 
-      response.forEach((match) => {
+      matches.forEach((match) => {
         match.teams.forEach((matchData) => {
           if (matchData.scouted) {
             const calculation = CalculatePoints(matchData);
@@ -161,6 +164,13 @@ export default function Leaderboard() {
           team: prev.team,
           total: prev.total / divide,
         });
+      });
+      teamProperties.forEach((value) => {
+        if (!average.has(value.team)) {
+          low.set(value.team, StatisticsSchema(value.name, value.team));
+          high.set(value.team, StatisticsSchema(value.name, value.team));
+          average.set(value.team, StatisticsSchema(value.name, value.team));
+        }
       });
       setLow(low);
       setHigh(high);
