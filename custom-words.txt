@@ -6,4 +6,5 @@ intothedeep
 matches
 USWAHALT
 USWARIM1
+USWARIM
 allianceselection

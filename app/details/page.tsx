@@ -1,5 +1,4 @@
-"use client"; // This ensures the component runs on the client side
-
+"use client";
 import {
   Accordion,
   HR,

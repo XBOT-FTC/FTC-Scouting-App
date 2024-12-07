@@ -1,4 +1,3 @@
-/* eslint-disable @cspell/spellchecker */
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 export async function POST(request: Request) {
