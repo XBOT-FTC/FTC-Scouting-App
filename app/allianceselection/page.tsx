@@ -119,7 +119,7 @@ export default function Home() {
           if (!(team === 0 || matchNumber === 0)) {
             const result = response
               ?.find((match) => match.match === matchNumber)
-              ?.teams.find((team) => team.team === team.team);
+              ?.teams.find((value) => value.team === team);
             setScoutData(
               TeamMatchSchema(result!.name, result!.team, result!.color),
             );
