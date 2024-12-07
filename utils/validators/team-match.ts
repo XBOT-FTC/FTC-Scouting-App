@@ -29,6 +29,13 @@ export const validateTeamMatch: Zod.ZodSchema<ExcludeNominalKeys<TeamMatch>> =
       z.literal(4),
       z.literal(5),
     ]),
+    operatorRating: z.union([
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+    ]),
     name: z.string(),
     auto: validatePhase,
     teleop: validatePhase.omit({ ascent: true }),

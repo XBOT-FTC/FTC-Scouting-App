@@ -25,7 +25,6 @@ export async function POST(request: Request) {
       .collection("TeamProperties")
       .find({ team: { $in: requestData } })
       .toArray();
-    console.log(search);
     return Response.json(search);
   } catch (err) {
     return Response.json(err);

@@ -40,6 +40,7 @@ export function TeamMatchSchema(
     color: color,
     comments: "",
     driverRating: 1,
+    operatorRating: 1,
     name: name,
     team: team as TeamNumber,
     scouted: scouted,

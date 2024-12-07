@@ -1,7 +1,6 @@
 "use client";
 import {
   Accordion,
-  HR,
   Modal,
   ModalBody,
   ModalHeader,
@@ -41,6 +40,8 @@ export default function MyPage() {
         climb: number;
         total: number;
         team: number;
+        driverRating: number;
+        operatorRating: number;
       }
     | undefined
   >();
@@ -85,6 +86,8 @@ export default function MyPage() {
         total: rnd(calculation.total),
         name: teamMatch.name,
         team: teamMatch.team,
+        driverRating: teamMatch.driverRating,
+        operatorRating: teamMatch.operatorRating,
       });
     }
   }, [selectedTeam, selectedMatch, matches]);
@@ -95,15 +98,19 @@ export default function MyPage() {
         <ModalHeader>Comments</ModalHeader>
         <ModalBody>
           {status?.team}: {status?.name}
-          <div className="mb-2" />
+          <div className="mb-3" />
           Comments: {status?.comments === "" ? "N/A" : status?.comments}
-          <HR />
+          <div />
+          Driver Rating: {status?.driverRating}
+          <div />
+          Operator Rating: {status?.operatorRating}
+          <div className="mb-3" />
           Specimen: {status?.specimen}
-          <div className="mb-2" />
+          <div />
           Basket: {status?.basket}
-          <div className="mb-2" />
+          <div />
           Climb: {status?.climb}
-          <div className="mb-2" />
+          <div />
           Total: {status?.total}
         </ModalBody>
       </Modal>

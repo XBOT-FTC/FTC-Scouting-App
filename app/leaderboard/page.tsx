@@ -19,7 +19,6 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useEffectOnce } from "react-use";
 
-import { SelectInputText } from "@/components/select-input-text";
 import { COMPETITION } from "@/constants/competition";
 import { sortAtom } from "@/store/sort";
 import { Statistics } from "@/types/statistics";
@@ -271,27 +270,31 @@ export default function Leaderboard() {
           </Button>
         </ModalFooter>
       </Modal>
-      <SelectInputText
-        onChange={(value) => {
-          setFilter(value as "basket");
-        }}
-        description="Filter"
-      >
-        <option>basket</option>
-        <option>specimen</option>
-        <option>climb</option>
-        <option>total</option>
-      </SelectInputText>
-      <SelectInputText
-        onChange={(value) => {
-          setSort(value as "average");
-        }}
-        description="Sort"
-      >
-        <option>average</option>
-        <option>minimum</option>
-        <option>maximum</option>
-      </SelectInputText>
+      <div className="flex justify-center">
+        <select
+          className="rounded-md text-center dark:text-black"
+          onChange={(event) => {
+            setFilter(event.currentTarget.value as "basket");
+          }}
+        >
+          <option>basket</option>
+          <option>specimen</option>
+          <option>climb</option>
+          <option>total</option>
+        </select>
+        <div className="mr-5" />
+        <select
+          className="rounded-md text-center dark:text-black"
+          onChange={(event) => {
+            setSort(event.currentTarget.value as "average");
+          }}
+        >
+          <option>average</option>
+          <option>minimum</option>
+          <option>maximum</option>
+        </select>
+      </div>
+      <div className="mb-5" />
       <div className="overflow-x-auto">
         <Table hoverable>
           <TableHead>
