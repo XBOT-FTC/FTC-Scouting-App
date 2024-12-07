@@ -1,6 +1,7 @@
 "use client";
 import {
   Button,
+  HR,
   Modal,
   ModalBody,
   ModalFooter,
@@ -42,6 +43,17 @@ export default function Leaderboard() {
   );
   const [team, setTeam] = useState<number>();
   const [show, setShow] = useState<boolean>(false);
+  const [status, setStatus] = useState<
+    | {
+        name: string;
+        specimen: number;
+        basket: number;
+        climb: number;
+        total: number;
+        team: number;
+      }
+    | undefined
+  >();
 
   useEffectOnce(() => {
     fetch("/api/fetch-matches", {
@@ -218,14 +230,36 @@ export default function Leaderboard() {
     }
   }, [average, filter, low, high, sort, setDisplay]);
 
+  useMemo(() => {
+    const result = display.find((value) => value.team === team);
+    const rnd = Math.round;
+    if (result)
+      setStatus({
+        basket: rnd(result.basket),
+        climb: rnd(result.climb),
+        name: result.name,
+        specimen: rnd(result.specimen),
+        team: result.team,
+        total: rnd(result.total),
+      });
+  }, [display, team]);
+
   return (
     <>
       <Modal show={show} onClose={() => setShow(false)}>
         <ModalHeader>Details</ModalHeader>
         <ModalBody>
-          You are currently viewing details for <div /> team {team}
-          <div />
-          Do you want to continue?
+          {team} {status?.name}
+          <HR />
+          Specimen: {status?.specimen}
+          <div className="mb-2" />
+          Basket: {status?.basket}
+          <div className="mb-2" />
+          Climb: {status?.climb}
+          <div className="mb-2" />
+          Total: {status?.total}
+          <HR />
+          The data shows <b>all</b> match data after using <i>{sort}</i> method.
         </ModalBody>
         <ModalFooter>
           <Button
@@ -233,7 +267,7 @@ export default function Leaderboard() {
               router.push(`/details?team=${team}`);
             }}
           >
-            Continue
+            View Further Details
           </Button>
         </ModalFooter>
       </Modal>
@@ -261,11 +295,9 @@ export default function Leaderboard() {
       <div className="overflow-x-auto">
         <Table hoverable>
           <TableHead>
-            <TableHeadCell>Specimen</TableHeadCell>
-            <TableHeadCell>Basket</TableHeadCell>
-            <TableHeadCell>Climb</TableHeadCell>
-            <TableHeadCell>Total</TableHeadCell>
             <TableHeadCell>Team</TableHeadCell>
+            <TableHeadCell>Total</TableHeadCell>
+            <TableHeadCell />
           </TableHead>
           <TableBody className="divide-y">
             {display?.map((value, index) => {
@@ -278,11 +310,13 @@ export default function Leaderboard() {
                     setShow(true);
                   }}
                 >
-                  <TableCell>{Math.round(value.specimen)}</TableCell>
-                  <TableCell>{Math.round(value.basket)}</TableCell>
-                  <TableCell>{Math.round(value.climb)}</TableCell>
+                  <TableCell className="max-w-5">
+                    <text className="text-xs">{`${value.team}`}</text>
+                  </TableCell>
                   <TableCell>{Math.round(value.total)}</TableCell>
-                  <TableCell>{`${value.team}: ${value.name}`}</TableCell>
+                  <TableCell className="text-blue-500 underline">
+                    View
+                  </TableCell>
                 </TableRow>
               );
             })}
