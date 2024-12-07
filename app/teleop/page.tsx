@@ -1,16 +1,20 @@
 "use client";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 
 import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
 import { ScoringInput } from "@/components/scoring-input";
 import { ScoringSection } from "@/components/scoring-section";
+import { matchAtom } from "@/store/match";
 import { scoutAtom } from "@/store/scout";
 
 export default function Teleop() {
-  const [localDraft, setLocalDraft] = useAtom(scoutAtom);
+  const [scoutData, setScoutData] = useAtom(scoutAtom);
+  const match = useAtomValue(matchAtom);
   return (
     <>
+      <text className="flex justify-center text-center dark:text-white">{`Team: ${scoutData.team} Match: ${match}`}</text>
+      <div className="mb-2" />
       <PhaseToggle
         phases={[
           { href: "/auto", name: "Auto" },
@@ -21,31 +25,31 @@ export default function Teleop() {
 
       <ScoringSection sectionName="Scored Sample">
         <ScoringInput
-          defaultValue={localDraft.teleop.net}
+          defaultValue={scoutData.teleop.net}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              teleop: { ...localDraft.teleop, net: val },
+            setScoutData({
+              ...scoutData,
+              teleop: { ...scoutData.teleop, net: val },
             });
           }}
           description="Net"
         />
         <ScoringInput
-          defaultValue={localDraft.teleop.lowBasket}
+          defaultValue={scoutData.teleop.lowBasket}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              teleop: { ...localDraft.teleop, lowBasket: val },
+            setScoutData({
+              ...scoutData,
+              teleop: { ...scoutData.teleop, lowBasket: val },
             });
           }}
           description="Low"
         />
         <ScoringInput
-          defaultValue={localDraft.teleop.highBasket}
+          defaultValue={scoutData.teleop.highBasket}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              teleop: { ...localDraft.teleop, highBasket: val },
+            setScoutData({
+              ...scoutData,
+              teleop: { ...scoutData.teleop, highBasket: val },
             });
           }}
           description="High"
@@ -54,21 +58,21 @@ export default function Teleop() {
 
       <ScoringSection sectionName="Scored Specimen">
         <ScoringInput
-          defaultValue={localDraft.teleop.lowChamber}
+          defaultValue={scoutData.teleop.lowChamber}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              teleop: { ...localDraft.teleop, lowChamber: val },
+            setScoutData({
+              ...scoutData,
+              teleop: { ...scoutData.teleop, lowChamber: val },
             });
           }}
           description="Low"
         />
         <ScoringInput
-          defaultValue={localDraft.teleop.highChamber}
+          defaultValue={scoutData.teleop.highChamber}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              teleop: { ...localDraft.teleop, highChamber: val },
+            setScoutData({
+              ...scoutData,
+              teleop: { ...scoutData.teleop, highChamber: val },
             });
           }}
           description="High"
@@ -77,12 +81,12 @@ export default function Teleop() {
 
       <div className="grid place-items-center gap-5 text-center">
         <CheckboxText
-          defaultChecked={localDraft.teleop.fouled}
+          defaultChecked={scoutData.teleop.fouled}
           onChange={(checked) => {
-            setLocalDraft({
-              ...localDraft,
+            setScoutData({
+              ...scoutData,
               teleop: {
-                ...localDraft.teleop,
+                ...scoutData.teleop,
                 fouled: checked,
               },
             });
@@ -91,12 +95,12 @@ export default function Teleop() {
         />
         <CheckboxText
           description="Robot Disabled"
-          defaultChecked={localDraft.teleop.fouled}
+          defaultChecked={scoutData.teleop.fouled}
           onChange={(checked) => {
-            setLocalDraft({
-              ...localDraft,
+            setScoutData({
+              ...scoutData,
               teleop: {
-                ...localDraft.teleop,
+                ...scoutData.teleop,
                 fouled: checked,
               },
             });

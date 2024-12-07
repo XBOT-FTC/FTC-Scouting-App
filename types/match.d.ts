@@ -29,6 +29,8 @@ export interface TeamMatch {
   comments: string;
   /** the rating for driver */
   driverRating: 1 | 2 | 3 | 4 | 5;
+  /** the rating for operator */
+  operatorRating: 1 | 2 | 3 | 4 | 5;
   /** data for auto phase */
   auto: TeamPhase & {
     ascent: Ascent;

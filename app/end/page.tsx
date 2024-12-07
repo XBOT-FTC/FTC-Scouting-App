@@ -23,13 +23,16 @@ import { scoutAtom } from "@/store/scout";
 import { TeamMatch } from "@/types/match";
 
 export default function End() {
-  const [localDraft, setLocalDraft] = useAtom(scoutAtom);
+  const [scoutData, setScoutData] = useAtom(scoutAtom);
+  const match = useAtomValue(matchAtom);
   const [openSubmit, setOpenSubmit] = useState(false);
   const matchNumber = useAtomValue(matchAtom);
   const router = useRouter();
 
   return (
     <>
+      <text className="flex justify-center text-center dark:text-white">{`Team: ${scoutData.team} Match: ${match}`}</text>
+      <div className="mb-2" />
       <Modal
         show={openSubmit}
         onClose={() => setOpenSubmit(false)}
@@ -46,7 +49,7 @@ export default function End() {
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
                     matchNumber: matchNumber,
-                    teamMatch: produce(localDraft, (draft) => {
+                    teamMatch: produce(scoutData, (draft) => {
                       draft.scouted = true;
                     }),
                     collection: COMPETITION,
@@ -78,11 +81,11 @@ export default function End() {
 
       <div className="grid place-items-center gap-5 text-center">
         <SelectInputText
-          defaultValue={localDraft.end.ascent}
+          defaultValue={scoutData.end.ascent}
           onChange={(value) => {
-            setLocalDraft({
-              ...localDraft,
-              end: { ...localDraft.end, ascent: value as Ascent },
+            setScoutData({
+              ...scoutData,
+              end: { ...scoutData.end, ascent: value as Ascent },
             });
           }}
           description="Ascent"
@@ -95,12 +98,12 @@ export default function End() {
         </SelectInputText>
         <CheckboxText
           description="Fouled"
-          defaultChecked={localDraft.end.fouled}
+          defaultChecked={scoutData.end.fouled}
           onChange={(checked) => {
-            setLocalDraft({
-              ...localDraft,
+            setScoutData({
+              ...scoutData,
               end: {
-                ...localDraft.end,
+                ...scoutData.end,
                 fouled: checked,
               },
             });
@@ -108,22 +111,22 @@ export default function End() {
         />
         <CheckboxText
           description="Robot Disabled"
-          defaultChecked={localDraft.end.disabled}
+          defaultChecked={scoutData.end.disabled}
           onChange={(checked) => {
-            setLocalDraft({
-              ...localDraft,
+            setScoutData({
+              ...scoutData,
               end: {
-                ...localDraft.end,
+                ...scoutData.end,
                 disabled: checked,
               },
             });
           }}
         />
         <Textarea
-          defaultValue={localDraft.comments}
+          defaultValue={scoutData.comments}
           onChange={(event) => {
-            setLocalDraft({
-              ...localDraft,
+            setScoutData({
+              ...scoutData,
               comments: event.currentTarget.value,
             });
           }}
@@ -134,14 +137,26 @@ export default function End() {
           rows={4}
         />
         <RangeText
-          defaultValue={localDraft.driverRating}
+          defaultValue={scoutData.driverRating}
           description="Driver rating"
           min={1}
           max={5}
           onChange={(value) => {
-            setLocalDraft({
-              ...localDraft,
+            setScoutData({
+              ...scoutData,
               driverRating: value,
+            });
+          }}
+        />
+        <RangeText
+          defaultValue={scoutData.operatorRating}
+          description="Operator rating"
+          min={1}
+          max={5}
+          onChange={(value) => {
+            setScoutData({
+              ...scoutData,
+              operatorRating: value,
             });
           }}
         />

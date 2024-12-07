@@ -16,6 +16,7 @@ export function SelectInputText({
     <div className="grid select-none place-items-center text-center">
       <text className="select-none">{description}</text>
       <select
+        className="rounded-md text-center dark:text-black"
         defaultValue={defaultValue}
         onChange={(event) => onChange && onChange!(event.currentTarget.value)}
       >

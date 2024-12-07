@@ -1,5 +1,5 @@
 "use client";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 
 import { CheckboxText } from "@/components/checkbox-text";
 import { PhaseToggle } from "@/components/phase-toggle";
@@ -7,13 +7,17 @@ import { ScoringInput } from "@/components/scoring-input";
 import { ScoringSection } from "@/components/scoring-section";
 import { SelectInputText } from "@/components/select-input-text";
 import { Ascent } from "@/constants/enums";
+import { matchAtom } from "@/store/match";
 import { scoutAtom } from "@/store/scout";
 
 export default function Auto() {
-  const [localDraft, setLocalDraft] = useAtom(scoutAtom);
+  const [scoutData, setScoutData] = useAtom(scoutAtom);
+  const match = useAtomValue(matchAtom);
 
   return (
     <>
+      <text className="flex justify-center text-center dark:text-white">{`Team: ${scoutData.team} Match: ${match}`}</text>
+      <div className="mb-2" />
       <PhaseToggle
         phases={[
           { href: "/auto", name: "Auto" },
@@ -24,31 +28,31 @@ export default function Auto() {
 
       <ScoringSection sectionName="Scored Sample">
         <ScoringInput
-          defaultValue={localDraft.auto.net}
+          defaultValue={scoutData.auto.net}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              auto: { ...localDraft.auto, net: val },
+            setScoutData({
+              ...scoutData,
+              auto: { ...scoutData.auto, net: val },
             });
           }}
           description="Net"
         />
         <ScoringInput
-          defaultValue={localDraft.auto.lowBasket}
+          defaultValue={scoutData.auto.lowBasket}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              auto: { ...localDraft.auto, lowBasket: val },
+            setScoutData({
+              ...scoutData,
+              auto: { ...scoutData.auto, lowBasket: val },
             });
           }}
           description="Low"
         />
         <ScoringInput
-          defaultValue={localDraft.auto.highBasket}
+          defaultValue={scoutData.auto.highBasket}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              auto: { ...localDraft.auto, highBasket: val },
+            setScoutData({
+              ...scoutData,
+              auto: { ...scoutData.auto, highBasket: val },
             });
           }}
           description="High"
@@ -57,21 +61,21 @@ export default function Auto() {
 
       <ScoringSection sectionName="Scored Specimen">
         <ScoringInput
-          defaultValue={localDraft.auto.lowChamber}
+          defaultValue={scoutData.auto.lowChamber}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              auto: { ...localDraft.auto, lowChamber: val },
+            setScoutData({
+              ...scoutData,
+              auto: { ...scoutData.auto, lowChamber: val },
             });
           }}
           description="Low"
         />
         <ScoringInput
-          defaultValue={localDraft.auto.highChamber}
+          defaultValue={scoutData.auto.highChamber}
           onChange={(val) => {
-            setLocalDraft({
-              ...localDraft,
-              auto: { ...localDraft.auto, highChamber: val },
+            setScoutData({
+              ...scoutData,
+              auto: { ...scoutData.auto, highChamber: val },
             });
           }}
           description="High"
@@ -81,24 +85,24 @@ export default function Auto() {
       <div className="grid place-items-center gap-5 text-center">
         <CheckboxText
           description="Robot Disabled"
-          defaultChecked={localDraft.auto.fouled}
+          defaultChecked={scoutData.auto.fouled}
           onChange={(checked) => {
-            setLocalDraft({
-              ...localDraft,
+            setScoutData({
+              ...scoutData,
               auto: {
-                ...localDraft.auto,
+                ...scoutData.auto,
                 fouled: checked,
               },
             });
           }}
         />
         <CheckboxText
-          defaultChecked={localDraft.auto.fouled}
+          defaultChecked={scoutData.auto.fouled}
           onChange={(checked) => {
-            setLocalDraft({
-              ...localDraft,
+            setScoutData({
+              ...scoutData,
               auto: {
-                ...localDraft.auto,
+                ...scoutData.auto,
                 fouled: checked,
               },
             });
@@ -110,11 +114,11 @@ export default function Auto() {
       <div className="grid place-items-center gap-5 text-center">
         <SelectInputText
           description="Ascent"
-          defaultValue={localDraft.auto.ascent}
+          defaultValue={scoutData.auto.ascent}
           onChange={(value) => {
-            setLocalDraft({
-              ...localDraft,
-              auto: { ...localDraft.auto, ascent: value as Ascent },
+            setScoutData({
+              ...scoutData,
+              auto: { ...scoutData.auto, ascent: value as Ascent },
             });
           }}
         >
