@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Home() {
   return (
-    <div className="grid justify-center bg-gradient-to-b from-teal-400 from-20% via-teal-700 via-30% to-teal-900 to-85% text-white">
+    <div className="grid justify-center text-white">
       <div className="grid justify-center bg-transparent">
         <Image
           src="images/image.png"
@@ -13,7 +13,7 @@ export default function Home() {
           alt="Picture of logo"
         />
       </div>
-      <div className="mt-5 box-content border-2 border-black bg-white p-5">
+      <div className="mt-5 box-content rounded-md border-2 border-black bg-white p-5">
         <div className="mb-10 grid justify-center text-2xl text-black">
           <p>
             <b>Welcome</b>
@@ -27,8 +27,13 @@ export default function Home() {
                 <b>Enter Name</b>
               </p>
             </div>
-            <input type="text" placeholder="Name" required />
-            <div className="m-20 grid justify-center rounded-sm bg-blue-400 box-decoration-slice p-3 text-white hover:bg-blue-800">
+            <input
+              className="rounded-md"
+              type="text"
+              placeholder="Name"
+              required
+            />
+            <div className="m-20 grid justify-center rounded-md bg-blue-400 box-decoration-slice p-3 text-white hover:bg-blue-800">
               <Link href={"/allianceselection"}>
                 <button type="submit">Next</button>
               </Link>
