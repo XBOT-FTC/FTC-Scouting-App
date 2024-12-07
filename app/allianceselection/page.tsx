@@ -10,13 +10,14 @@ import { COMPETITION } from "@/constants/competition";
 import { matchAtom } from "@/store/match";
 import { scoutAtom } from "@/store/scout";
 import { MatchCollection } from "@/types/team-properties";
+import { TeamMatchSchema } from "@/utils/schemas";
 
 export default function Home() {
   const [response, setResponse] = useState<MatchCollection>();
   const [matchNumber, setMatchNumber] = useAtom(matchAtom);
   const [team, setTeam] = useState<number>(0);
   const [cursor, setCursor] = useState<number>(0);
-  const [localDraft, setLocalDraft] = useAtom(scoutAtom);
+  const [scoutData, setScoutData] = useAtom(scoutAtom);
   const router = useRouter();
 
   useEffectOnce(() => {
@@ -41,8 +42,8 @@ export default function Home() {
           const match = response!.find(
             (value) => value.match === Number(event.currentTarget.value),
           )!;
-          setLocalDraft(
-            produce(localDraft, (draft) => {
+          setScoutData(
+            produce(scoutData, (draft) => {
               draft.name = match.teams[cursor].name;
               draft.team = match.teams[cursor].team;
               draft.color = match.teams[cursor].color;
@@ -75,8 +76,8 @@ export default function Home() {
               (value) => value.team === Number(event.currentTarget.value),
             ),
           );
-          setLocalDraft(
-            produce(localDraft, (draft) => {
+          setScoutData(
+            produce(scoutData, (draft) => {
               const result = response
                 ?.find((match) => match.match === matchNumber)
                 ?.teams.find(
@@ -116,6 +117,12 @@ export default function Home() {
         disabled={team === 0 || matchNumber === 0}
         onClick={() => {
           if (!(team === 0 || matchNumber === 0)) {
+            const result = response
+              ?.find((match) => match.match === matchNumber)
+              ?.teams.find((team) => team.team === team.team);
+            setScoutData(
+              TeamMatchSchema(result!.name, result!.team, result!.color),
+            );
             router.push("/auto");
           }
         }}

@@ -2,10 +2,9 @@
 
 import {
   Accordion,
-  Button,
+  HR,
   Modal,
   ModalBody,
-  ModalFooter,
   ModalHeader,
   Table,
   TableBody,
@@ -15,7 +14,7 @@ import {
   TableRow,
 } from "flowbite-react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { COMPETITION } from "@/constants/competition";
@@ -32,7 +31,20 @@ export default function MyPage() {
   const team: string | null = searchParams.get("team");
   const [teamProperties, setTeamProperties] = useState<TeamProperties>();
   const [matches, setMatches] = useState<Array<Match>>();
-  const [comments, setComments] = useState<string | undefined>();
+  const [selectedMatch, setSelectedMatch] = useState<number>();
+  const [selectedTeam, setSelectedTeam] = useState<number>(Number(team!));
+  const [status, setStatus] = useState<
+    | {
+        comments: string;
+        name: string;
+        specimen: number;
+        basket: number;
+        climb: number;
+        total: number;
+        team: number;
+      }
+    | undefined
+  >();
 
   useEffectOnce(() => {
     fetch("api/fetch-team", {
@@ -59,19 +71,42 @@ export default function MyPage() {
     });
   });
 
+  useMemo(() => {
+    const teamMatch = matches
+      ?.find((match) => match.match === selectedMatch)
+      ?.teams.find((value) => value.team === selectedTeam);
+    if (teamMatch) {
+      const rnd = Math.round;
+      const calculation = CalculatePoints(teamMatch);
+      setStatus({
+        basket: rnd(calculation.basket),
+        climb: rnd(calculation.climb),
+        comments: teamMatch.comments,
+        specimen: rnd(calculation.specimen),
+        total: rnd(calculation.total),
+        name: teamMatch.name,
+        team: teamMatch.team,
+      });
+    }
+  }, [selectedTeam, selectedMatch, matches]);
+
   return (
     <>
-      <Modal
-        onClose={() => setComments(undefined)}
-        show={comments !== undefined}
-      >
+      <Modal onClose={() => setStatus(undefined)} show={status !== undefined}>
         <ModalHeader>Comments</ModalHeader>
         <ModalBody>
-          {comments === "" ? "No comments left by scouters" : comments}
+          {status?.team}: {status?.name}
+          <div className="mb-2" />
+          Comments: {status?.comments === "" ? "N/A" : status?.comments}
+          <HR />
+          Specimen: {status?.specimen}
+          <div className="mb-2" />
+          Basket: {status?.basket}
+          <div className="mb-2" />
+          Climb: {status?.climb}
+          <div className="mb-2" />
+          Total: {status?.total}
         </ModalBody>
-        <ModalFooter>
-          <Button onClick={() => setComments(undefined)}>Exit</Button>
-        </ModalFooter>
       </Modal>
       {teamProperties ? (
         <>
@@ -88,42 +123,32 @@ export default function MyPage() {
                       <Table>
                         <TableHead>
                           <TableHeadCell>Team</TableHeadCell>
-                          <TableHeadCell>Alliance</TableHeadCell>
-                          <TableHeadCell>Specimen</TableHeadCell>
-                          <TableHeadCell>Basket</TableHeadCell>
-                          <TableHeadCell>Climb</TableHeadCell>
+                          <TableHeadCell>Color</TableHeadCell>
                           <TableHeadCell>Total</TableHeadCell>
                         </TableHead>
                         <TableBody className="divide-y">
                           {matches
                             ?.find((match) => match.match === matchNumber)
-                            ?.teams.map((data) => (
-                              <>
-                                <TableRow
-                                  onClick={() => setComments(data.comments)}
-                                >
-                                  <TableCell className="text-xs">
-                                    {`${data.team}: ${data.name}`}
-                                  </TableCell>
-                                  <TableCell>
-                                    {data.color === AllianceColor.Red
-                                      ? "🔴"
-                                      : "🔵"}
-                                  </TableCell>
-                                  <TableCell>
-                                    {CalculatePoints(data).specimen}
-                                  </TableCell>
-                                  <TableCell>
-                                    {CalculatePoints(data).basket}
-                                  </TableCell>
-                                  <TableCell>
-                                    {CalculatePoints(data).climb}
-                                  </TableCell>
-                                  <TableCell>
-                                    {CalculatePoints(data).total}
-                                  </TableCell>
-                                </TableRow>
-                              </>
+                            ?.teams.map((data, i) => (
+                              <TableRow
+                                key={i}
+                                onClick={() => {
+                                  setSelectedMatch(matchNumber);
+                                  setSelectedTeam(data.team);
+                                }}
+                              >
+                                <TableCell className="text-xs">
+                                  {`${data.team}`}
+                                </TableCell>
+                                <TableCell>
+                                  {data.color === AllianceColor.Red
+                                    ? "🔴"
+                                    : "🔵"}
+                                </TableCell>
+                                <TableCell>
+                                  {CalculatePoints(data).total}
+                                </TableCell>
+                              </TableRow>
                             ))}
                         </TableBody>
                       </Table>

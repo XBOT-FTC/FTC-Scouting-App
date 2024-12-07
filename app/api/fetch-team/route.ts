@@ -12,7 +12,6 @@ export async function POST(request: Request) {
       },
     });
     const requestData = (await request.json()) as number[];
-    console.log(requestData);
     if (JSON.stringify(requestData) === "[]") {
       const search = await client
         .db("MatchData")

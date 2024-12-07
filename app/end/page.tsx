@@ -60,7 +60,7 @@ export default function End() {
                 alert("data failed to upload, try again later.");
               } finally {
                 setOpenSubmit(false);
-                router.push("/final");
+                router.push("/allianceselection");
               }
             }}
           >
