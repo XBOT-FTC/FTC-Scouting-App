@@ -13,7 +13,7 @@ export default function Teleop() {
   const match = useAtomValue(matchAtom);
   return (
     <>
-      <text className="flex justify-center text-center dark:text-white">{`Team: ${scoutData.team} Match: ${match}`}</text>
+      <text className="flex justify-center text-center dark:text-white">{`Team: ${scoutData.team} | Match: ${match} | Mode: Teleop`}</text>
       <div className="mb-2" />
       <PhaseToggle
         phases={[

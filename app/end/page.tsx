@@ -31,7 +31,7 @@ export default function End() {
 
   return (
     <>
-      <text className="flex justify-center text-center dark:text-white">{`Team: ${scoutData.team} Match: ${match}`}</text>
+      <text className="flex justify-center text-center dark:text-white">{`Team: ${scoutData.team} | Match: ${match} | Mode: End`}</text>
       <div className="mb-2" />
       <Modal
         show={openSubmit}
