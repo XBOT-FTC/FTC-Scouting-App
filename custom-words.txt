@@ -7,4 +7,5 @@ matches
 USWAHALT
 USWARIM1
 USWARIM
+USWAPALT
 allianceselection

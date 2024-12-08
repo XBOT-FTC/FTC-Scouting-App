@@ -21,7 +21,7 @@ import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
  * @example
  */
 const QUERY_STRING = `      query {
-        eventByCode(code: "USWARIM2", season: 2024) {
+        eventByCode(code: "USWAPALT1", season: 2024) {
           matches {
             matchNum
             teams {
