@@ -62,7 +62,7 @@ export default function Manual() {
       .query({
         query: gql`
           query {
-            eventByCode(code: "USWARIM2", season: 2024) {
+            eventByCode(code: "USWAPALT1", season: 2024) {
               teams {
                 team {
                   number
