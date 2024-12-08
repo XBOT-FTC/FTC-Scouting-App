@@ -13,7 +13,7 @@ export function CheckboxText({
 }: CheckboxTextProps) {
   return (
     <div className="grid select-none place-items-center">
-      {description}
+      <text className="dark:text-white">{description}</text>
       <div />
       <Checkbox
         defaultChecked={defaultChecked}

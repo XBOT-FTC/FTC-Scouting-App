@@ -15,7 +15,7 @@ export function ScoringInput({
     <div>
       <NumberInput defaultValue={defaultValue} onChange={onChange} />
       <div className="mb-2 block" />
-      <text className="select-none">{description}</text>
+      <text className="select-none dark:text-white">{description}</text>
     </div>
   );
 }

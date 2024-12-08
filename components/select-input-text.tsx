@@ -14,7 +14,7 @@ export function SelectInputText({
 }: SelectInputProps) {
   return (
     <div className="grid select-none place-items-center text-center">
-      <text className="select-none">{description}</text>
+      <text className="select-none dark:text-white">{description}</text>
       <select
         className="rounded-md text-center dark:text-black"
         defaultValue={defaultValue}

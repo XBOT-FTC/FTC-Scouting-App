@@ -7,7 +7,7 @@ interface ScoringSectionProps extends PropsWithChildren {
 export function ScoringSection({ children, sectionName }: ScoringSectionProps) {
   return (
     <>
-      <text className="flex h-10 select-none justify-center">
+      <text className="flex h-10 select-none justify-center dark:text-white">
         {sectionName}
       </text>
       <div className="grid grid-flow-col justify-center gap-5 text-center">
