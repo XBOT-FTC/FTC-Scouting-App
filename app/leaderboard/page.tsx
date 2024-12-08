@@ -13,14 +13,12 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import { useAtom } from "jotai";
 import { WithId } from "mongodb";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useEffectOnce } from "react-use";
 
 import { COMPETITION } from "@/constants/competition";
-import { sortAtom } from "@/store/sort";
 import { Statistics } from "@/types/statistics";
 import { Match, TeamPropertiesCollection } from "@/types/team-properties";
 import { CalculatePoints } from "@/utils/calculate-points";
@@ -33,7 +31,7 @@ export default function Leaderboard() {
   const [average, setAverage] = useState<Map<TeamNumber, Statistics>>(
     new Map(),
   );
-  const [display, setDisplay] = useAtom<Array<Statistics>>(sortAtom);
+  const [display, setDisplay] = useState<Array<Statistics>>([]);
   const [filter, setFilter] = useState<
     "basket" | "specimen" | "climb" | "total"
   >("total");
@@ -50,6 +48,12 @@ export default function Leaderboard() {
         climb: number;
         total: number;
         team: number;
+        autoBasket: number;
+        autoSpecimen: number;
+        autoClimb: number;
+        teleopBasket: number;
+        teleopSpecimen: number;
+        endClimb: number;
       }
     | undefined
   >();
@@ -96,18 +100,24 @@ export default function Leaderboard() {
             if (calculation.climb > high.get(matchData.team)!.climb) {
               high.set(matchData.team, {
                 ...high.get(matchData.team)!,
+                autoClimb: calculation.autoClimb,
+                endClimb: calculation.endClimb,
                 climb: calculation.climb,
               });
             }
             if (calculation.specimen > high.get(matchData.team)!.specimen) {
               high.set(matchData.team, {
                 ...high.get(matchData.team)!,
+                autoSpecimen: calculation.autoSpecimen,
+                teleopSpecimen: calculation.teleopSpecimen,
                 specimen: calculation.specimen,
               });
             }
             if (calculation.basket > high.get(matchData.team)!.basket) {
               high.set(matchData.team, {
                 ...high.get(matchData.team)!,
+                autoBasket: calculation.basket,
+                teleopBasket: calculation.teleopBasket,
                 basket: calculation.basket,
               });
             }
@@ -121,26 +131,48 @@ export default function Leaderboard() {
             if (calculation.climb < low.get(matchData.team)!.climb) {
               low.set(matchData.team, {
                 ...low.get(matchData.team)!,
+                autoClimb: calculation.autoClimb,
+                endClimb: calculation.endClimb,
                 climb: calculation.climb,
               });
             }
             if (calculation.specimen < low.get(matchData.team)!.specimen) {
               low.set(matchData.team, {
                 ...low.get(matchData.team)!,
+                autoSpecimen: calculation.specimen,
+                teleopSpecimen: calculation.teleopSpecimen,
                 specimen: calculation.specimen,
               });
             }
             if (calculation.basket < low.get(matchData.team)!.basket) {
               low.set(matchData.team, {
                 ...low.get(matchData.team)!,
+                autoBasket: calculation.autoBasket,
+                teleopBasket: calculation.teleopBasket,
                 basket: calculation.basket,
               });
             }
 
             average.set(matchData.team, {
               ...average.get(matchData.team)!,
-              basket: average.get(matchData.team)!.basket + calculation.basket,
+              autoBasket:
+                average.get(matchData.team)!.autoBasket +
+                calculation.autoBasket,
+              autoClimb:
+                average.get(matchData.team)!.autoClimb + calculation.autoClimb,
+              autoSpecimen:
+                average.get(matchData.team)!.autoSpecimen +
+                calculation.autoSpecimen,
+              teleopBasket:
+                average.get(matchData.team)!.teleopBasket +
+                calculation.teleopBasket,
+              teleopSpecimen:
+                average.get(matchData.team)!.teleopSpecimen +
+                calculation.teleopSpecimen,
               climb: average.get(matchData.team)!.climb + calculation.climb,
+              endClimb:
+                average.get(matchData.team)!.endClimb + calculation.endClimb,
+              basket: average.get(matchData.team)!.basket + calculation.basket,
               specimen:
                 average.get(matchData.team)!.specimen + calculation.specimen,
               total: average.get(matchData.team)!.total + calculation.total,
@@ -157,12 +189,18 @@ export default function Leaderboard() {
       occurrence.forEach((divide, teamNumber) => {
         const prev = average.get(teamNumber)!;
         average.set(teamNumber, {
+          autoBasket: prev.autoBasket / divide,
+          autoClimb: prev.autoClimb / divide,
+          autoSpecimen: prev.autoSpecimen / divide,
+          name: prev.name,
+          teleopBasket: prev.teleopBasket / divide,
+          teleopSpecimen: prev.teleopSpecimen / divide,
           basket: prev.basket / divide,
           climb: prev.climb / divide,
-          name: prev.name,
           specimen: prev.specimen / divide,
           team: prev.team,
           total: prev.total / divide,
+          endClimb: prev.endClimb / divide,
         });
       });
       teamProperties.forEach((value) => {
@@ -250,23 +288,38 @@ export default function Leaderboard() {
         specimen: rnd(result.specimen),
         team: result.team,
         total: rnd(result.total),
+        autoBasket: rnd(result.autoBasket),
+        autoClimb: rnd(result.autoClimb),
+        autoSpecimen: rnd(result.autoSpecimen),
+        endClimb: rnd(result.endClimb),
+        teleopBasket: rnd(result.teleopBasket),
+        teleopSpecimen: rnd(result.teleopSpecimen),
       });
   }, [display, team]);
 
   return (
     <>
+      {display.length === 0 ? <text>Loading</text> : <></>}
       <Modal show={show} onClose={() => setShow(false)}>
         <ModalHeader>Details</ModalHeader>
         <ModalBody>
           {team} {status?.name}
-          <HR />
-          Specimen: {status?.specimen}
           <div className="mb-2" />
-          Basket: {status?.basket}
+          Total Specimen: {status?.specimen}
+          <div />
+          Total Basket: {status?.basket}
+          <div />
+          Total Climb: {status?.climb}
           <div className="mb-2" />
-          Climb: {status?.climb}
+          Auto Basket: {status?.autoBasket}
+          <div />
+          Auto Specimen: {status?.autoSpecimen}
           <div className="mb-2" />
-          Total: {status?.total}
+          Teleop Basket: {status?.teleopBasket}
+          <div />
+          Teleop Specimen: {status?.teleopSpecimen}
+          <div className="mb-2" />
+          Total Score: {status?.total}
           <HR />
           The data shows <b>all</b> match data after using <i>{sort}</i> method.
         </ModalBody>

@@ -51,5 +51,15 @@ export function CalculatePoints(draft: TeamMatch) {
       draft.teleop.highChamber * 8 +
       draft.auto.lowChamber * 4 +
       draft.auto.highChamber * 8,
+    teleopBasket:
+      draft.teleop.net * 2 +
+      draft.teleop.lowBasket * 4 +
+      draft.teleop.highBasket * 8,
+    autoBasket:
+      draft.auto.net * 2 + draft.auto.lowBasket * 4 + draft.auto.highBasket * 8,
+    teleopSpecimen: draft.teleop.lowChamber * 4 + draft.teleop.highChamber * 8,
+    autoSpecimen: draft.auto.lowChamber * 4 + draft.auto.highChamber * 8,
+    autoClimb: InferAscent(draft.auto.ascent),
+    endClimb: InferAscent(draft.end.ascent),
   };
 }
