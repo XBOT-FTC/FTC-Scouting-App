@@ -7,8 +7,6 @@ updates:
     ignore:
       - dependency-name: eslint
         versions: ["9"]
-      - dependency-name: react
-        versions: ["19"]
     groups:
       deps:
         dependency-type: "production"
