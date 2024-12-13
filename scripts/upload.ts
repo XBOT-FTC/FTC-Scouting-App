@@ -52,19 +52,11 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export interface Root {
-  data: Data;
-  loading: boolean;
-  networkStatus: number;
-}
-
-export interface Data {
-  eventByCode: EventByCode;
-}
-
-export interface EventByCode {
+export interface Team {
   __typename: string;
-  matches: Match[];
+  teamNumber: number;
+  alliance: string;
+  team: Team2;
 }
 
 export interface Match {
@@ -73,11 +65,15 @@ export interface Match {
   teams: Team[];
 }
 
-export interface Team {
+export interface Root {
+  networkStatus: number;
+  loading: boolean;
+  data: Data;
+}
+
+export interface EventByCode {
   __typename: string;
-  alliance: string;
-  teamNumber: number;
-  team: Team2;
+  matches: Match[];
 }
 
 export interface Team2 {
@@ -85,12 +81,16 @@ export interface Team2 {
   name: string;
 }
 
+export interface Data {
+  eventByCode: EventByCode;
+}
+
 const uri = `mongodb+srv://xbot:${process.env.MONGO_DB_PASSWORD}@scoutingapp-intothedeep.s6jr6.mongodb.net/?retryWrites=true&w=majority&appName=ScoutingApp-IntoTheDeep`;
 const mongo = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
-    strict: true,
     deprecationErrors: true,
+    strict: true,
   },
 });
 

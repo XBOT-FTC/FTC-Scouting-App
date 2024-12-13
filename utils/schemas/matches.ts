@@ -9,7 +9,7 @@ export function MatchesSchema(
   team4: TeamMatch,
 ): Match {
   return {
-    match: matchNumber as MatchNumber,
     teams: [team1, team2, team3, team4],
+    match: matchNumber as MatchNumber,
   };
 }

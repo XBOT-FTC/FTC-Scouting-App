@@ -34,9 +34,9 @@ export default function End() {
       <text className="flex justify-center text-center dark:text-white">{`Team: ${scoutData.team} | Match: ${match} | Mode: End`}</text>
       <div className="mb-2" />
       <Modal
-        show={openSubmit}
         onClose={() => setOpenSubmit(false)}
         className="dark:text-white"
+        show={openSubmit}
       >
         <ModalHeader className="flex justify-center">Confirming</ModalHeader>
         <ModalBody>You are submitting this draft! Are you sure!</ModalBody>
@@ -45,19 +45,19 @@ export default function End() {
             onClick={() => {
               try {
                 fetch("/api/upload-match", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
-                    matchNumber: matchNumber,
                     teamMatch: produce(scoutData, (draft) => {
                       draft.scouted = true;
                     }),
+                    matchNumber: matchNumber,
                     collection: COMPETITION,
                   } as {
                     teamMatch: TeamMatch;
                     matchNumber: number;
                     collection: string;
                   }),
+                  headers: { "Content-Type": "application/json" },
+                  method: "POST",
                 });
               } catch {
                 alert("data failed to upload, try again later.");
@@ -81,13 +81,13 @@ export default function End() {
 
       <div className="grid place-items-center gap-5 text-center">
         <SelectInputText
-          defaultValue={scoutData.end.ascent}
           onChange={(value) => {
             setScoutData({
               ...scoutData,
               end: { ...scoutData.end, ascent: value as Ascent },
             });
           }}
+          defaultValue={scoutData.end.ascent}
           description="Ascent"
         >
           <option>None</option>
@@ -97,8 +97,6 @@ export default function End() {
           <option>Level3</option>
         </SelectInputText>
         <CheckboxText
-          description="Fouled"
-          defaultChecked={scoutData.end.fouled}
           onChange={(checked) => {
             setScoutData({
               ...scoutData,
@@ -108,10 +106,10 @@ export default function End() {
               },
             });
           }}
+          defaultChecked={scoutData.end.fouled}
+          description="Fouled"
         />
         <CheckboxText
-          description="Robot Disabled"
-          defaultChecked={scoutData.end.disabled}
           onChange={(checked) => {
             setScoutData({
               ...scoutData,
@@ -121,44 +119,46 @@ export default function End() {
               },
             });
           }}
+          defaultChecked={scoutData.end.disabled}
+          description="Robot Disabled"
         />
         <Textarea
-          defaultValue={scoutData.comments}
           onChange={(event) => {
             setScoutData({
               ...scoutData,
               comments: event.currentTarget.value,
             });
           }}
+          placeholder="Additional comments..."
+          defaultValue={scoutData.comments}
           className="max-w-56"
           id="comment"
-          placeholder="Additional comments..."
           required
           rows={4}
         />
         <RangeText
-          defaultValue={scoutData.driverRating}
-          description="Driver rating"
-          min={1}
-          max={5}
           onChange={(value) => {
             setScoutData({
               ...scoutData,
               driverRating: value,
             });
           }}
-        />
-        <RangeText
-          defaultValue={scoutData.operatorRating}
-          description="Operator rating"
+          defaultValue={scoutData.driverRating}
+          description="Driver rating"
           min={1}
           max={5}
+        />
+        <RangeText
           onChange={(value) => {
             setScoutData({
               ...scoutData,
               operatorRating: value,
             });
           }}
+          defaultValue={scoutData.operatorRating}
+          description="Operator rating"
+          min={1}
+          max={5}
         />
 
         <Button

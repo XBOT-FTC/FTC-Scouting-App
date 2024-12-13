@@ -1,14 +1,14 @@
 import { Checkbox } from "flowbite-react";
 
 interface CheckboxTextProps {
-  description: string;
-  defaultChecked: boolean;
   onChange?: (checked: boolean) => void;
+  defaultChecked: boolean;
+  description: string;
 }
 /** A checkbox with text */
 export function CheckboxText({
-  description,
   defaultChecked,
+  description,
   onChange,
 }: CheckboxTextProps) {
   return (
@@ -16,8 +16,8 @@ export function CheckboxText({
       <text className="dark:text-white">{description}</text>
       <div />
       <Checkbox
-        defaultChecked={defaultChecked}
         onChange={(event) => onChange ?? onChange!(event.currentTarget.checked)}
+        defaultChecked={defaultChecked}
       />
     </div>
   );

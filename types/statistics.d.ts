@@ -1,14 +1,14 @@
 export interface Statistics {
-  team: number;
-  name: string;
-  autoBasket: number;
-  autoSpecimen: number;
-  autoClimb: number;
-  teleopBasket: number;
   teleopSpecimen: number;
+  autoSpecimen: number;
+  teleopBasket: number;
+  autoBasket: number;
+  autoClimb: number;
   endClimb: number;
-  basket: number;
   specimen: number;
+  basket: number;
   climb: number;
   total: number;
+  team: number;
+  name: string;
 }

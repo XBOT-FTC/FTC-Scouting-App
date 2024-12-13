@@ -6,13 +6,13 @@ export async function POST(request: Request) {
     const client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
-        strict: true,
         deprecationErrors: true,
+        strict: true,
       },
     });
     const requestData = (await request.json()) as {
-      collection: string;
       matches: Array<number>;
+      collection: string;
     };
     if (JSON.stringify(requestData.matches) === "[]") {
       const search = await client

@@ -16,7 +16,7 @@ export function Nav() {
   return (
     <Navbar fluid>
       <NavbarBrand as={Link} href="/">
-        <Image src="images/image.png" alt="Branding" width={45} height={45} />
+        <Image src="images/image.png" alt="Branding" height={45} width={45} />
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
           Scouting
         </span>
@@ -27,9 +27,9 @@ export function Nav() {
       </div>
       <NavbarCollapse>
         <NavbarLink
+          onClick={() => router.push("/leaderboard")}
           as={"button"}
           active
-          onClick={() => router.push("/leaderboard")}
         >
           Leaderboard
         </NavbarLink>

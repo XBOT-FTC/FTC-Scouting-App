@@ -8,8 +8,8 @@ export function TeamPropertiesSchema(
   matches = new Array<number>(),
 ): TeamProperties {
   return {
-    team: teamNumber as TeamNumber,
     matches: matches as Array<MatchNumber>,
+    team: teamNumber as TeamNumber,
     name: teamName,
     rank: rank,
   };

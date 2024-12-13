@@ -30,7 +30,7 @@ export default function Home() {
     );
   }
 
-  const { width, height } = useWindowSize();
+  const { height, width } = useWindowSize();
 
   return (
     <>
@@ -46,8 +46,8 @@ export default function Home() {
               <ReactConfetti
                 numberOfPieces={1000}
                 recycle={false}
-                width={width}
                 height={height}
+                width={width}
               />
             ) : (
               <></>
@@ -58,16 +58,16 @@ export default function Home() {
         )}
 
         <Image
-          alt="scouter's rng"
           src={"images/thumbnail.jpg"}
+          alt="scouter's rng"
           width={1000}
           height={100}
         />
         <Button
-          disabled={rolling}
           onClick={() => {
             roll();
           }}
+          disabled={rolling}
         >
           Roll
         </Button>
@@ -75,8 +75,8 @@ export default function Home() {
       <ReactConfetti
         numberOfPieces={1000}
         recycle={false}
-        width={width}
         height={height}
+        width={width}
       />
     </>
   );

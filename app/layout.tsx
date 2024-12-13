@@ -10,9 +10,9 @@ import { Nav } from "@/components/nav";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FTC Scouting Webapp",
   description:
     "A Scouting Webapp made to scout data for FTC competitions to provide visually appealing and helpful data for both team 3231 and 2939",
+  title: "FTC Scouting Webapp",
 };
 
 export default function RootLayout({

@@ -8,9 +8,9 @@ export default function Home() {
       <div className="grid justify-center bg-transparent">
         <Image
           src="images/image.png"
-          width={201}
-          height={191}
           alt="Picture of logo"
+          height={191}
+          width={201}
         />
       </div>
       <div className="mt-5 box-content rounded-md border-2 border-black bg-white p-5">
@@ -29,8 +29,8 @@ export default function Home() {
             </div>
             <input
               className="rounded-md"
-              type="text"
               placeholder="Name"
+              type="text"
               required
             />
             <div className="m-20 grid justify-center rounded-md bg-blue-400 box-decoration-slice p-3 text-white hover:bg-blue-800">
