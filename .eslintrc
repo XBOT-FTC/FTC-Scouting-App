@@ -13,7 +13,8 @@
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@cspell/recommended"
+    "plugin:@cspell/recommended",
+    "plugin:perfectionist/recommended-line-length-legacy"
   ],
   "settings": {
     "tailwindcss": {
@@ -46,6 +47,10 @@
     "react/self-closing-comp": "warn",
     "no-undef": "off",
     "@typescript-eslint/no-require-imports": "off",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "no-unused-vars": "off",
+    "perfectionist/sort-imports": "off",
+    "perfectionist/sort-named-imports": "off",
+    "perfectionist/sort-exports": "off"
   }
 }

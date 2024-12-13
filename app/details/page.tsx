@@ -33,35 +33,35 @@ export default function MyPage() {
   const [selectedTeam, setSelectedTeam] = useState<number>(Number(team!));
   const [status, setStatus] = useState<
     | {
+        operatorRating: number;
+        driverRating: number;
         comments: string;
-        name: string;
         specimen: number;
         basket: number;
         climb: number;
         total: number;
+        name: string;
         team: number;
-        driverRating: number;
-        operatorRating: number;
       }
     | undefined
   >();
 
   useEffectOnce(() => {
     fetch("api/fetch-team", {
-      method: "POST",
       body: JSON.stringify([Number(team)]),
+      method: "POST",
     }).then((_response) => {
       _response.json().then((response: TeamPropertiesCollection) => {
         setTeamProperties(response[0]);
         fetch("api/fetch-matches", {
-          method: "POST",
           body: JSON.stringify({
-            collection: COMPETITION,
             matches: response[0].matches,
+            collection: COMPETITION,
           } as {
-            collection: string;
             matches: Array<number>;
+            collection: string;
           }),
+          method: "POST",
         }).then((_matches) => {
           _matches.json().then((matches) => {
             setMatches(matches);
@@ -79,15 +79,15 @@ export default function MyPage() {
       const rnd = Math.round;
       const calculation = CalculatePoints(teamMatch);
       setStatus({
+        operatorRating: teamMatch.operatorRating,
+        driverRating: teamMatch.driverRating,
+        specimen: rnd(calculation.specimen),
         basket: rnd(calculation.basket),
         climb: rnd(calculation.climb),
-        comments: teamMatch.comments,
-        specimen: rnd(calculation.specimen),
         total: rnd(calculation.total),
+        comments: teamMatch.comments,
         name: teamMatch.name,
         team: teamMatch.team,
-        driverRating: teamMatch.driverRating,
-        operatorRating: teamMatch.operatorRating,
       });
     }
   }, [selectedTeam, selectedMatch, matches]);
@@ -137,11 +137,11 @@ export default function MyPage() {
                             ?.find((match) => match.match === matchNumber)
                             ?.teams.map((data, i) => (
                               <TableRow
-                                key={i}
                                 onClick={() => {
                                   setSelectedMatch(matchNumber);
                                   setSelectedTeam(data.team);
                                 }}
+                                key={i}
                               >
                                 <TableCell className="text-xs">
                                   {`${data.team}`}

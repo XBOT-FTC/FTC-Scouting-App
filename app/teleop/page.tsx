@@ -25,63 +25,62 @@ export default function Teleop() {
 
       <ScoringSection sectionName="Scored Sample">
         <ScoringInput
-          defaultValue={scoutData.teleop.net}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               teleop: { ...scoutData.teleop, net: val },
             });
           }}
+          defaultValue={scoutData.teleop.net}
           description="Net"
         />
         <ScoringInput
-          defaultValue={scoutData.teleop.lowBasket}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               teleop: { ...scoutData.teleop, lowBasket: val },
             });
           }}
+          defaultValue={scoutData.teleop.lowBasket}
           description="Low"
         />
         <ScoringInput
-          defaultValue={scoutData.teleop.highBasket}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               teleop: { ...scoutData.teleop, highBasket: val },
             });
           }}
+          defaultValue={scoutData.teleop.highBasket}
           description="High"
         />
       </ScoringSection>
 
       <ScoringSection sectionName="Scored Specimen">
         <ScoringInput
-          defaultValue={scoutData.teleop.lowChamber}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               teleop: { ...scoutData.teleop, lowChamber: val },
             });
           }}
+          defaultValue={scoutData.teleop.lowChamber}
           description="Low"
         />
         <ScoringInput
-          defaultValue={scoutData.teleop.highChamber}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               teleop: { ...scoutData.teleop, highChamber: val },
             });
           }}
+          defaultValue={scoutData.teleop.highChamber}
           description="High"
         />
       </ScoringSection>
 
       <div className="grid place-items-center gap-5 text-center">
         <CheckboxText
-          defaultChecked={scoutData.teleop.fouled}
           onChange={(checked) => {
             setScoutData({
               ...scoutData,
@@ -91,11 +90,10 @@ export default function Teleop() {
               },
             });
           }}
+          defaultChecked={scoutData.teleop.fouled}
           description="Fouled"
         />
         <CheckboxText
-          description="Robot Disabled"
-          defaultChecked={scoutData.teleop.fouled}
           onChange={(checked) => {
             setScoutData({
               ...scoutData,
@@ -105,6 +103,8 @@ export default function Teleop() {
               },
             });
           }}
+          defaultChecked={scoutData.teleop.fouled}
+          description="Robot Disabled"
         />
       </div>
     </>

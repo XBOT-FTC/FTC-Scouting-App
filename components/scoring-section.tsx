@@ -4,7 +4,7 @@ interface ScoringSectionProps extends PropsWithChildren {
   sectionName: string;
 }
 /** A scoring section that holds multiple `scoring-input` components */
-export function ScoringSection({ children, sectionName }: ScoringSectionProps) {
+export function ScoringSection({ sectionName, children }: ScoringSectionProps) {
   return (
     <>
       <text className="flex h-10 select-none justify-center dark:text-white">

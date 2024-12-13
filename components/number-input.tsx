@@ -3,12 +3,12 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
 export interface NumberInputProps {
+  onChange?: (number: number) => void;
   /** the default value for number  */
   defaultValue?: number;
-  onChange?: (number: number) => void;
 }
 
-export function NumberInput({ onChange, defaultValue = 0 }: NumberInputProps) {
+export function NumberInput({ defaultValue = 0, onChange }: NumberInputProps) {
   const [number, setNumber] = useState<number>(defaultValue);
 
   return (

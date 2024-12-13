@@ -20,9 +20,14 @@ const client = new ApolloClient({
 });
 
 export interface Root {
-  data: Data;
-  loading: boolean;
   networkStatus: number;
+  loading: boolean;
+  data: Data;
+}
+
+export interface Team2 {
+  number: number;
+  name: string;
 }
 
 export interface Data {
@@ -37,14 +42,9 @@ export interface Team {
   team: Team2;
 }
 
-export interface Team2 {
-  number: number;
-  name: string;
-}
-
 type MatchStatus = Map<
   number,
-  Array<{ team: number; color: AllianceColor; selected: boolean }>
+  Array<{ color: AllianceColor; selected: boolean; team: number }>
 >;
 
 export default function Manual() {
@@ -81,8 +81,6 @@ export default function Manual() {
   return (
     <>
       <ScoringInput
-        defaultValue={0}
-        description="Match Amount"
         onChange={(num) => {
           if (num > matchAmount.length) {
             setMatchAmount(
@@ -93,9 +91,9 @@ export default function Manual() {
             setMatchStatus(
               produce(matchStatus, (draft) => {
                 const populate: Array<{
-                  team: number;
                   color: AllianceColor;
                   selected: boolean;
+                  team: number;
                 }> = [];
                 result.data.eventByCode.teams.forEach((team) => {
                   populate.push({
@@ -120,14 +118,16 @@ export default function Manual() {
             );
           }
         }}
+        description="Match Amount"
+        defaultValue={0}
       />
       <HR />
       <ScoringInput
-        defaultValue={0}
-        description="Matches Per Team"
         onChange={(num) => {
           setMatchesPerTeam(num);
         }}
+        description="Matches Per Team"
+        defaultValue={0}
       />
       <HR />
       <form>
@@ -135,10 +135,10 @@ export default function Manual() {
           {matchAmount.map((value, index) => {
             return (
               <option
-                key={index}
                 onClick={(event) => {
                   setCurrentMatch(Number(event.currentTarget.value));
                 }}
+                key={index}
               >
                 {value}
               </option>
@@ -152,7 +152,6 @@ export default function Manual() {
             return (
               <div key={team.team.number}>
                 <Checkbox
-                  key={team.team.number}
                   onClick={() => {
                     setMatchStatus(
                       produce(matchStatus, (draft) => {
@@ -169,6 +168,7 @@ export default function Manual() {
                       ?.find((value) => value.team === team.team.number)
                       ?.selected
                   }
+                  key={team.team.number}
                 />
                 {team.team.number}
                 <button
@@ -292,15 +292,15 @@ export default function Manual() {
           const collection: TeamPropertiesCollection = [];
           data.forEach((matches, team) => {
             collection.push({
-              matches: matches as MatchNumber[],
-              team: team as TeamNumber,
-              rank: -1,
               name: database
                 .find(
                   (match) =>
                     match.teams.find((value) => value.team)?.team === team,
                 )
                 ?.teams.find((value) => value.team === team)!.name as string,
+              matches: matches as MatchNumber[],
+              team: team as TeamNumber,
+              rank: -1,
             });
           });
           navigator.clipboard.writeText(JSON.stringify(collection));

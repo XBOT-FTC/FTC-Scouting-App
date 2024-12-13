@@ -1,15 +1,15 @@
 import { NumberInput } from "./number-input";
 
 interface ScoringInputProps {
-  description: string;
-  defaultValue: number;
   onChange: (number: number) => void;
+  defaultValue: number;
+  description: string;
 }
 /** A input component with description */
 export function ScoringInput({
   defaultValue,
-  onChange,
   description,
+  onChange,
 }: ScoringInputProps) {
   return (
     <div>

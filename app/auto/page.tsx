@@ -28,64 +28,62 @@ export default function Auto() {
 
       <ScoringSection sectionName="Scored Sample">
         <ScoringInput
-          defaultValue={scoutData.auto.net}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               auto: { ...scoutData.auto, net: val },
             });
           }}
+          defaultValue={scoutData.auto.net}
           description="Net"
         />
         <ScoringInput
-          defaultValue={scoutData.auto.lowBasket}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               auto: { ...scoutData.auto, lowBasket: val },
             });
           }}
+          defaultValue={scoutData.auto.lowBasket}
           description="Low"
         />
         <ScoringInput
-          defaultValue={scoutData.auto.highBasket}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               auto: { ...scoutData.auto, highBasket: val },
             });
           }}
+          defaultValue={scoutData.auto.highBasket}
           description="High"
         />
       </ScoringSection>
 
       <ScoringSection sectionName="Scored Specimen">
         <ScoringInput
-          defaultValue={scoutData.auto.lowChamber}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               auto: { ...scoutData.auto, lowChamber: val },
             });
           }}
+          defaultValue={scoutData.auto.lowChamber}
           description="Low"
         />
         <ScoringInput
-          defaultValue={scoutData.auto.highChamber}
           onChange={(val) => {
             setScoutData({
               ...scoutData,
               auto: { ...scoutData.auto, highChamber: val },
             });
           }}
+          defaultValue={scoutData.auto.highChamber}
           description="High"
         />
       </ScoringSection>
 
       <div className="grid place-items-center gap-5 text-center">
         <CheckboxText
-          description="Robot Disabled"
-          defaultChecked={scoutData.auto.fouled}
           onChange={(checked) => {
             setScoutData({
               ...scoutData,
@@ -95,9 +93,10 @@ export default function Auto() {
               },
             });
           }}
+          defaultChecked={scoutData.auto.fouled}
+          description="Robot Disabled"
         />
         <CheckboxText
-          defaultChecked={scoutData.auto.fouled}
           onChange={(checked) => {
             setScoutData({
               ...scoutData,
@@ -107,20 +106,21 @@ export default function Auto() {
               },
             });
           }}
+          defaultChecked={scoutData.auto.fouled}
           description="Fouled"
         />
       </div>
       <div className="mb-3 block" />
       <div className="grid place-items-center gap-5 text-center">
         <SelectInputText
-          description="Ascent"
-          defaultValue={scoutData.auto.ascent}
           onChange={(value) => {
             setScoutData({
               ...scoutData,
               auto: { ...scoutData.auto, ascent: value as Ascent },
             });
           }}
+          defaultValue={scoutData.auto.ascent}
+          description="Ascent"
         >
           <option>None</option>
           <option>Observation</option>

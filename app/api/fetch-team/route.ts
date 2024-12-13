@@ -6,8 +6,8 @@ export async function POST(request: Request) {
     const client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
-        strict: true,
         deprecationErrors: true,
+        strict: true,
       },
     });
     const requestData = (await request.json()) as number[];
@@ -36,8 +36,8 @@ export async function GET() {
   const client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
-      strict: true,
       deprecationErrors: true,
+      strict: true,
     },
   });
   try {

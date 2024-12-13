@@ -9,8 +9,8 @@ export async function POST(request: Request) {
     const client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
-        strict: true,
         deprecationErrors: true,
+        strict: true,
       },
     });
     const database = client.db("MatchData");
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       {
         match: requestData.matchNumber,
       },
-      { teams: update, match: requestData.matchNumber },
+      { match: requestData.matchNumber, teams: update },
     );
     return Response.json("ok");
   } catch {

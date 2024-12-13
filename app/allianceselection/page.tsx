@@ -22,8 +22,8 @@ export default function Home() {
 
   useEffectOnce(() => {
     fetch("/api/fetch-matches", {
-      method: "POST",
       body: JSON.stringify({ collection: COMPETITION, matches: [] }),
+      method: "POST",
     }).then(async (value) => {
       const matchData: MatchCollection = await value.json();
       setResponse(matchData);
@@ -33,10 +33,6 @@ export default function Home() {
   return (
     <div className="grid justify-center bg-gradient-to-b from-teal-400 from-20% via-teal-700 via-30% to-teal-900 to-85% text-white">
       <select
-        className="rounded-md text-black"
-        name="matchNumber"
-        id="matchNumber"
-        defaultValue="Match Number"
         onChange={(event) => {
           setMatchNumber(Number(event.currentTarget.value));
           const match = response!.find(
@@ -50,6 +46,10 @@ export default function Home() {
             }),
           );
         }}
+        className="rounded-md text-black"
+        defaultValue="Match Number"
+        name="matchNumber"
+        id="matchNumber"
       >
         <option className="text-gray-500" disabled>
           Match Number
@@ -64,10 +64,6 @@ export default function Home() {
       </select>
       <div className="mb-5" />
       <select
-        className="rounded-md text-black"
-        name="matchNumber"
-        id="matchNumber"
-        defaultValue="Team Number"
         onChange={(event) => {
           setTeam(Number(event.currentTarget.value));
           const match = response!.find((value) => value.match === matchNumber)!;
@@ -89,11 +85,15 @@ export default function Home() {
             }),
           );
         }}
+        className="rounded-md text-black"
+        defaultValue="Team Number"
+        name="matchNumber"
+        id="matchNumber"
       >
         <option
-          key={team}
           className="text-gray-500"
           value={"Team Number"}
+          key={team}
           disabled
         >
           Team Number
@@ -114,7 +114,6 @@ export default function Home() {
       </select>
       <div className="mb-5" />
       <Button
-        disabled={team === 0 || matchNumber === 0}
         onClick={() => {
           if (!(team === 0 || matchNumber === 0)) {
             const result = response
@@ -126,6 +125,7 @@ export default function Home() {
             router.push("/auto");
           }
         }}
+        disabled={team === 0 || matchNumber === 0}
       >
         Continue
       </Button>

@@ -9,47 +9,47 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export interface Root {
-  data: Data;
+export interface Team {
+  teamNumber: TeamNumber;
+  matches: Match[];
+  stats?: Stats;
+  team: Team2;
 }
 
 export interface Data {
   eventByCode: EventByCode;
 }
 
+export interface Match2 {
+  matchNum: MatchNumber;
+}
+
 export interface EventByCode {
   teams: Team[];
-}
-
-export interface Team {
-  teamNumber: TeamNumber;
-  team: Team2;
-  matches: Match[];
-  stats?: Stats;
-}
-
-export interface Team2 {
-  name: string;
 }
 
 export interface Match {
   match: Match2;
 }
 
-export interface Match2 {
-  matchNum: MatchNumber;
+export interface Team2 {
+  name: string;
 }
 
 export interface Stats {
   rank: number;
 }
 
+export interface Root {
+  data: Data;
+}
+
 const uri = `mongodb+srv://xbot:${process.env.MONGO_DB_PASSWORD}@scoutingapp-intothedeep.s6jr6.mongodb.net/?retryWrites=true&w=majority&appName=ScoutingApp-IntoTheDeep`;
 const mongo = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
-    strict: true,
     deprecationErrors: true,
+    strict: true,
   },
 });
 
@@ -82,9 +82,9 @@ client
     const upload = new Map<TeamNumber, TeamProperties>();
     data.data.eventByCode.teams.forEach((team) => {
       upload.set(team.teamNumber, {
-        team: team.teamNumber,
-        rank: team.stats?.rank ?? -1,
         matches: _.map(team.matches, (item) => item.match.matchNum),
+        rank: team.stats?.rank ?? -1,
+        team: team.teamNumber,
         name: team.team.name,
       });
     });
