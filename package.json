@@ -30,13 +30,13 @@
     "zod": "^3.24.0"
   },
   "devDependencies": {
-    "@cspell/eslint-plugin": "^8.16.1",
+    "@cspell/eslint-plugin": "^8.17.0",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",
     "eslint": "^8",
-    "eslint-config-next": "15.0.4",
+    "eslint-config-next": "15.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-perfectionist": "^4.3.0",
